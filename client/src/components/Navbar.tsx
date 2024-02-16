@@ -3,7 +3,7 @@ function Navbar() {
     return (
         <>
             <div className="navbar mt-8">
-                <div className="flex-1 ml-12">
+                <div className="flex-1 ml-14">
                     <a className="btn btn-ghost text-xl bg-mygreen hover:bg-myyellow">PopShop.com</a>
                 </div>
                 <div className="flex-none gap-6 mr-12">
@@ -19,7 +19,7 @@ function Navbar() {
                                 <span className="font-bold text-lg text-mynavy">8 Items</span>
                                 <span className="text-mynavy">Subtotal: $999</span>
                                 <div className="card-actions">
-                                    <button className="btn  btn-ghost  hover:bg-myred bg-myred btn-block">View cart</button>
+                                    <button className="btn  btn-ghost  hover:bg-myred bg-myyellow btn-block">View cart</button>
                                 </div>
                             </div>
                         </div>

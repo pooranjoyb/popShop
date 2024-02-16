@@ -14,19 +14,15 @@ function Home() {
               Fashion
             </div>
 
-            <p className="mt-4 max-w-lg sm:text-xl/relaxed">
-              Look your best on your best day.
+            <p className="mt-4 max-w-lg">
+              Look your best on your best day :)
             </p>
 
             <div className="mt-8 w-full flex flex-wrap gap-4 text-center">
-              <button
-                className="btn w-1/2 bg-myred hover:bg-myred text-white"
-              >
+              <button className="btn w-1/2 bg-myred hover:bg-myyellow text-white">
                 Get Started
               </button>
-              <button
-                className="btn w-1/3 bg-mygreen hover:bg-mygreen text-white"
-              >
+              <button className="btn w-1/3 bg-mygreen hover:bg-myyellow text-white">
                 Explore
               </button>
             </div>
