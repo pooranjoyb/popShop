@@ -1,7 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{html,js,tsx,ts, jsx}"],
-  plugins: [require("daisyui")],
+  plugins: [
+    require("daisyui"),
+    // require('@tailwindcss/aspect-ratio'),
+  ],
   daisyui: {
     themes: ["light"],
   },

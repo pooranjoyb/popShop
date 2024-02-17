@@ -5,7 +5,9 @@
   "main": "server/index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon `server/index.js`"
+    "start": "nodemon `server/index.js`",
+    "dev": "cd client && npm run dev",
+    "watch-css": "cd client && npm run watch-css"
   },
   "author": "pjoy",
   "license": "MIT",
