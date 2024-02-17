@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar"
 import Product from "../components/Product"
+import Footer from "../components/Footer"
 
 function Home() {
   return (
@@ -115,6 +116,58 @@ function Home() {
         </div>
       </div>
 
+      {/* New Collections  */}
+      <section>
+        <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+          <header className="text-center">
+            <div className="text-mynavy">
+              <div className="text-6xl font-extrabold">
+                New <span style={{
+                  textShadow: "-1px -1px 0 #000, 5px -1px 0 #073B4C, -1px 1px 0 #073B4C, 10px 1px 0 #073B4C",
+                  color: '#fff'
+                }}> Collections </span>
+              </div>
+            </div>
+
+            <p className="mx-auto mt-4 max-w-md text-gray-500">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque praesentium cumque iure
+              dicta incidunt est ipsam, officia dolor fugit natus?
+            </p>
+          </header>
+
+          <ul className="mt-8 flex flex-row gap-5">
+            <div className="flex gap-5 w-2/3">
+              <img
+                src="./images/winter3.jpg"
+                alt=""
+                className="w-full transition duration-500 "
+              />
+
+              <img
+                src="./images/winter1.jpg"
+                alt=""
+                className="w-full transition duration-500 group-hover:opacity-90"
+              />
+
+            </div>
+            <div className="flex flex-col w-1/3 gap-5">
+              <img
+                src="./images/winter2.jpg"
+                alt=""
+                className="w-full transition duration-500 group-hover:opacity-90"
+              />
+
+              <img
+                src="./images/winter4.jpg"
+                alt=""
+                className="w-full transition duration-500 "
+              />
+
+            </div>
+          </ul>
+        </div>
+      </section>
+
       {/* Products  */}
       <div className=" mx-auto max-w-screen-xl px-4 py-16 flex flex-col justify-between items-center">
         <div className="text-mynavy">
@@ -136,6 +189,12 @@ function Home() {
         </div>
 
       </div>
+
+
+
+      {/* Footer  */}
+
+      <Footer />
 
     </>
   )
