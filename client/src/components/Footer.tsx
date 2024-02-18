@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 
 function Footer() {
     return (
@@ -16,11 +17,11 @@ function Footer() {
                         <div>
                             <div className="text-4xl font-extrabold">
                                 Call Us <br /><span style={{
-                                    textShadow: "-1px -1px 0 #000, 5px -1px 0 #073B4C, -1px 1px 0 #073B4C, 10px 1px 0 #073B4C",
+                                    textShadow: "-1px -1px 0 #000, 5px -1px 0 #073B4C, -1px 1px 0 #073B4C, 5px 1px 0 #073B4C",
                                     color: '#fff'
                                 }}> 9989704739 </span>
                             </div>
-                    
+
                             <ul className="mt-8 space-y-1 text-sm text-gray-700">
                                 <li>Monday to Friday: 10am - 5pm</li>
                                 <li>Weekend: 10am - 3pm</li>
@@ -127,25 +128,11 @@ function Footer() {
                                 <p className="font-medium text-gray-900">Services</p>
 
                                 <ul className="mt-6 space-y-4 text-sm">
-                                    <li>
-                                        <a href="#" className="text-gray-700 transition hover:opacity-75"> Profile </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="#" className="text-gray-700 transition hover:opacity-75"> View Cart </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="#" className="text-gray-700 transition hover:opacity-75"> Order Now</a>
-                                    </li>
-
-                                    <li>
-                                        <a href="#" className="text-gray-700 transition hover:opacity-75"> Join Us </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="#" className="text-gray-700 transition hover:opacity-75">About</a>
-                                    </li>
+                                    <li><Link to="/" className="text-gray-700 transition hover:opacity-75"> Profile </Link></li>
+                                    <li><Link to="/cart" className="text-gray-700 transition hover:opacity-75"> View Cart </Link></li>
+                                    <li><Link to="/shop" className="text-gray-700 transition hover:opacity-75"> Order Now</Link></li>
+                                    <li><Link to="#" className="text-gray-700 transition hover:opacity-75"> Join Us </Link></li>
+                                    <li><Link to="/#about" className="text-gray-700 transition hover:opacity-75">About</Link></li>
                                 </ul>
                             </div>
                         </div>

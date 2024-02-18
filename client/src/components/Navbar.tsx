@@ -1,10 +1,13 @@
+import { Link } from "react-router-dom"
+
+import Button from "./Button"
 
 function Navbar() {
     return (
         <>
             <div className="navbar mt-8">
                 <div className="flex-1 ml-14">
-                    <a className="btn btn-ghost text-xl bg-mygreen hover:bg-myyellow">PopShop.com</a>
+                    <Link to="/" className="btn btn-ghost text-xl bg-mygreen hover:bg-myyellow">PopShop.com</Link>
                 </div>
                 <div className="flex-none gap-6 mr-12">
                     <div className="dropdown dropdown-end">
@@ -14,13 +17,13 @@ function Navbar() {
                                 <span className="badge badge-sm indicator-item">8</span>
                             </div>
                         </div>
-                        <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
+                        <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-48 bg-base-100 shadow">
                             <div className="card-body">
                                 <span className="font-bold text-lg text-mynavy">8 Items</span>
                                 <span className="text-mynavy">Subtotal: $999</span>
-                                <div className="card-actions">
-                                    <button className="btn  btn-ghost  hover:bg-myred bg-myyellow btn-block">View cart</button>
-                                </div>
+                                <Link to='/cart' className="card-actions w-full">
+                                    <Button text="View cart"  color="myred" hover="myyellow"/>
+                                </Link>
                             </div>
                         </div>
                     </div>
