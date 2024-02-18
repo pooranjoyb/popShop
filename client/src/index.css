@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+*,
+html,
+body {
+    scroll-behavior: smooth;
+}
+
 ::-moz-selection {
     background: #FFD166;
 }
