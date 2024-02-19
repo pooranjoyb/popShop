@@ -19,7 +19,7 @@ function Footer() {
                                 Call Us <br /><span style={{
                                     textShadow: "-1px -1px 0 #000, 5px -1px 0 #073B4C, -1px 1px 0 #073B4C, 5px 1px 0 #073B4C",
                                     color: '#fff'
-                                }}> 9989704739 </span>
+                                }}> 6003194793 </span>
                             </div>
 
                             <ul className="mt-8 space-y-1 text-sm text-gray-700">
