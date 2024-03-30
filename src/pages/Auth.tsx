@@ -1,15 +1,74 @@
 // import { Link } from "react-router-dom"
 import { useState } from "react"
+import { supabase } from "../utils/client";
+import { useNavigate } from "react-router-dom";
 
 //components
 import Footer from "../components/Footer"
 import Button from "../components/Button"
 
+interface USER {
+    username: string;
+    email: string;
+    pass: string;
+}
+
 function Auth() {
-    const [login, setLogin] = useState(true)
+
+    const navigate = useNavigate();
+
+    const [login, setLogin] = useState(true);
+    const [userData, setUserData] = useState<USER>({
+        username: '',
+        email: '',
+        pass: ''
+    })
 
     const handleAuthRequest = () => {
         setLogin(!login);
+    }
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setUserData(prevUserData => ({
+            ...prevUserData,
+            [name]: value
+        }));
+    }
+
+    const handleSignup = async () => {
+        const { error } = await supabase
+            .from('users')
+            .insert([
+                { username: userData.username, email: userData.email, password: userData.pass },
+            ])
+            .select()
+
+        if (error) {
+            alert("User Already Exists!")
+        }else{
+            alert("Signup Success!")
+        }
+    }
+
+    const handleLogin = async () => {
+        const { data, error } = await supabase
+            .from('users')
+            .select("*")
+            .eq('username', userData.username)
+            .eq('password', userData.pass)
+
+
+        if (error) {
+            console.error("Error logging in:", error.message);
+            return;
+        }
+
+        if (data.length === 0) {
+            alert("User not found or credentials are incorrect.");
+            return;
+        }
+        navigate("/");
     }
 
     return (
@@ -68,41 +127,55 @@ function Auth() {
                         <div className="space-y-4">
                             <div>
                                 <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username</label>
-                                <input type="text" id="username" name="username" className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300" />
+                                <input required type="text" id="username" name="username" className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                                    value={userData.username}
+                                    onChange={handleInputChange}
+                                />
                             </div>
                             {
                                 login ? (<></>) : (
                                     <div>
                                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                                        <input type="text" id="email" name="email" className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300" />
+                                        <input required type="email" id="email" name="email" className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                                            value={userData.email}
+                                            onChange={handleInputChange}
+                                        />
                                     </div>
                                 )
                             }
                             <div>
-                                <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-                                <input type="password" id="password" name="password" className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300" />
+                                <label htmlFor="pass" className="block text-sm font-medium text-gray-700">Password</label>
+                                <input required type="password" id="pass" name="pass" className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                                    value={userData.pass}
+                                    onChange={handleInputChange}
+                                />
                             </div>
                             {
                                 login ? (
                                     <>
-                                        <Button color="mygreen" hover='myyellow' text="Login" /></>
+                                        <div onClick={handleLogin}>
+                                            <Button color="mygreen" hover='myyellow' text="Login" />
+                                        </div>
+                                    </>
                                 ) :
                                     <>
-                                        <Button color="mygreen" hover='myyellow' text="Signup" />
+                                        <div onClick={handleSignup}>
+                                            <Button color="mygreen" hover='myyellow' text="Signup" />
+                                        </div>
                                     </>
                             }
                         </div>
                         <div className="mt-4 text-sm text-gray-600 text-center">
                             {
                                 login ? (
-                                    <p>Don't have an account? 
-                                        <span onClick={handleAuthRequest} className="text-black hover:underline cursor-pointer"> Singup here</span>
+                                    <p>Don't have an account?
+                                        <span onClick={handleAuthRequest} className="text-black hover:underline cursor-pointer"> Signup here</span>
                                     </p>
                                 ) : (
                                     <>
                                         <p>Already have an account?
-                                        <span onClick={handleAuthRequest} className="text-black cursor-pointer hover:underline"> Login</span>
-                                    </p>
+                                            <span onClick={handleAuthRequest} className="text-black cursor-pointer hover:underline"> Login</span>
+                                        </p>
                                     </>
                                 )
                             }
