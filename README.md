@@ -50,7 +50,7 @@ The main aim of this project is to foster a collaborative community of creative 
 ## Tech Stacks used 💻:
 - React TS
 - TypeSCript
-- Supabase (A Firebase Authernative)
+- Supabase (A Firebase Alternative)
 - Daisy UI (A component library for Tailwind CSS)
 - Tailwind CSS
 - HTML, CSS, JS
