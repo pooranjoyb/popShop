@@ -13,17 +13,6 @@ export const Routes = createBrowserRouter([
     path: "/",
     element: <Auth />,
     errorElement: <Error />,
-    children: [
-      {
-        errorElement: <Error />,
-        children: [
-          {
-            // path: "admin",
-            // element: <Dashboard />,
-          },
-        ],
-      },
-    ],
   },
   {
     path: "/home",
