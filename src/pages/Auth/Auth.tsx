@@ -68,12 +68,12 @@ function Auth() {
             alert("User not found or credentials are incorrect.");
             return;
         }
-        navigate("/");
+        
+        navigate("/home");
     }
 
     return (
         <>
-
             <div className="text-mynavy flex flex-row-reverse h-screen">
                 <div className="hidden lg:flex items-center justify-center flex-1 bg-white text-black">
                     <div className="max-w-md text-center">
