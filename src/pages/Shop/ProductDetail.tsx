@@ -1,11 +1,9 @@
 import { useEffect } from "react";
-import Navbar from "../components/Navbar";
 import { useLocation } from "react-router-dom";
 
 // components
-import Head from "../components/Head";
-import Footer from "../components/Footer";
-import Button from "../components/Button";
+import Head from "../../components/Head";
+import Button from "../../components/Button";
 
 interface Data {
     name: string;
@@ -24,7 +22,6 @@ function ProductDetail() {
 
     return (
         <>
-            <Navbar />
             <div className=" mx-auto max-w-screen-xl px-4 py-12 flex justify-between items-center">
                 <Head h1="Product" h2="Detail" />
             </div>
@@ -107,8 +104,6 @@ function ProductDetail() {
                     </div>
                 </div>
             </section>
-
-            <Footer />
 
         </>
     )

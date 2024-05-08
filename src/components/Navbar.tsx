@@ -7,7 +7,7 @@ function Navbar() {
         <>
             <div className="navbar mt-8">
                 <div className="flex-1 ml-14">
-                    <Link to="/" className="btn btn-ghost text-xl bg-mygreen hover:bg-myyellow">PopShop.com</Link>
+                    <Link to="/home" className="btn btn-ghost text-xl bg-mygreen hover:bg-myyellow">PopShop.com</Link>
                 </div>
                 <div className="flex-none gap-6 mr-12">
                     <div className="dropdown dropdown-end">
@@ -21,7 +21,7 @@ function Navbar() {
                             <div className="card-body">
                                 <span className="font-bold text-lg text-mynavy">8 Items</span>
                                 <span className="text-mynavy">Subtotal: $999</span>
-                                <Link to='/cart' className="card-actions w-full">
+                                <Link to='/home/cart' className="card-actions w-full">
                                     <Button text="View cart"  color="myred" hover="myyellow"/>
                                 </Link>
                             </div>

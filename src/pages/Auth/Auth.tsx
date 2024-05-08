@@ -1,11 +1,11 @@
 // import { Link } from "react-router-dom"
 import { useState } from "react"
-import { supabase } from "../utils/client";
+import { supabase } from "../../utils/client";
 import { useNavigate } from "react-router-dom";
 
 //components
-import Footer from "../components/Footer"
-import Button from "../components/Button"
+import Footer from "../../components/Footer"
+import Button from "../../components/Button"
 
 interface USER {
     username: string;
