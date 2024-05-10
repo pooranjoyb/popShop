@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // components
 import Head from "../../components/Head";
@@ -8,6 +8,18 @@ function Cart() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const [quantity,setQuantity]=useState(0);
+
+  const setDecrease=()=>{
+    quantity > 1?setQuantity(quantity-1):setQuantity(1);
+  }
+
+  const setIncrease=()=>{
+    setQuantity(quantity+1);
+    //quantity <stock ? setQuantity(quantity+1):setQuantity(stock)->When there's stock of items
+  }
+
 
   return (
     <>
@@ -76,7 +88,7 @@ function Cart() {
                   </div>
                   <div className="w-auto px-4 md:w-1/6 lg:w-2/12 ">
                     <div className="inline-flex items-center px-4 font-semibold text-gray-500 border border-gray-200 rounded-md dark:border-gray-700 ">
-                      <button className="py-2 hover:text-gray-700 dark:text-gray-400">
+                      <button onClick={()=>setDecrease()} className="py-2 hover:text-gray-700 dark:text-gray-400">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
@@ -88,12 +100,8 @@ function Cart() {
                           <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"></path>
                         </svg>
                       </button>
-                      <input
-                        type="number"
-                        className="w-12 px-2 py-4 text-center border-0 rounded-md dark:bg-gray-800 bg-gray-50 dark:text-gray-400 md:text-right"
-                        placeholder="1"
-                      />
-                      <button className="py-2 hover:text-gray-700 dark:text-gray-400">
+                      <div className="w-12 px-2 py-4 text-center border-0 rounded-md dark:bg-gray-800 bg-gray-50 dark:text-gray-400 md:text-right">{quantity}</div>
+                      <button onClick={()=>setIncrease()} className="py-2 hover:text-gray-700 dark:text-gray-400">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
@@ -145,7 +153,7 @@ function Cart() {
                   </div>
                   <div className="w-auto px-4 md:w-1/6 lg:w-2/12 ">
                     <div className="inline-flex items-center px-4 font-semibold text-gray-500 border border-gray-200 rounded-md dark:border-gray-700 ">
-                      <button className="py-2 hover:text-gray-700 dark:text-gray-400">
+                      <button onClick={() => setDecrease()} className="py-2 hover:text-gray-700 dark:text-gray-400">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
@@ -157,12 +165,8 @@ function Cart() {
                           <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"></path>
                         </svg>
                       </button>
-                      <input
-                        type="number"
-                        className="w-12 px-2 py-4 text-center border-0 rounded-md dark:bg-gray-800 bg-gray-50 dark:text-gray-400 md:text-right"
-                        placeholder="1"
-                      />
-                      <button className="py-2 hover:text-gray-700 dark:text-gray-400">
+                      <div className="w-12 px-2 py-4 text-center border-0 rounded-md dark:bg-gray-800 bg-gray-50 dark:text-gray-400 md:text-right">{quantity}</div>
+                      <button onClick={()=>setIncrease()} className="py-2 hover:text-gray-700 dark:text-gray-400">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
@@ -189,7 +193,7 @@ function Cart() {
                 </span>
                 <input
                   type="text"
-                  className="flex-1 px-8 py-4 font-normal placeholder-gray-300 border dark:border-gray-700 dark:placeholder-gray-500 md:flex-none md:mr-6 dark:text-gray-400 dark:bg-gray-800"
+                  className="flex-1 px-8 py-4 font-normal placeholder-gray-300 border dark:border-gray-700 dark:placeholder-gray-500 md:flex-none md:mr-6 dark:text-gray-400 dark:bg-gray-800 "
                   placeholder="x304k45"
                 />
                 <Button text="Apply" color="mygreen" hover="myyellow" />
