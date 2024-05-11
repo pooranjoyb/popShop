@@ -38,14 +38,14 @@ function Home() {
       {/* Section  */}
       <div
         id="about"
-        className="mx-auto max-w-screen-xl my-20 flex justify-between items-center pb-12"
+        className="mx-auto overflow-hidden max-w-screen-xl my-20 flex justify-between items-center pb-12"
       >
         <div className="container">
           <div className="-mx-4 flex  flex-row-reverse flex-wrap">
             <div className="w-full flex-col px-4 lg:w-5/12 justify-between">
-              <div className="flex-col pb-8 text-mynavy">
+              <div className="flex-col px-2 pb-8 text-mynavy">
                 <Head h1="Eat, Sleep, Fashion," h2="Repeat" />
-                <h1 className="text-mynavy mb-4 text-2xl font-extrabold text-dark mt-6">
+                <h1 className="text-mynavy mb-4 text-2xl  font-extrabold text-dark mt-6">
                   Grab the limited time offer!
                 </h1>
 
@@ -54,9 +54,9 @@ function Home() {
                   <b> &#x20B9;2500/-</b> only
                 </p>
               </div>
-              <div>
+              <div className="px-8 sm:p-0">
                 <img
-                  className="w-full mt-8"
+                  className=" w-full mt-8"
                   src="./images/fashion.jpg"
                   alt=""
                 />
@@ -64,7 +64,7 @@ function Home() {
             </div>
             <div className="hidden px-4 lg:block lg:w-1/12"></div>
             <div className="w-full px-4 lg:w-6/12">
-              <div className="">
+              <div className="px-8 sm:p-0">
                 <div className="relative z-10 inline-block px-4 pt-11 lg:pt-0">
                   <img src="./images/dress.png" alt="hero" className="w-full" />
                   <span className="absolute -bottom-8 -right-10 z-[-1]">
@@ -110,7 +110,7 @@ function Home() {
       </div>
 
       {/* New Collections  */}
-      <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+      <div className="mx-auto overflow-hidden max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <header className="text-center">
           <div className="text-mynavy">
             <Head h1="New" h2="Collections" />
@@ -121,21 +121,22 @@ function Home() {
           </p>
         </header>
 
-        <ul className="mt-8 flex flex-row gap-5">
+        <div className="mt-8 flex flex-row gap-5">
           <div className="flex gap-5 w-2/3">
             <img
               src="./images/winter3.jpg"
               alt=""
               className="w-full transition duration-500 "
             />
-
-            <img
-              src="./images/winter1.jpg"
-              alt=""
-              className="w-full transition duration-500 group-hover:opacity-90"
-            />
           </div>
-          <div className="flex flex-col w-1/3 gap-5">
+          <div className="flex gap-5 w-2/3">
+            <img
+                src="./images/winter1.jpg"
+                alt=""
+                className="w-full transition duration-500 group-hover:opacity-90"
+              />
+            </div>
+          <div className="flex flex-col w-2/3 gap-5">
             <img
               src="./images/winter2.jpg"
               alt=""
@@ -148,11 +149,11 @@ function Home() {
               className="w-full transition duration-500 "
             />
           </div>
-        </ul>
+        </div>
       </div>
 
       {/* Products  */}
-      <div className=" mx-auto max-w-screen-xl px-4 py-16 flex flex-col justify-between items-center">
+      <div className=" mx-auto overflow-hidden max-w-screen-xl px-4 py-16 flex flex-col justify-between items-center">
         <div className="text-mynavy">
           <Head h1="Our" h2="Products" />
         </div>

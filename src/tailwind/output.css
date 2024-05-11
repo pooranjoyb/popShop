@@ -83,6 +83,10 @@ hr {
   /* 3 */
 }
 
+#root{
+  overflow: hidden;
+}
+
 /*
 Add the correct text decoration in Chrome, Edge, and Safari.
 */
@@ -2395,6 +2399,11 @@ html {
   padding-right: 2rem;
 }
 
+.px-16 {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -2632,7 +2641,20 @@ body {
   opacity: 0.9;
 }
 
+.w-100{
+  width: 100%;
+}
+
+.overflow-hidden{
+  overflow: hidden;
+}
+
 @media (min-width: 640px) {
+
+  .sm\:p-0{
+    padding: 0;
+  }
+
   .sm\:mt-0 {
     margin-top: 0px;
   }
@@ -2662,10 +2684,34 @@ body {
     padding-right: 1.5rem;
   }
 
+  .sm\:px-9 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .sm\:px-9 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
   .sm\:py-12 {
     padding-top: 3rem;
     padding-bottom: 3rem;
   }
+
+  .sm\:px-12 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .sm\:flex-col{
+    flex-direction: column;
+  }
+
+  .sm\:flex-row{
+    flex-direction: row;
+  }
+
 }
 
 @media (min-width: 768px) {
@@ -2730,6 +2776,12 @@ body {
     font-size: 2.25rem;
     line-height: 2.5rem;
   }
+}
+
+
+
+.p-0{
+  padding: 0;
 }
 
 @media (min-width: 1024px) {
@@ -2808,6 +2860,11 @@ body {
   .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+
+  .lg\:px-16 {
+    padding-left: 4rem;
+    padding-right: 4rem;
   }
 
   .lg\:py-4 {
