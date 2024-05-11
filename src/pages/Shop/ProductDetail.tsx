@@ -12,6 +12,25 @@ interface Data {
     desc: string;
 }
 
+interface RatingItem {
+  className: string;
+  checked?: boolean;
+}
+
+const ratingItems: RatingItem[] = [
+  { className: "rating-hidden" },
+  { className: "bg-green-500 mask mask-star-2 mask-half-1" },
+  { className: "bg-green-500 mask mask-star-2 mask-half-2" },
+  { className: "bg-green-500 mask mask-star-2 mask-half-1" },
+  { className: "bg-green-500 mask mask-star-2 mask-half-2" },
+  { className: "bg-green-500 mask mask-star-2 mask-half-1" },
+  { className: "bg-green-500 mask mask-star-2 mask-half-2" },
+  { className: "bg-green-500 mask mask-star-2 mask-half-1", checked: true },
+  { className: "bg-green-500 mask mask-star-2 mask-half-2" },
+  { className: "bg-green-500 mask mask-star-2 mask-half-1" },
+  { className: "bg-green-500 mask mask-star-2 mask-half-2" },
+];
+
 function ProductDetail() {
     const { state } = useLocation();
     const data = state as Data;
@@ -81,62 +100,15 @@ function ProductDetail() {
                                     <h2 className="w-16 text-xl font-bold dark:text-gray-400">
                                         Rating:
                                     </h2>
-                                    <input
-                                        type="radio"
-                                        name="rating-10"
-                                        className="rating-hidden"
-                                    />
-                                    <input
-                                        type="radio"
-                                        name="rating-10"
-                                        className="bg-green-500 mask mask-star-2 mask-half-1"
-                                    />
-                                    <input
-                                        type="radio"
-                                        name="rating-10"
-                                        className="bg-green-500 mask mask-star-2 mask-half-2"
-                                    />
-                                    <input
-                                        type="radio"
-                                        name="rating-10"
-                                        className="bg-green-500 mask mask-star-2 mask-half-1"
-                                    />
-                                    <input
-                                        type="radio"
-                                        name="rating-10"
-                                        className="bg-green-500 mask mask-star-2 mask-half-2"
-                                    />
-                                    <input
-                                        type="radio"
-                                        name="rating-10"
-                                        className="bg-green-500 mask mask-star-2 mask-half-1"
-                                    />
-                                    <input
-                                        type="radio"
-                                        name="rating-10"
-                                        className="bg-green-500 mask mask-star-2 mask-half-2"
-                                    />
-                                    <input
-                                        type="radio"
-                                        name="rating-10"
-                                        className="bg-green-500 mask mask-star-2 mask-half-1"
-                                        checked
-                                    />
-                                    <input
-                                        type="radio"
-                                        name="rating-10"
-                                        className="bg-green-500 mask mask-star-2 mask-half-2"
-                                    />
-                                    <input
-                                        type="radio"
-                                        name="rating-10"
-                                        className="bg-green-500 mask mask-star-2 mask-half-1"
-                                    />
-                                    <input
-                                        type="radio"
-                                        name="rating-10"
-                                        className="bg-green-500 mask mask-star-2 mask-half-2"
-                                    />
+                                    {ratingItems.map((item, index) => (
+                                        <input
+                                            key={index}
+                                            type="radio"
+                                            name="rating-10"
+                                            className={item.className}
+                                            checked={item.checked || false}
+                                        />
+                                    ))}
                                 </div>
 
                                 <div className="w-32 mb-8 ">
