@@ -2,10 +2,14 @@
 import { useState } from "react"
 import { supabase } from "../../utils/client";
 import { useNavigate } from "react-router-dom";
+import {z} from "zod"
 
 //components
 import Footer from "../../components/Footer"
 import Button from "../../components/Button"
+
+//utils
+import { LogInSchema, SignUpSchema } from "../../utils/schema";
 
 interface USER {
     username: string;
@@ -23,6 +27,7 @@ function Auth() {
         email: '',
         pass: ''
     })
+    const [errors, setErrors] = useState<{[key: string]: string}>({});
 
     const handleAuthRequest = () => {
         setLogin(!login);
@@ -37,39 +42,76 @@ function Auth() {
     }
 
     const handleSignup = async () => {
-        const { error } = await supabase
-            .from('users')
-            .insert([
-                { username: userData.username, email: userData.email, password: userData.pass },
-            ])
-            .select()
+        try{
+            //zod validation sign-up
+            const validateData = SignUpSchema.parse({
+                username: userData.username,
+                password: userData.pass,
+                email: userData.email
+            });
 
-        if (error) {
-            alert("User Already Exists!")
-        }else{
+            const { error } = await supabase
+                .from('users')
+                .insert([
+                    validateData,
+                ])
+                .select()
+    
+            if (error) {
+                setErrors({email: "User Already Exists"});
+                return;
+            }
+            setErrors({})
             alert("Signup Success!")
-        }
+        }catch(err){
+            if (z.instanceof(err, z.ZodError)) {
+                const fieldErrors: { [key: string]: string } = {};
+                err.errors.forEach((error: z.ZodError) => {
+                    fieldErrors[error.path[0]] = error.message;
+                });
+                setErrors(fieldErrors);
+            } else {
+                console.error(err);
+            }
+        } 
     }
 
     const handleLogin = async () => {
-        const { data, error } = await supabase
-            .from('users')
-            .select("*")
-            .eq('username', userData.username)
-            .eq('password', userData.pass)
+        try{
+            //zod validation login
+            const validateData = LogInSchema.parse({
+                username: userData.username,
+                password: userData.pass
+            })
 
+            const { data, error } = await supabase
+                .from('users')
+                .select("*")
+                .eq('username', validateData.username)
+                .eq('password', validateData.password)
 
-        if (error) {
-            console.error("Error logging in:", error.message);
-            return;
-        }
+            if (error) {
+                console.error("Error logging in:", error.message);
+                return;
+            }
 
-        if (data.length === 0) {
-            alert("User not found or credentials are incorrect.");
-            return;
-        }
+            if (data.length === 0) {
+                setErrors({ username: "User not found or credentials are incorrect" });
+                return;
+            }
         
-        navigate("/home");
+            navigate("/home");
+        }catch(err){
+            if (z.instanceof(err, z.ZodError)) {
+                const fieldErrors: { [key: string]: string } = {};
+                err.errors.forEach((error: z.ZodError) => {
+                    fieldErrors[error.path[0]] = error.message;
+                });
+                setErrors(fieldErrors);
+            } else {
+                console.error(err);
+            }
+        }
     }
 
     return (
@@ -131,6 +173,9 @@ function Auth() {
                                     value={userData.username}
                                     onChange={handleInputChange}
                                 />
+                                {errors.username && <p className="px-2 text-xs mt-1" style={{
+                                    color: "red"
+                                }}>{errors.username}</p>}
                             </div>
                             {
                                 login ? (<></>) : (
@@ -140,6 +185,7 @@ function Auth() {
                                             value={userData.email}
                                             onChange={handleInputChange}
                                         />
+                                        {errors.email && <p className="px-2 text-xs mt-1" style={{ color: "red" }}>{errors.email}</p>}
                                     </div>
                                 )
                             }
@@ -149,6 +195,7 @@ function Auth() {
                                     value={userData.pass}
                                     onChange={handleInputChange}
                                 />
+                                {errors.password && <p className="px-2 text-xs mt-1" style={{ color: "red" }}>{errors.password}</p>}
                             </div>
                             {
                                 login ? (
