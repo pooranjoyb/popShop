@@ -9,7 +9,7 @@ const SignUpSchema = z.object({
     path: ['username']
   }),
   email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(6, { message: "Password must at least 6 characters long" })
+  password: z.string().min(5, { message: "Password must at least 5 characters long" })
 });
 
 const LogInSchema = z.object({
@@ -17,7 +17,7 @@ const LogInSchema = z.object({
     message: "Username is required",
     path: ['username']
   }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters long" })
+  password: z.string().min(5, { message: "Password must be at least 5 characters long" })
 })
 
 export { SignUpSchema, LogInSchema};
