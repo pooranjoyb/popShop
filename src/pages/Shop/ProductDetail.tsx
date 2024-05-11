@@ -76,6 +76,69 @@ function ProductDetail() {
                                         </button>
                                     </div>
                                 </div>
+
+                                <div className="rating rating-sm rating-half mb-8 items-center">
+                                    <h2 className="w-16 text-xl font-bold dark:text-gray-400">
+                                        Rating:
+                                    </h2>
+                                    <input
+                                        type="radio"
+                                        name="rating-10"
+                                        className="rating-hidden"
+                                    />
+                                    <input
+                                        type="radio"
+                                        name="rating-10"
+                                        className="bg-green-500 mask mask-star-2 mask-half-1"
+                                    />
+                                    <input
+                                        type="radio"
+                                        name="rating-10"
+                                        className="bg-green-500 mask mask-star-2 mask-half-2"
+                                    />
+                                    <input
+                                        type="radio"
+                                        name="rating-10"
+                                        className="bg-green-500 mask mask-star-2 mask-half-1"
+                                    />
+                                    <input
+                                        type="radio"
+                                        name="rating-10"
+                                        className="bg-green-500 mask mask-star-2 mask-half-2"
+                                    />
+                                    <input
+                                        type="radio"
+                                        name="rating-10"
+                                        className="bg-green-500 mask mask-star-2 mask-half-1"
+                                    />
+                                    <input
+                                        type="radio"
+                                        name="rating-10"
+                                        className="bg-green-500 mask mask-star-2 mask-half-2"
+                                    />
+                                    <input
+                                        type="radio"
+                                        name="rating-10"
+                                        className="bg-green-500 mask mask-star-2 mask-half-1"
+                                        checked
+                                    />
+                                    <input
+                                        type="radio"
+                                        name="rating-10"
+                                        className="bg-green-500 mask mask-star-2 mask-half-2"
+                                    />
+                                    <input
+                                        type="radio"
+                                        name="rating-10"
+                                        className="bg-green-500 mask mask-star-2 mask-half-1"
+                                    />
+                                    <input
+                                        type="radio"
+                                        name="rating-10"
+                                        className="bg-green-500 mask mask-star-2 mask-half-2"
+                                    />
+                                </div>
+
                                 <div className="w-32 mb-8 ">
                                     <label htmlFor=""
                                         className="w-full text-xl font-semibold text-gray-700 dark:text-gray-400">Quantity</label>
