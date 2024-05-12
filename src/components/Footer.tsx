@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 function Footer() {
     return (
         <>
-            <footer className="text-mynavy mx-auto max-w-screen-xl px-4 py-12 flex justify-between items-center bg-white lg:grid lg:grid-cols-5">
+            <footer className="text-mynavy mx-auto max-w-screen-xl px-4 py-12 flex justify-center items-center bg-white lg:grid lg:grid-cols-5">
                 <div className="relative block h-32 lg:col-span-2 lg:h-full">
                     <img
                         src="./images/footer.avif"
