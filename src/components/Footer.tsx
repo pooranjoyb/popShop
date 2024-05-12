@@ -1,4 +1,9 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import { RiTwitterXFill } from "react-icons/ri";
+import { FaGithub } from "react-icons/fa6";
+import { FaFacebook } from "react-icons/fa";
+import { IoLogoInstagram } from "react-icons/io5";
+import { FaDribbble } from "react-icons/fa";
 
 function Footer() {
     return (
@@ -165,4 +170,4 @@ function Footer() {
     )
 }
 
-export default Footer
+export default Footer;
