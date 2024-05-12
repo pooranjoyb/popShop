@@ -41,6 +41,18 @@ npm install
 npm run dev
 ```
 
+- To watch for changes in CSS files and automatically rebuild Tailwind CSS, run:
+  
+```bash
+npm run watch-css
+```
+
+- To check build conflicts run:
+  
+```
+npm run build
+```
+
 - Create a new branch for your contribution:
 
 ```bash
