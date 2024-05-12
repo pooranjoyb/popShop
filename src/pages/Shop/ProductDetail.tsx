@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useLocation } from "react-router-dom";
 
 // components
@@ -32,9 +32,13 @@ const ratingItems: RatingItem[] = [
   { className: `${commonClasses} mask-half-2` },
 ];
 
-const filledStars = 4.5;
 
 function ProductDetail() {
+    const [filledStars, setFilledStars] = useState(0);
+    
+    const handleRatingChange = (index: number) => {
+        setFilledStars(index / 2 + 0.5);
+    };
     const { state } = useLocation();
     const data = state as Data;
 
@@ -108,6 +112,8 @@ function ProductDetail() {
                                             name="rating-10"
                                             className="rating-hidden" 
                                             readOnly
+                                            onChange={() => handleRatingChange(-1)}
+                                            defaultChecked
                                         />
                                     {ratingItems.map((item, index) => (
                                         <input
@@ -115,7 +121,7 @@ function ProductDetail() {
                                             type="radio"
                                             name="rating-10"
                                             className={item.className}
-                                            checked={index/2.0 < filledStars? true : false}
+                                            onChange={() => handleRatingChange(index)}
                                             readOnly
                                             />
                                     ))}
