@@ -5,6 +5,7 @@ import Home from "../../pages/Home/Home";
 import Shop from "../../pages/Shop/Shop";
 import ProductDetail from "../../pages/Shop/ProductDetail";
 import Cart from "../../pages/Cart/Cart";
+import ClothingStyler from "../../pages/StyleNow/Styling";
 
 import { createBrowserRouter } from "react-router-dom";
 
@@ -50,11 +51,21 @@ export const Routes = createBrowserRouter([
         errorElement: <Error />,
         children: [
           {
+            path: "styling",
+            element: <ClothingStyler />,
+          },
+        ],
+      },
+      {
+        errorElement: <Error />,
+        children: [
+          {
             path: "cart",
             element: <Cart />,
           },
         ],
       },
+      
     ],
   },
 ]);
