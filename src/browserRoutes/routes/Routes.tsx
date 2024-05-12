@@ -5,6 +5,7 @@ import Home from "../../pages/Home/Home";
 import Shop from "../../pages/Shop/Shop";
 import ProductDetail from "../../pages/Shop/ProductDetail";
 import Cart from "../../pages/Cart/Cart";
+import ClothingStyler from "../../pages/StyleNow/ClothingStyler";
 
 import { createBrowserRouter } from "react-router-dom";
 
@@ -43,6 +44,15 @@ export const Routes = createBrowserRouter([
           {
             path: "product",
             element: <ProductDetail />,
+          },
+        ],
+      },
+      {
+        errorElement: <Error />,
+        children: [
+          {
+            path: "styling",
+            element: <ClothingStyler />,
           },
         ],
       },
