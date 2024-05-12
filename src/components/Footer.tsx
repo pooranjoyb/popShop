@@ -14,7 +14,7 @@ function Footer() {
 
                 <div className="px-4 py-16 sm:px-6 lg:col-span-3 lg:px-8">
                     <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-                        <div>
+                     <div>
                             <div className="text-4xl font-extrabold">
                                 Call Us <br /><span style={{
                                     textShadow: "-1px -1px 0 #000, 5px -1px 0 #073B4C, -1px 1px 0 #073B4C, 5px 1px 0 #073B4C",

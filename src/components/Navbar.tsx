@@ -1,8 +1,16 @@
-import { Link } from "react-router-dom"
-
+import { Link , NavLink } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
 import Button from "./Button"
-
+import { RootState } from "../utils/features/store";
+import { logout } from "../utils/features/Auth/authSlice";
 function Navbar() {
+
+   const userName =  useSelector((state: RootState) => state.auth.user?.username);
+
+   const dispatch = useDispatch();
+   
+
+
     return (
         <>
             <div className="navbar mt-8">
@@ -36,12 +44,12 @@ function Navbar() {
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                             <li>
                                 <a className="justify-between">
-                                    Profile
+                                    {userName || <p>Profile</p> }
                                     <span className="badge">New</span>
                                 </a>
                             </li>
                             <li><a>Settings</a></li>
-                            <li><Link to='/login'>Login</Link></li>
+                            <li><NavLink to='/' onClick={()=>{dispatch(logout())}} end>Logout</NavLink></li>
                         </ul>
                     </div>
                 </div>
