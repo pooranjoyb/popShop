@@ -1,15 +1,10 @@
-// import { Link } from "react-router-dom"
 import { useState } from "react"
-import { supabase } from "../../utils/client";
 import { useNavigate } from "react-router-dom";
-import {z} from "zod"
-
-//components
+import { z } from "zod";
+import { supabase } from "../../utils/client";
 import Footer from "../../components/Footer"
 import Button from "../../components/Button"
-
-//utils
-import { LogInSchema, SignUpSchema } from "../../utils/schema";
+import { SignUpSchema, LogInSchema } from "../../utils/schema";
 
 interface USER {
     username: string;
@@ -18,101 +13,73 @@ interface USER {
 }
 
 function Auth() {
-
     const navigate = useNavigate();
-
     const [login, setLogin] = useState(true);
-    const [userData, setUserData] = useState<USER>({
-        username: '',
-        email: '',
-        pass: ''
-    })
-    const [errors, setErrors] = useState<{[key: string]: string}>({});
+    const [userData, setUserData] = useState<USER>({ username: '', email: '', pass: '' });
+    const [errors, setErrors] = useState<Record<string, string>>({});
 
-    const handleAuthRequest = () => {
-        setLogin(!login);
-    }
+    const handleAuthRequest = () => setLogin(!login);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setUserData(prevUserData => ({
-            ...prevUserData,
-            [name]: value
-        }));
-    }
+        setUserData(prev => ({ ...prev, [name]: value }));
+        setErrors(prev => ({ ...prev, [name]: '' })); 
+    };
 
     const handleSignup = async () => {
-        try{
-            //zod validation sign-up
+        try {
             const validateData = SignUpSchema.parse({
                 username: userData.username,
-                password: userData.pass,
-                email: userData.email
+                email: userData.email,
+                password: userData.pass
             });
 
-            const { error } = await supabase
-                .from('users')
-                .insert([
-                    validateData,
-                ])
-                .select()
-    
+            const { error } = await supabase.from('users').insert([validateData]).select();
+
             if (error) {
-                setErrors({email: "User Already Exists"});
+                setErrors({ general: "User Already Exists" });
                 return;
             }
-            setErrors({})
-            alert("Signup Success!")
-        }catch(err){
-            if (z.instanceof(err, z.ZodError)) {
-                const fieldErrors: { [key: string]: string } = {};
-                err.errors.forEach((error: z.ZodError) => {
-                    fieldErrors[error.path[0]] = error.message;
-                });
-                setErrors(fieldErrors);
-            } else {
-                console.error(err);
+            navigate("/home");
+        } catch (err) {
+            if (err instanceof z.ZodError) {
+                const newErrors = err.flatten().fieldErrors;
+                setErrors(Object.keys(newErrors).reduce((acc, key) => {
+                    acc[key] = newErrors[key]?.join(", ") ?? "";
+                    return acc;
+                }, {} as Record<string, string>));
             }
-        } 
-    }
+        }
+    };
 
     const handleLogin = async () => {
-        try{
-            //zod validation login
+        try {
             const validateData = LogInSchema.parse({
                 username: userData.username,
                 password: userData.pass
-            })
+            });
 
             const { data, error } = await supabase
                 .from('users')
                 .select("*")
                 .eq('username', validateData.username)
-                .eq('password', validateData.password)
+                .eq('password', validateData.password);
 
-            if (error) {
-                console.error("Error logging in:", error.message);
-                return;
-            }
-
-            if (data.length === 0) {
+            if (error || data.length === 0) {
                 setErrors({ username: "User not found or credentials are incorrect" });
                 return;
             }
-        
             navigate("/home");
-        }catch(err){
-            if (z.instanceof(err, z.ZodError)) {
-                const fieldErrors: { [key: string]: string } = {};
-                err.errors.forEach((error: z.ZodError) => {
-                    fieldErrors[error.path[0]] = error.message;
-                });
-                setErrors(fieldErrors);
-            } else {
-                console.error(err);
+        } catch (err) {
+            if (err instanceof z.ZodError) {
+                const newErrors = err.flatten().fieldErrors;
+                setErrors(Object.keys(newErrors).reduce((acc, key) => {
+                    acc[key] = newErrors[key]?.join(", ") ?? "";
+                    return acc;
+                }, {} as Record<string, string>));
             }
         }
-    }
+    };
 
     return (
         <>
