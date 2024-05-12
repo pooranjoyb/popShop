@@ -97,6 +97,7 @@ function ProductDetail() {
                                     
                                         <Button text="Add to Cart" color="mygreen" hover="myred" />
                                         <Button text="Buy Now" color="myyellow" hover="myred" />
+                                        <Button text="Style Now" color="myred" hover="myred" />
                         
                                 </div>
                             </div>
