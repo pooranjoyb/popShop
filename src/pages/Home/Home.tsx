@@ -223,7 +223,7 @@ function Home() {
               />
               <Product
                 desc=""
-                image="https://img.freepik.com/free-photo/full-shot-woman-posing-with-green-outfit_23-21100728960.jpg?w=360&t=st=1708162804~exp=1708163404~hmac=b8eed76bcc3e16b01902ab4b5993eacc511b701a7c8a21690277d73429c02907"
+                image="https://img.freepik.com/free-photo/young-woman-posing-with-paper-bag_23-2147741822.jpg?t=st=1715620411~exp=1715624011~hmac=240ba7232d04028ad4172480293d6b229d4d78e9b06532f3ca176d0e687239c1&w=360"
                 price={56}
                 name="Leaf Green Outfit"
               />
