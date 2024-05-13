@@ -185,7 +185,8 @@ function Home() {
               />
             </div>
           </div>
-          <Button text="View More" color="mygreen" hover="myred" />
+          <Link to="/home/shop"><Button text="View More" color="mygreen" hover="myred" />
+          </Link>
         </div>
       </div>
 
