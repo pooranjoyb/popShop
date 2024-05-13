@@ -32,7 +32,7 @@ function Home() {
             </div>
           </div>
         </div>
-        <img className="w-1/3 py-4 sm:p-0" src="./images/hero.jpg" alt="" />
+        <img className="w-2/3 sm:w-1/3 py-4 sm:p-0" src="./images/hero.png" alt="" />
       </div>
 
       {/* Section  */}
