@@ -129,11 +129,11 @@ function Footer() {
                                 <p className="font-medium text-gray-900">Services</p>
 
                                 <ul className="mt-6 space-y-4 text-sm">
-                                    <li><Link to="/#" className="text-gray-700 transition hover:opacity-75"> Profile </Link></li>
+                                    <li><Link to="/home" className="text-gray-700 transition hover:opacity-75"> Profile </Link></li>
                                     <li><Link to="/home/cart" className="text-gray-700 transition hover:opacity-75"> View Cart </Link></li>
                                     <li><Link to="/home/cart" className="text-gray-700 transition hover:opacity-75"> Order Now</Link></li>
-                                    <li><Link to="/#" className="text-gray-700 transition hover:opacity-75"> Join Us </Link></li>
-                                    <li><Link to="/home" className="text-gray-700 transition hover:opacity-75">About</Link></li>
+                                    <li><Link to="#" className="text-gray-700 transition hover:opacity-75"> Join Us </Link></li>
+                                    <li><Link to="/#about" className="text-gray-700 transition hover:opacity-75">About</Link></li>
                                 </ul>
                             </div>
                         </div>
