@@ -82,7 +82,9 @@ This project is licensed under the **[MIT License](LICENSE)**
 
 Thanks to these wonderful people ✨
 
-<img src="https://contrib.rocks/image?repo=pooranjoyb/popShop" />
+<a href="https://github.com/pooranjoyb/popShop/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=pooranjoyb/popShop" />
+</a>
 
 💙 Happy Contributions !! 💙
 
