@@ -75,7 +75,7 @@ function Auth() {
             else
             {
                 dispatch(login({username:validateData.username}));
-                console.log("we came here",validateData.username);
+                
             }
 
             navigate("/home");
