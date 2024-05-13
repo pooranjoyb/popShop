@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useLocation } from "react-router-dom";
 
 // components
@@ -12,7 +12,33 @@ interface Data {
     desc: string;
 }
 
+interface RatingItem {
+  className: string;
+  checked?: boolean;
+}
+
+const commonClasses = "mask mask-star-2";
+
+const ratingItems: RatingItem[] = [
+  { className: `${commonClasses} mask-half-1` },
+  { className: `${commonClasses} mask-half-2` },
+  { className: `${commonClasses} mask-half-1` },
+  { className: `${commonClasses} mask-half-2` },
+  { className: `${commonClasses} mask-half-1` },
+  { className: `${commonClasses} mask-half-2` },
+  { className: `${commonClasses} mask-half-1` },
+  { className: `${commonClasses} mask-half-2` },
+  { className: `${commonClasses} mask-half-1` },
+  { className: `${commonClasses} mask-half-2` },
+];
+
+
 function ProductDetail() {
+    const [filledStars, setFilledStars] = useState(0);
+    
+    const handleRatingChange = (index: number) => {
+        setFilledStars(index / 2 + 0.5);
+    };
     const { state } = useLocation();
     const data = state as Data;
 
@@ -76,6 +102,34 @@ function ProductDetail() {
                                         </button>
                                     </div>
                                 </div>
+
+                                <div className="rating rating-sm rating-half mb-8 items-center">
+                                    <h2 className="w-16 text-xl font-bold dark:text-gray-400">
+                                        Rating:
+                                    </h2>
+                                     <input
+                                            type="radio"
+                                            name="rating-10"
+                                            className="rating-hidden" 
+                                            readOnly
+                                            onChange={() => handleRatingChange(-1)}
+                                            defaultChecked
+                                        />
+                                    {ratingItems.map((item, index) => (
+                                        <input
+                                            key={index}
+                                            type="radio"
+                                            name="rating-10"
+                                            className={item.className}
+                                            onChange={() => handleRatingChange(index)}
+                                            readOnly
+                                            />
+                                    ))}
+                                    <span className="ml-2">{`${filledStars} out of 5 `} 
+                                    </span>
+                                    
+                                </div>
+
                                 <div className="w-32 mb-8 ">
                                     <label htmlFor=""
                                         className="w-full text-xl font-semibold text-gray-700 dark:text-gray-400">Quantity</label>
