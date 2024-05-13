@@ -5,6 +5,8 @@ import { supabase } from "../../utils/client";
 import Footer from "../../components/Footer"
 import Button from "../../components/Button"
 import { SignUpSchema, LogInSchema } from "../../utils/schema";
+import { useDispatch } from "react-redux";
+import { login} from "../../utils/features/Auth/authSlice";
 
 interface USER {
     username: string;
@@ -12,13 +14,15 @@ interface USER {
     pass: string;
 }
 
+
 function Auth() {
     const navigate = useNavigate();
-    const [login, setLogin] = useState(true);
+    const dispatch = useDispatch();
+    const [isLogin, setLogin] = useState(true);
     const [userData, setUserData] = useState<USER>({ username: '', email: '', pass: '' });
     const [errors, setErrors] = useState<Record<string, string>>({});
 
-    const handleAuthRequest = () => setLogin(!login);
+    const handleAuthRequest = () => setLogin(!isLogin);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -69,6 +73,12 @@ function Auth() {
                 setErrors({ username: "User not found or credentials are incorrect" });
                 return;
             }
+            else
+            {
+                dispatch(login({username:validateData.username}));
+                
+            }
+
             navigate("/home");
         } catch (err) {
             if (err instanceof z.ZodError) {
@@ -94,7 +104,7 @@ function Auth() {
                     <div className="max-w-md w-full p-6">
                         <h1 className="text-3xl font-semibold mb-6 text-black text-center">
                             {
-                                login ? (
+                                isLogin ? (
                                     <>
                                         Login
                                     </>
@@ -107,7 +117,7 @@ function Auth() {
 
                         </h1>
                         {
-                            !(login) ? (
+                            !(isLogin) ? (
 
                                 <h1 className="text-sm font-semibold mb-6 text-gray-500 text-center">Join to Our Community </h1>
                             ) : (<></>)
@@ -122,7 +132,7 @@ function Auth() {
                                         <path fill="#f14336" d="m419.404 58.936-82.933 67.896C313.136 112.246 285.552 103.82 256 103.82c-66.729 0-123.429 42.957-143.965 102.724l-83.397-68.276h-.014C71.23 56.123 157.06 0 256 0c62.115 0 119.068 22.126 163.404 58.936z"></path>
                                     </svg>
                                     {
-                                        login ? (
+                                        isLogin ? (
                                             <span>Login with Google </span>
                                         ) : <span>Signup with Google</span>
                                     }
@@ -145,7 +155,7 @@ function Auth() {
                                 }}>{errors.username}</p>}
                             </div>
                             {
-                                login ? (<></>) : (
+                                isLogin ? (<></>) : (
                                     <div>
                                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                                         <input required type="email" id="email" name="email" className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
@@ -165,7 +175,7 @@ function Auth() {
                                 {errors.password && <p className="px-2 text-xs mt-1" style={{ color: "red" }}>{errors.password}</p>}
                             </div>
                             {
-                                login ? (
+                                isLogin ? (
                                     <>
                                         <div onClick={handleLogin}>
                                             <Button color="mygreen" hover='myyellow' text="Login" />
@@ -181,7 +191,7 @@ function Auth() {
                         </div>
                         <div className="mt-4 text-sm text-gray-600 text-center">
                             {
-                                login ? (
+                                isLogin ? (
                                     <p>Don't have an account?
                                         <span onClick={handleAuthRequest} className="text-black hover:underline cursor-pointer"> Signup here</span>
                                     </p>
