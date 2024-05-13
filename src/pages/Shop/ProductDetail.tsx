@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-
+ 
 // components
 import Head from "../../components/Head";
 import Button from "../../components/Button";

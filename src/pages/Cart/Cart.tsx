@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect  } from "react";
 
 // components
 import Head from "../../components/Head";
