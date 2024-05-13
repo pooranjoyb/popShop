@@ -66,7 +66,7 @@ function Home() {
             <div className="w-full px-4 lg:w-6/12">
               <div className="px-8 sm:p-0">
                 <div className="relative z-10 inline-block px-4 pt-11 lg:pt-0">
-                  <img src="./images/dress.png" alt="hero" className="w-full" />
+                  <img src="./images/dress.jpg" alt="hero" className="w-full" />
                   <span className="absolute -bottom-8 -right-10 z-[-1]">
                     <svg
                       width="93"
