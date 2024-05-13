@@ -10,7 +10,6 @@ function Shop() {
         window.scrollTo(0, 0);
     }, []);
 
-
     return (
         <>
             <div className=" mx-auto max-w-screen-xl px-4 py-12 flex justify-between items-center">
@@ -38,7 +37,6 @@ function Shop() {
                     <Product desc="" image="https://img.freepik.com/free-photo/full-shot-beautiful-lady_23-2148440576.jpg?w=360&t=st=1708162622~exp=1708163222~hmac=a0eb19d754c23e36840605ecb684ece75e8b20e74ba329c1d0958a10dec2824f" price={99} name="Red Casual Wear" />
                 </div>
             </div>
-
         </>
     )
 }
