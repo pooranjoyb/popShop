@@ -23,12 +23,12 @@ function Cart() {
 
   return (
     <>
-      <div className=" mx-auto max-w-screen-xl px-4 py-12 flex justify-between items-center">
+      <div className=" mx-auto max-w-screen-xl px-4 pt-8 sm:py-12 flex justify-between items-center">
         <Head h1="Your" h2="Cart" />
       </div>
 
       {/* Cart Details */}
-      <div className="justify-center flex-1 px-4 py-6 mx-auto max-w-7xl lg:py-4 md:px-6">
+      <div className="justify-center flex-1 px-4 sm:py-6 mx-auto max-w-7xl lg:py-4 md:px-6">
         <div className="p-8 bg-gray-50 dark:bg-gray-800">
           <div className="flex flex-wrap -mx-4">
             <div className="w-full px-4 mb-8 xl:w-8/12 xl:mb-0">

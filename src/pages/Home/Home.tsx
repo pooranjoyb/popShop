@@ -36,7 +36,7 @@ function Home() {
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: heroInView ? 1 : 0, y: heroInView ? 0 : -100 }}
         transition={{ duration: 1 }}
-        className=" mx-auto max-w-screen-xl px-4 py-12 flex justify-between items-center"
+        className=" mx-auto max-w-screen-xl px-4 pt-8 gap-6 sm:gap-0 sm:py-12 flex flex-col sm:flex-row justify-between items-center"
       >
         <div className="max-w-xl ">
           <div className="text-mynavy">
@@ -67,7 +67,7 @@ function Home() {
       <motion.div
         ref={aboutRef}
         id="about"
-        className="mx-auto max-w-screen-xl my-20 flex justify-between items-center pb-12"
+        className="mx-auto overflow-hidden max-w-screen-xl my-20 flex justify-between items-center pb-12"
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: aboutInView ? 1 : 0, y: aboutInView ? 0 : 100 }}
         transition={{ duration: 1 }}
@@ -75,9 +75,9 @@ function Home() {
         <div className="container">
           <div className="-mx-4 flex  flex-row-reverse flex-wrap">
             <div className="w-full flex-col px-4 lg:w-5/12 justify-between">
-              <div className="flex-col pb-8 text-mynavy">
+              <div className="flex-col px-2 pb-8 text-mynavy">
                 <Head h1="Eat, Sleep, Fashion," h2="Repeat" />
-                <h1 className="text-mynavy mb-4 text-2xl font-extrabold text-dark mt-6">
+                <h1 className="text-mynavy mb-4 text-2xl  font-extrabold text-dark mt-6">
                   Grab the limited time offer!
                 </h1>
 
@@ -86,9 +86,9 @@ function Home() {
                   <b> &#x20B9;21000/-</b> only
                 </p>
               </div>
-              <div>
+              <div className="px-8 sm:p-0">
                 <img
-                  className="w-full mt-8"
+                  className=" w-full mt-8"
                   src="./images/fashion.jpg"
                   alt=""
                 />
@@ -96,9 +96,9 @@ function Home() {
             </div>
             <div className="hidden px-4 lg:block lg:w-1/12"></div>
             <div className="w-full px-4 lg:w-6/12">
-              <div className="">
+              <div className="px-8 sm:p-0">
                 <div className="relative z-10 inline-block px-4 pt-11 lg:pt-0">
-                  <img src="./images/dress.png" alt="hero" className="w-full" />
+                  <img src="./images/dress.jpg" alt="hero" className="w-full" />
                   <span className="absolute -bottom-8 -right-10 z-[-1]">
                     <svg
                       width="93"
@@ -144,7 +144,7 @@ function Home() {
       {/* New Collections  */}
       <motion.div
         ref={collectionsRef}
-        className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8"
+        className="mx-auto overflow-hidden max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8"
         initial={{ opacity: 0, y: 100 }}
         animate={{
           opacity: collectionsInView ? 1 : 0,
@@ -162,14 +162,15 @@ function Home() {
           </p>
         </header>
 
-        <ul className="mt-8 flex flex-row gap-5">
+        <div className="mt-8 flex flex-col items-center justify-center sm:flex-row gap-5">
           <div className="flex gap-5 w-2/3">
             <img
               src="./images/winter3.jpg"
               alt=""
               className="w-full transition duration-1000 "
             />
-
+          </div>
+          <div className="flex gap-5 w-2/3">
             <img
               src="./images/winter1.jpg"
               alt=""
@@ -189,13 +190,13 @@ function Home() {
               className="w-full transition duration-1000 "
             />
           </div>
-        </ul>
+        </div>
       </motion.div>
 
       {/* Products  */}
       <motion.div
         ref={productsRef}
-        className="mx-auto max-w-screen-xl px-4 py-16 flex flex-col justify-between items-center"
+        className=" mx-auto overflow-hidden max-w-screen-xl px-4 py-16 flex flex-col justify-between items-center"
         initial={{ opacity: 0, y: 100 }}
         animate={{
           opacity: productsInView ? 1 : 0,
@@ -235,7 +236,9 @@ function Home() {
               />
             </div>
           </div>
-          <Button text="View More" color="mygreen" hover="myred" />
+          <Link to="/home/shop">
+            <Button text="View More" color="mygreen" hover="myred" />
+          </Link>
         </div>
       </motion.div>
     </>
