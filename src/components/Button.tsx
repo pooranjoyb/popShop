@@ -11,7 +11,7 @@ function Button({ color, hover, text, onClick }: ButtonProps) {
             <button className={`btn bg-${color} hover:bg-${hover}`} onClick={onClick}>
                 {text}
             </button>
-        </div>
+        </div> 
     )
 }
 
