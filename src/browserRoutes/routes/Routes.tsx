@@ -5,56 +5,47 @@ import Home from "../../pages/Home/Home";
 import Shop from "../../pages/Shop/Shop";
 import ProductDetail from "../../pages/Shop/ProductDetail";
 import Cart from "../../pages/Cart/Cart";
-
 import { createBrowserRouter } from "react-router-dom";
+import ProtectedRoute from "../../pages/Auth/ProtectedRoute";
+
+
+
+
+
+
 
 export const Routes = createBrowserRouter([
   {
-    path: "/",
-    element: <Auth />,
-    errorElement: <Error />,
+    path: '/',
+    element: <Auth />
   },
   {
-    path: "/home",
-    element: <Layout />,
-    errorElement: <Error />,
+    path: '/home',
+    element: (<ProtectedRoute><Layout /></ProtectedRoute>), 
     children: [
       {
-        errorElement: <Error />,
-        children: [
-          {
-            index: true,
-            element: <Home />,
-          },
-        ],
+        index: true, 
+        element: <Home />,
       },
       {
-        errorElement: <Error />,
-        children: [
-          {
-            path: "shop",
-            element: <Shop />,
-          },
-        ],
+        path: 'shop',
+        element: <Shop />,
       },
       {
-        errorElement: <Error />,
-        children: [
-          {
-            path: "product",
-            element: <ProductDetail />,
-          },
-        ],
+        path: 'product',
+        element: <ProductDetail />,
       },
       {
-        errorElement: <Error />,
-        children: [
-          {
-            path: "cart",
-            element: <Cart />,
-          },
-        ],
+        path: 'cart',
+        element: <Cart />,
       },
     ],
+    errorElement:<Error/>
+  },
+  {
+    path: '*', // Catch-all route for unmatched paths
+    element: <Error />, 
   },
 ]);
+
+export default Routes; 

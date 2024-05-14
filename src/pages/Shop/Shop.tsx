@@ -1,25 +1,38 @@
-import { useEffect } from "react"
+import { useEffect } from "react";
 
 // components
-import Head from "../../components/Head"
-import Product from "../../components/Product"
+import Head from "../../components/Head";
+import Product from "../../components/Product";
 
 function Shop() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
-
     return (
         <>
-            <div className=" mx-auto max-w-screen-xl px-4 py-12 flex justify-between items-center">
+            <div className=" flex-col sm:flex-row gap-8 p-2 py-8 mx-auto px-2 max-w-screen-xl sm:px-12 sm:py-12 lg:px-8 lg:py-12 flex justify-between items-center">
                 <Head h1="Our" h2="Store" />
                 <div>
-                    <label className="input input-bordered input-success flex items-center gap-2">
-                        <input type="text" className="grow" placeholder="Search" />
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" /></svg>
-                    </label>
+                <label className="input input-bordered input-success flex items-center gap-2">
+                    <input type="text" className="grow" placeholder="Search" />
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    className="w-4 h-4 opacity-70"
+                    >
+                    <path
+                        fillRule="evenodd"
+                        d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                        clipRule="evenodd"
+                    />
+                    </svg>
+                </label>
                 </div>
             </div>
             <div className="mx-auto max-w-2xl px-4 py-8 lg:max-w-7xl lg:px-8">
@@ -38,9 +51,8 @@ function Shop() {
                     <Product desc="" image="https://img.freepik.com/free-photo/full-shot-beautiful-lady_23-2148440576.jpg?w=360&t=st=1708162622~exp=1708163222~hmac=a0eb19d754c23e36840605ecb684ece75e8b20e74ba329c1d0958a10dec2824f" price={99} name="Red Casual Wear" />
                 </div>
             </div>
-
         </>
     )
 }
 
-export default Shop
+export default Shop;
