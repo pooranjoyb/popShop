@@ -61,9 +61,9 @@ function Shop() {
     window.scrollTo(0, 0);
   }, []);
   const handlesearch=(e:any)=>{
-    const val=e.target.value;
-    console.log(val,"hello")
-  const filtereddata=  data.filter((elem)=>{if(elem.name.includes(val))return true;else return false});
+    const value=e.target.value;
+    console.log(value,"hello")
+  const filtereddata=  data.filter((elem)=>{if(elem.name.toLowerCase().includes(value.toLowerCase()))return true;else return});
   setproducts(filtereddata);
    }
     useEffect(() => {
