@@ -1,34 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 // components
 import Head from "../../components/Head";
 import Button from "../../components/Button";
+import QuantityButton from "./QuantityButton";
 
 function Cart() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const [quantity,setQuantity]=useState(0);
-
-  const setDecrease=()=>{
-    quantity > 1?setQuantity(quantity-1):setQuantity(1);
-  }
-
-  const setIncrease=()=>{
-    setQuantity(quantity+1);
-    //quantity <stock ? setQuantity(quantity+1):setQuantity(stock)->When there's stock of items
-  }
-
-
   return (
     <>
-      <div className=" mx-auto max-w-screen-xl px-4 py-12 flex justify-between items-center">
+      <div className=" mx-auto max-w-screen-xl px-4 pt-8 sm:py-12 flex justify-between items-center">
         <Head h1="Your" h2="Cart" />
       </div>
 
       {/* Cart Details */}
-      <div className="justify-center flex-1 px-4 py-6 mx-auto max-w-7xl lg:py-4 md:px-6">
+      <div className="justify-center flex-1 px-4 sm:py-6 mx-auto max-w-7xl lg:py-4 md:px-6">
         <div className="p-8 bg-gray-50 dark:bg-gray-800">
           <div className="flex flex-wrap -mx-4">
             <div className="w-full px-4 mb-8 xl:w-8/12 xl:mb-0">
@@ -87,33 +76,7 @@ function Cart() {
                     </span>
                   </div>
                   <div className="w-auto px-4 md:w-1/6 lg:w-2/12 ">
-                    <div className="inline-flex items-center px-4 font-semibold text-gray-500 border border-gray-200 rounded-md dark:border-gray-700 ">
-                      <button onClick={()=>setDecrease()} className="py-2 hover:text-gray-700 dark:text-gray-400">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          className="bi bi-dash"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"></path>
-                        </svg>
-                      </button>
-                      <div className="w-12 px-2 py-4 text-center border-0 rounded-md dark:bg-gray-800 bg-gray-50 dark:text-gray-400 md:text-right">{quantity}</div>
-                      <button onClick={()=>setIncrease()} className="py-2 hover:text-gray-700 dark:text-gray-400">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          className="bi bi-plus"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
-                        </svg>
-                      </button>
-                    </div>
+                    <QuantityButton/>
                   </div>
                   <div className="w-auto px-4 text-right md:w-1/6 lg:w-2/12 ">
                     <p className="text-lg font-bold text-blue-500 dark:text-gray-400">
@@ -152,33 +115,7 @@ function Cart() {
                     </span>
                   </div>
                   <div className="w-auto px-4 md:w-1/6 lg:w-2/12 ">
-                    <div className="inline-flex items-center px-4 font-semibold text-gray-500 border border-gray-200 rounded-md dark:border-gray-700 ">
-                      <button onClick={() => setDecrease()} className="py-2 hover:text-gray-700 dark:text-gray-400">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          className="bi bi-dash"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"></path>
-                        </svg>
-                      </button>
-                      <div className="w-12 px-2 py-4 text-center border-0 rounded-md dark:bg-gray-800 bg-gray-50 dark:text-gray-400 md:text-right">{quantity}</div>
-                      <button onClick={()=>setIncrease()} className="py-2 hover:text-gray-700 dark:text-gray-400">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          className="bi bi-plus"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
-                        </svg>
-                      </button>
-                    </div>
+                    <QuantityButton/>
                   </div>
                   <div className="w-auto px-4 text-right md:w-1/6 lg:w-2/12 ">
                     <p className="text-lg font-bold text-blue-500 dark:text-gray-400">
