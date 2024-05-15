@@ -10,8 +10,8 @@ import { useInView } from "react-intersection-observer";
 
 function Home() {
   const [heroRef, heroInView] = useInView({
-    triggerOnce: true, // Trigger animation only once
-    threshold: 0.5, // Trigger animation when section is 100% in view
+    triggerOnce: true,
+    threshold: 0.5,
   });
 
   const [aboutRef, aboutInView] = useInView({
@@ -60,7 +60,11 @@ function Home() {
             </div>
           </div>
         </div>
-        <img className="w-1/3" src="./images/hero.png" alt="" />
+        <img
+          className="w-2/3 sm:w-1/3 py-4 sm:p-0"
+          src="./images/hero.png"
+          alt=""
+        />
       </motion.div>
 
       {/* Section  */}
@@ -70,7 +74,7 @@ function Home() {
         className="mx-auto overflow-hidden max-w-screen-xl my-20 flex justify-between items-center pb-12"
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: aboutInView ? 1 : 0, y: aboutInView ? 0 : 100 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 2 }}
       >
         <div className="container">
           <div className="-mx-4 flex  flex-row-reverse flex-wrap">
@@ -150,7 +154,7 @@ function Home() {
           opacity: collectionsInView ? 1 : 0,
           y: collectionsInView ? 0 : 100,
         }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 1 }}
       >
         <header className="text-center">
           <div className="text-mynavy">
@@ -177,17 +181,17 @@ function Home() {
               className="w-full transition duration-1000 group-hover:opacity-90"
             />
           </div>
-          <div className="flex flex-col w-1/3 gap-5">
+          <div className="flex flex-col w-2/3 gap-5">
             <img
               src="./images/winter2.jpg"
               alt=""
-              className="w-full transition duration-1000 group-hover:opacity-90"
+              className="w-full transition duration-500 group-hover:opacity-90"
             />
 
             <img
               src="./images/winter4.jpg"
               alt=""
-              className="w-full transition duration-1000 "
+              className="w-full transition duration-500 "
             />
           </div>
         </div>
@@ -202,7 +206,7 @@ function Home() {
           opacity: productsInView ? 1 : 0,
           y: productsInView ? 0 : 100,
         }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 1 }}
       >
         <div className="text-mynavy">
           <Head h1="Our" h2="Products" />
