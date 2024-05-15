@@ -7,7 +7,7 @@ import Button from "../../components/Button"
 import { SignUpSchema, LogInSchema } from "../../utils/schema";
 import { useDispatch } from "react-redux";
 import { login} from "../../utils/features/Auth/authSlice";
-
+import {Slide, toast ,TypeOptions } from "react-toastify";
 interface USER {
     username: string;
     email: string;
@@ -30,6 +30,20 @@ function Auth() {
         setErrors(prev => ({ ...prev, [name]: '' })); 
     };
 
+    type ToastType = TypeOptions;
+
+    const toastNotification = (message:string,type:ToastType) => {
+        toast(message, {
+            type:type,
+            position: "top-right",
+            autoClose: 5000,
+            closeOnClick: true,
+            pauseOnHover: false,
+            transition:Slide,
+        })
+    };
+    
+
     const handleSignup = async () => {
         try {
             const validateData = SignUpSchema.parse({
@@ -38,13 +52,22 @@ function Auth() {
                 password: userData.pass
             });
 
-            const { error } = await supabase.from('users').insert([validateData]).select();
+            const { error } = await supabase.from('users').insert([validateData]);
+            const database_data = await supabase.from('users').select();
+
+            console.log(database_data);
 
             if (error) {
                 setErrors({ general: "User Already Exists" });
+                toastNotification("User Already Exists !","error");
                 return;
             }
-            navigate("/home");
+            else
+            { 
+                setLogin((prevLoginState)=> !prevLoginState);
+                toastNotification("New User Created !!","success");
+            }
+            // navigate("/home");
         } catch (err) {
             if (err instanceof z.ZodError) {
                 const newErrors = err.flatten().fieldErrors;
@@ -71,12 +94,14 @@ function Auth() {
 
             if (error || data.length === 0) {
                 setErrors({ username: "User not found or credentials are incorrect" });
+                toastNotification("Credentials are incorrect !!","error");
+
                 return;
             }
             else
             {
-                dispatch(login({username:validateData.username}));
-                
+                toastNotification("User LoggedIn !!","success");
+                dispatch(login({username:validateData.username}));   
             }
 
             navigate("/home");
