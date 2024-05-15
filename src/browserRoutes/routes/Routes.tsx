@@ -8,12 +8,6 @@ import Cart from "../../pages/Cart/Cart";
 import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "../../pages/Auth/ProtectedRoute";
 
-
-
-
-
-
-
 export const Routes = createBrowserRouter([
   {
     path: '/',
@@ -43,7 +37,7 @@ export const Routes = createBrowserRouter([
     errorElement:<Error/>
   },
   {
-    path: '*', // Catch-all route for unmatched paths
+    path: '*',
     element: <Error />, 
   },
 ]);

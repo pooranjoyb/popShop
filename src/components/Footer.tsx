@@ -6,10 +6,10 @@ import { IoLogoInstagram } from "react-icons/io5";
 import { FaDribbble } from "react-icons/fa";
 
 function Footer() {
-    return (
-        <>
-            <footer className="text-mynavy mx-auto flex-col sm:flex-row max-w-screen-xl px-4 py-12 flex justify-center items-center bg-white lg:grid lg:grid-cols-5">
-            <div className="lg:col-span-2 h-full p-2 sm:p-0">
+  return (
+    <>
+      <footer className="text-mynavy mx-auto flex-col sm:flex-row max-w-screen-xl px-4 py-12 flex justify-center items-center bg-white lg:grid lg:grid-cols-5">
+        <div className="lg:col-span-2 h-full p-2 sm:p-0">
           <img
             src="./images/footer.jpg"
             alt=""
@@ -99,7 +99,7 @@ function Footer() {
                   >
                     <span className="sr-only">Dribbble</span>
 
-                    <FaDribbble className="w-6 h-6"/>
+                    <FaDribbble className="w-6 h-6" />
                   </a>
                 </li>
               </ul>
