@@ -10,40 +10,36 @@ import ProtectedRoute from "../../pages/Auth/ProtectedRoute";
 
 export const Routes = createBrowserRouter([
   {
-    path: "/",
-    element: <Home />,
+    path: '/',
+    element: <Auth />
   },
   {
-    path: "/home",
-    element: (
-      <ProtectedRoute>
-        <Layout />
-      </ProtectedRoute>
-    ),
+    path: '/home',
+    element: (<ProtectedRoute><Layout /></ProtectedRoute>), 
     children: [
       {
-        index: true,
+        index: true, 
         element: <Home />,
       },
       {
-        path: "shop",
+        path: 'shop',
         element: <Shop />,
       },
       {
-        path: "product",
+        path: 'product',
         element: <ProductDetail />,
       },
       {
-        path: "cart",
+        path: 'cart',
         element: <Cart />,
       },
     ],
-    errorElement: <Error />,
+    errorElement:<Error/>
   },
   {
-    path: "*",
-    element: <Error />,
+    path: '*',
+    element: <Error />, 
   },
 ]);
 
-export default Routes;
+export default Routes; 
