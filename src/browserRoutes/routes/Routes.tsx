@@ -10,10 +10,6 @@ import ProtectedRoute from "../../pages/Auth/ProtectedRoute";
 
 
 
-
-
-
-
 export const Routes = createBrowserRouter([
   {
     path: '/',

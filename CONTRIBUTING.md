@@ -33,6 +33,7 @@ npm install
   - ```bash
     VITE_PROJECT_KEY="https://drnetvgmyxknfbeftdhy.supabase.co"
     VITE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRybmV0dmdteXhrbmZiZWZ0ZGh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTAwOTM5OTcsImV4cCI6MjAyNTY2OTk5N30.5oi3T2rvQLdc5hBB-dY_EYEHlQ4VlVWplAGHQn_bir4"
+    VITE_REDUX_PERSIST_SECRET_KEY= "831476e3ea64e7868101b191c65eebddbe123408"
     ```
 
 - Start the development server:

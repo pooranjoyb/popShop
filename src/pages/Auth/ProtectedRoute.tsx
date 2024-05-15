@@ -6,7 +6,7 @@ interface ProtectedRouteProps {
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector((state: RootState) => state.auth?git init.isAuthenticated);
   const navigate = useNavigate();
    
   return isAuthenticated !== undefined ? (isAuthenticated ? children : <button onClick={()=>{navigate('/')}}>Go to Login Page</button>) : null; // Conditional rendering based on state availability
