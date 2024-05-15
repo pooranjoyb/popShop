@@ -14,7 +14,6 @@
     "@hookform/resolvers": "^3.3.4",
     "@reduxjs/toolkit": "^2.2.4",
     "@supabase/supabase-js": "^2.39.8",
-    "@rollup/rollup-linux-x64-gnu": "^4.17.2",
     "appwrite": "^13.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.3.1",
@@ -36,12 +35,16 @@
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
     "daisyui": "^4.7.2",
+    "@rollup/rollup-linux-x64-gnu": "^4.17.2",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "postcss": "^8.4.38",
     "typescript": "^5.2.2",
     "vite": "^5.1.0"
+  },
+  "optionalDependencies": {
+   
   },
   "description": "for contribution",
   "main": "tailwind.config.js",
