@@ -4,13 +4,13 @@ import { useState } from 'react'
 const QuantityButton = () => {
     const [quantity, setQuantity] = useState(0);
 
-  const setIncrease = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+  function setIncrease(){
+    setQuantity(pre => pre+ 1);
   };
 
-  const setDecrease = () => {
+   function setDecrease(){
     if (quantity > 0) {
-      setQuantity((prevQuantity) => prevQuantity - 1);
+      setQuantity(pre => pre - 1);
     }
   };
   return (
@@ -24,7 +24,7 @@ const QuantityButton = () => {
           className="bi bi-dash"
           viewBox="0 0 16 16"
         >
-          <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"></path>
+          <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
         </svg>
       </button>
       <div className="w-12 px-2 py-4 text-center border-0 rounded-md dark:bg-gray-800 bg-gray-50 dark:text-gray-400 md:text-right">{quantity}</div>
@@ -37,7 +37,7 @@ const QuantityButton = () => {
           className="bi bi-plus"
           viewBox="0 0 16 16"
         >
-          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
         </svg>
       </button>
     </div>
