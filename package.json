@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^3.3.4",
     "@reduxjs/toolkit": "^2.2.4",
     "@supabase/supabase-js": "^2.39.8",
+    "@rollup/rollup-linux-x64-gnu": "^4.17.2",
     "appwrite": "^13.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.3.1",
@@ -23,7 +24,6 @@
     "react-router-dom": "^6.22.1",
     "react-toastify": "^10.0.5",
     "redux-persist": "^6.0.0",
-    "@rollup/rollup-linux-x64-gnu":"^4.17.2",
     "redux-persist-transform-encrypt": "^5.1.1",
     "tailwindcss": "^3.4.1",
     "zod": "^3.23.8"
@@ -42,9 +42,6 @@
     "postcss": "^8.4.38",
     "typescript": "^5.2.2",
     "vite": "^5.1.0"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.17.2"
   },
   "description": "for contribution",
   "main": "tailwind.config.js",
