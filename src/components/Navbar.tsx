@@ -8,9 +8,9 @@ import {logout} from "../utils/features/Auth/authSlice";
 import {Slide, toast} from "react-toastify";
 
 function Navbar() {
+  const userName = useSelector((state: RootState) => state.auth.user?.username);
 
-    const userName = useSelector((state : RootState) => state.auth?.user
-        ?.username);
+
 
     const dispatch = useDispatch();
 
@@ -84,4 +84,4 @@ function Navbar() {
     )
 }
 
-export default Navbar
+export default Navbar;
