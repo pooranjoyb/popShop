@@ -28,6 +28,8 @@ const authSlice = createSlice({
     logout(state) {
       state.isAuthenticated = false;
       state.user = undefined;
+      localStorage.clear();
+      sessionStorage.clear();//incase in future if we store data in session.
     },
   },
 });
