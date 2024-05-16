@@ -61,10 +61,10 @@ function Navbar() {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a className="justify-between">
+                <NavLink to={"/home/profile"} className="justify-between">
                   {userName || <p>Profile</p>}
                   <span className="badge">New</span>
-                </a>
+                </NavLink>
               </li>
               <li>
                 <a>Settings</a>
