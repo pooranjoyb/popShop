@@ -80,7 +80,7 @@ function Footer() {
 
                 <li>
                   <a
-                    href="#"
+                    href="https://github.com/pooranjoyb/popShop"
                     rel="noreferrer"
                     target="_blank"
                     className="text-gray-700 transition hover:opacity-75"
@@ -112,7 +112,7 @@ function Footer() {
                 <ul className="mt-6 space-y-4 text-sm">
                   <li>
                     <Link
-                      to="/"
+                      to="/home"
                       className="text-gray-700 transition hover:opacity-75"
                     >
                       {" "}
@@ -121,7 +121,7 @@ function Footer() {
                   </li>
                   <li>
                     <Link
-                      to="/cart"
+                      to="/home/cart"
                       className="text-gray-700 transition hover:opacity-75"
                     >
                       {" "}
@@ -130,7 +130,7 @@ function Footer() {
                   </li>
                   <li>
                     <Link
-                      to="/shop"
+                      to="/home/shop"
                       className="text-gray-700 transition hover:opacity-75"
                     >
                       {" "}
