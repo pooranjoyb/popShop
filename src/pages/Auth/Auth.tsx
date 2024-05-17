@@ -100,7 +100,7 @@ function Auth() {
             }
             else
             {
-                toastNotification("User LoggedIn !!","success");
+                toastNotification("User Logged In !!","success");
                 dispatch(login({username:validateData.username}));   
             }
 
