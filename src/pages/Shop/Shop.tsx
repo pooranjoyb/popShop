@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 // components
 import Head from "../../components/Head";
 import Product from "../../components/Product";
+import { IoFilterCircleOutline } from "react-icons/io5";
 
 const data = [
   {
@@ -136,7 +137,7 @@ function Shop() {
             htmlFor="my_modal_6"
             className="btn bg-mygreen hover:bg-myyellow"
           >
-            Filters
+            <IoFilterCircleOutline className="text-3xl"/>
           </label>
           {/* Modal Body*/}
           <input
