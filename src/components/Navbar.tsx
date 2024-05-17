@@ -55,29 +55,33 @@ function Navbar() {
                         <img src="./images/winter2.jpg"/>
                     </div>
                 </div>
-                <ul
-                    tabIndex={0}
-                    className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                    <li>
-                        <a className="justify-between">
-                            {userName || <p>Profile</p>}
-                            <span className="badge">New</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a>Settings</a>
-                    </li>
-                    <li>
-                        <NavLink
-                            to='/'
-                            onClick={() => {
-                            dispatch(logout());
-                            toastNotification("Successfully Logged Out!!!");
-                        }}
-                            end>Logout</NavLink>
-                    </li>
-                </ul>
-            </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li>
+                  <NavLink to={"/home/profile"} className="justify-between">
+                    {userName || <p>Profile</p>}
+                    <span className="badge">New</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <a>Settings</a>
+                </li>
+                <li>
+                  <NavLink
+                    to="/"
+                    onClick={() => {
+                      dispatch(logout());
+                      toastNotification("Successfully Logged Out!!!");
+                    }}
+                    end
+                  >
+                    Logout
+                  </NavLink>
+                </li>
+              </ul>
+          </div>
         </div>
     </div> 
     </>
