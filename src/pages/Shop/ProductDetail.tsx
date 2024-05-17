@@ -38,9 +38,14 @@ const ratingItems: RatingItem[] = [
 
 function ProductDetail() {
     const [filledStars, setFilledStars] = useState(0);
+    const availableSizes = ["XS", "S", "M", "L", "XL"];
+    const [size, setSize] = useState("");
 
     const handleRatingChange = (index: number) => {
         setFilledStars(index / 2 + 0.5);
+    };
+    const handleSize = (sizeValue: string) => {
+        setSize(sizeValue)
     };
     const { state } = useLocation();
     const data = state as Data;
@@ -96,18 +101,15 @@ function ProductDetail() {
                                     <h2 className="w-16 text-xl font-bold dark:text-gray-400">
                                         Size:</h2>
                                     <div className="flex flex-wrap -mx-2 -mb-2">
-                                        <button
-                                            className="py-1 mb-2 mr-1 border w-11 hover:border-blue-400 dark:border-gray-400 hover:text-blue-600 dark:hover:border-gray-300 dark:text-gray-400">XL
-                                        </button>
-                                        <button
-                                            className="py-1 mb-2 mr-1 border w-11 hover:border-blue-400 hover:text-blue-600 dark:border-gray-400 dark:hover:border-gray-300 dark:text-gray-400">S
-                                        </button>
-                                        <button
-                                            className="py-1 mb-2 mr-1 border w-11 hover:border-blue-400 hover:text-blue-600 dark:border-gray-400 dark:hover:border-gray-300 dark:text-gray-400">M
-                                        </button>
-                                        <button
-                                            className="py-1 mb-2 mr-1 border w-11 hover:border-blue-400 hover:text-blue-600 dark:border-gray-400 dark:hover:border-gray-300 dark:text-gray-400">XS
-                                        </button>
+                                        {
+                                            availableSizes.map((value) => {
+                                                return (
+                                                    <button
+                                                        className={`py-1 mb-2 mr-1 border w-11 hover:border-blue-400 dark:border-gray-400 hover:text-blue-600 dark:hover:border-gray-300 dark:text-gray-400 ${value==size?"bg-mygreen":""}`} onClick={() => { handleSize(value) }}>{value}
+                                                    </button>
+                                                )
+                                            })
+                                        }
                                     </div>
                                 </div>
 
@@ -141,7 +143,7 @@ function ProductDetail() {
                                 <div className="w-32 mb-8 ">
                                     <label htmlFor=""
                                         className="w-full text-xl font-semibold text-gray-700 dark:text-gray-400">Quantity</label>
-                                   <QuantityButton/>
+                                    <QuantityButton />
                                 </div>
                                 <div className="flex flex-wrap items-center gap-10 ">
 
