@@ -8,7 +8,7 @@ import { FaDribbble } from "react-icons/fa";
 function Footer() {
   return (
     <>
-      <footer className="text-mynavy mx-auto flex-col sm:flex-row max-w-screen-xl px-4 py-12 flex justify-center items-center bg-white lg:grid lg:grid-cols-5">
+      <footer id="Footer" className="text-mynavy mx-auto flex-col sm:flex-row max-w-screen-xl px-4 py-12 flex justify-center items-center bg-white lg:grid lg:grid-cols-5">
         <div className="lg:col-span-2 h-full p-2 sm:p-0">
           <img
             src="./images/footer.jpg"

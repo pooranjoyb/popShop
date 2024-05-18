@@ -7,6 +7,7 @@ import Button from "../../components/Button";
 
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { FloatingNav } from "../../components/Navbar2";
 
 function Home() {
   const [heroRef, heroInView] = useInView({
@@ -30,15 +31,16 @@ function Home() {
   });
   return (
     <>
-      {/* Hero  */}
+      <FloatingNav />
       <motion.div
+        id="Nav"
         ref={heroRef}
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: heroInView ? 1 : 0, y: heroInView ? 0 : -100 }}
         transition={{ duration: 1 }}
         className=" mx-auto max-w-screen-xl px-4 pt-8 gap-6 sm:gap-0 sm:py-12 flex flex-col sm:flex-row justify-between items-center"
       >
-        <div className="max-w-xl ">
+        <div className="max-w-xl">
           <div className="text-mynavy">
             <Head h1="Make Your Look more" h2="Perfect" />
 
@@ -156,7 +158,7 @@ function Home() {
         }}
         transition={{ duration: 1 }}
       >
-        <header className="text-center">
+        <header id="Collections" className="text-center">
           <div className="text-mynavy">
             <Head h1="New" h2="Collections" />
           </div>
@@ -208,7 +210,7 @@ function Home() {
         }}
         transition={{ duration: 1 }}
       >
-        <div className="text-mynavy">
+        <div id="Products" className="text-mynavy">
           <Head h1="Our" h2="Products" />
         </div>
         <div className="mt-12">
