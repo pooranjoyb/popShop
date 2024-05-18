@@ -148,7 +148,7 @@ function Footer() {
                   </li>
                   <li>
                     <Link
-                      to="/#about"
+                      to="/home/about"
                       className="text-gray-700 transition hover:opacity-75"
                     >
                       About
