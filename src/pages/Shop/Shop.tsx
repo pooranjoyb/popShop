@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 // components
 import Head from "../../components/Head";
 import Product from "../../components/Product";
+import { IoFilterCircleOutline } from "react-icons/io5";
+
 const data = [
   {
     desc: "",
@@ -91,10 +93,13 @@ const data = [
 ];
 
 function Shop() {
+
   const [products, setproducts] = useState(data);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const handlesearch = (e: any) => {
     const value = e.target.value;
     console.log(value, "hello");
@@ -104,15 +109,84 @@ function Shop() {
     });
     setproducts(filtereddata);
   };
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+
+  const filter = [
+    {
+      filterOption: "Size",
+      checkbox: ["XS", "S", "M", "L", "XL"],
+    },
+    {
+      filterOption: "Price Range",
+      checkbox: [
+        "below-₹1000",
+        "₹1000-₹2000",
+        "₹2000-₹4000",
+        "₹4000-₹8000",
+        "₹8000-and above",
+      ],
+    },
+  ];
 
   return (
     <>
-      <div className=" flex-col sm:flex-row gap-8 p-2 py-8 mx-auto px-2 max-w-screen-xl sm:px-12 sm:py-12 lg:px-8 lg:py-12 flex justify-between items-center">
+      <div className=" mx-auto max-w-screen-xl px-4 py-12 flex justify-between items-center">
         <Head h1="Our" h2="Store" />
-        <div>
+        <div className="flex gap-6">
+          {/* The button to open modal */}
+          <label
+            htmlFor="my_modal_6"
+            className="btn bg-mygreen hover:bg-myyellow"
+          >
+            <IoFilterCircleOutline className="text-3xl"/>
+          </label>
+          {/* Modal Body*/}
+          <input
+            type="checkbox"
+            id="my_modal_6"
+            className="modal-toggle w-5xl"
+          />
+          <div className="modal" role="dialog">
+            <div className="modal-box w-[30rem]">
+              <h3 className="font-bold text-center text-lg">
+                Apply your filters
+              </h3>
+              <div className="flex font-semiold justify-around mt-5">
+                {filter.map((fil, idx) => (
+                  <div key={idx}>
+                    <h2 className="mb-3">{fil.filterOption}</h2>
+                    {fil.checkbox.map((size, index) => {
+                      return (
+                        <div key={index} className="flex items-center mb-2">
+                          <input
+                            id={`default-checkbox${idx}${index}`}
+                            type="checkbox"
+                            value=""
+                            className="w-4 h-4 checkbox"
+                          />
+                          <label
+                            htmlFor={`default-checkbox${idx}${index}`}
+                            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          >
+                            {size}
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+
+              <div className="modal-action justify-center pe-5">
+                <label
+                  htmlFor="my_modal_6"
+                  className="btn hover:bg-mygreen bg-myyellow"
+                >
+                  Apply
+                </label>
+              </div>
+            </div>
+          </div>
+
           <label className="input input-bordered input-success flex items-center gap-2">
             <input
               type="text"

@@ -2924,3 +2924,12 @@ body {
          column-gap: 2rem;
   }
 }
+
+.border-gray-400{
+  border-color: rgb(156 163 175);
+  --tw-border-opacity: 1;
+}
+
+.profile-background{
+  background-image: linear-gradient(to bottom right, #118AB2 , #06D6A0);
+}
