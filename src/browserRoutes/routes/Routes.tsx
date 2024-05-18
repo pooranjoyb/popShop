@@ -5,21 +5,26 @@ import Home from "../../pages/Home/Home";
 import Shop from "../../pages/Shop/Shop";
 import ProductDetail from "../../pages/Shop/ProductDetail";
 import Cart from "../../pages/Cart/Cart";
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "../../pages/Auth/ProtectedRoute";
-import Profile from "../../pages/Profile/Profile";
+import { useSelector } from "react-redux";
+import { RootState } from "../../utils/features/store";
 
-export const Routes = createBrowserRouter([
+  const Routes = ()=>{
+    const isAuthenticated = useSelector((state:RootState)=> state?.auth?.isAuthenticated);
+    
+    return createBrowserRouter([
   {
-    path: '/',
-    element: <Auth />
+    path: '/auth',
+    element: isAuthenticated ? <Navigate to = '/home'/> : <Auth />,
+    errorElement: <Error />,
   },
   {
-    path: '/home',
+    path: '/',
     element: (<ProtectedRoute><Layout /></ProtectedRoute>), 
     children: [
       {
-        index: true, 
+        path: 'home', 
         element: <Home />,
       },
       {
@@ -34,10 +39,6 @@ export const Routes = createBrowserRouter([
         path: 'cart',
         element: <Cart />,
       },
-      {
-        path: 'profile',
-        element: <Profile />
-      }
     ],
     errorElement:<Error/>
   },
@@ -45,6 +46,6 @@ export const Routes = createBrowserRouter([
     path: '*',
     element: <Error />, 
   },
-]);
+])};
 
-export default Routes; 
+export default Routes;
