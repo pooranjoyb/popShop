@@ -2,14 +2,22 @@ import { z } from "zod";
 
 const SignUpSchema = z.object({
   username: z
-  .string()
-  .min(1, { message: "Username is required" }),
-  email: z.string()
-  .email({ message: "Invalid email address" }),
+    .string()
+    .min(3, "Username must be at least 3 characters")
+    .max(20, "Username must be less than 20 characters")
+    .regex(/^[a-zA-Z0-9_]*$/, "Username must contain only letters, numbers, and underscores"),
+  email: z
+    .string()
+    .email({ message: "Invalid email address" }),
   password: z
     .string()
-    .min(5, { message: "Password must at least 5 characters long" }),
+    .min(5, { message: "Password must be at least 5 characters long" })
+    .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
+    .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
+    .regex(/[0-9]/, { message: "Password must contain at least one number" })
+    .regex(/[^a-zA-Z0-9]/, { message: "Password must contain at least one special character" })
 });
+
 
 const LogInSchema = z.object({
   username: z
