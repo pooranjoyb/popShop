@@ -3,7 +3,6 @@ import { RiTwitterXFill } from "react-icons/ri";
 import { FaGithub } from "react-icons/fa6";
 import { FaFacebook } from "react-icons/fa";
 import { IoLogoInstagram } from "react-icons/io5";
-import { FaDribbble } from "react-icons/fa";
 
 function Footer() {
   return (
