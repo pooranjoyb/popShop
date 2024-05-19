@@ -16,17 +16,17 @@ function About() {
         </p>
         
         <h2 className="text-2xl flex justify-center text-mynavy font-bold mb-4 underline">Our Story</h2>
-        <div className="flex gap-5 my-10">
+        <div className="flex gap-10 my-10">
           <p className="text-lg mb-4">
           <span className="text-mynavy font-bold">PopShop.com</span> was founded with a simple idea: shopping for fashion should be fun, easy, and exciting. Tired of the mundane and uninspired, we set out to create a store that offers not just clothes, but a whole new shopping experience. From humble beginnings, we’ve grown into a go-to destination for quality and style, always keeping our customers at the heart of everything we do.
           </p>
-          <img src="/images/fashion.jpg" alt="img" className="max-w-lg"/>
+          <img src="/images/fashion.jpg" alt="img" className="max-w-md"/>
         </div>
 
         <h2 className="text-2xl flex justify-center text-mynavy font-bold mb-4 underline">Our Promise</h2>
-        <div className="flex gap-5 my-10">
-        <img src="/images/winter4.jpg" alt="img" className="max-w-lg"/>
-        <p className="text-lg mb-4 flex items-center">
+        <div className="flex gap-10 my-10">
+        <img src="/images/winter4.jpg" alt="img" className="max-w-sm"/>
+        <p className="text-lg mb-4">
           We promise to bring you top-notch quality, unparalleled service, and a shopping experience that’s as enjoyable as the outfits you’ll find here. Whether you're a long-time customer or a first-time visitor, we’re committed to exceeding your expectations every step of the way.
         </p>
         </div>
