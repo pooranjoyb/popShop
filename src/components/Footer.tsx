@@ -90,18 +90,6 @@ function Footer() {
                   </a>
                 </li>
 
-                <li>
-                  <a
-                    href="#"
-                    rel="noreferrer"
-                    target="_blank"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    <span className="sr-only">Dribbble</span>
-
-                    <FaDribbble className="w-6 h-6" />
-                  </a>
-                </li>
               </ul>
             </div>
 
@@ -112,7 +100,7 @@ function Footer() {
                 <ul className="mt-6 space-y-4 text-sm">
                   <li>
                     <Link
-                      to="/home"
+                      to="/home/profile"
                       className="text-gray-700 transition hover:opacity-75"
                     >
                       {" "}
