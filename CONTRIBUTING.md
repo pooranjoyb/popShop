@@ -82,7 +82,7 @@ git push origin your-username/feature-name
 An easy way to avoid conflicts is to add an 'upstream' for your git repo, as other PR's may be merged while you're working on your branch/fork.
 
 ```bash
-git remote add upstream https://github.com/pooranjoyb/BeatBridge
+git remote add upstream https://github.com/pooranjoyb/popShop
 ```
 
 You can verify that the new remote has been added by typing
