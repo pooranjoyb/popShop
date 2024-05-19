@@ -40,6 +40,8 @@ PopShop is an eCommerce Website based on React TypeScript and Daisy UI, integrat
 
 The main aim of this project is to foster a collaborative community of creative individuals, where ideas grow and innovation flourishes. Whether you're a developer, designer, or simply someone passionate about projects, this repository provides an ideal platform to display your work and connect with others who share similar interests.
 
+_**Sneak Peak of the project : [Youtube](https://www.youtube.com/watch?v=2R2ZEdpUx8Q&t=28s)**_
+
 _*[Click here to view the production deployment](https://pop-shop-github.vercel.app/)*_ _Username & Password : admin_
 
 _*[Click here to view the development deployment](https://github.com/pooranjoyb/popShop/deployments/Preview)*_ _Username & Password : admin_
