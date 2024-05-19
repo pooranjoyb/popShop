@@ -3599,4 +3599,9 @@ body {
     -moz-column-gap: 2rem;
          column-gap: 2rem;
   }
+  
+.border-gray-400{
+  border-color: rgb(156 163 175);
+  --tw-border-opacity: 1;
 }
+
