@@ -11,7 +11,7 @@ function Product({ name, image, price, desc }: Data) {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate("/home/product", { state: { name, image, price, desc } });
+    navigate("/home/shop/product", { state: { name, image, price, desc } });
   };
   return (
     <>

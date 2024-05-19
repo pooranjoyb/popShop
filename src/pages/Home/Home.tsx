@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 //components
 import Product from "../../components/Product";
@@ -144,6 +144,7 @@ function Home() {
           </div>
         </div>
       </motion.div>
+      
 
       {/* New Collections  */}
       <motion.div

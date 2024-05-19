@@ -15,29 +15,35 @@ import { RootState } from "../../utils/features/store";
     
     return createBrowserRouter([
   {
-    path: '/auth',
+    path: '/',
     element: isAuthenticated ? <Navigate to = '/home'/> : <Auth />,
     errorElement: <Error />,
   },
   {
-    path: '/',
+    path: '/home',
     element: (<ProtectedRoute><Layout /></ProtectedRoute>), 
     children: [
       {
-        path: 'home', 
+        index : true, 
         element: <Home />,
       },
       {
         path: 'shop',
-        element: <Shop />,
-      },
-      {
-        path: 'product',
-        element: <ProductDetail />,
-      },
-      {
-        path: 'cart',
-        element: <Cart />,
+        children:[
+          {
+            index :true,
+            element: <Shop />,
+          },
+          {
+            path: 'product',
+            element: <ProductDetail />,
+          },
+          {
+            path: 'cart',
+            element: <Cart />,
+          },
+          
+        ]
       },
     ],
     errorElement:<Error/>
