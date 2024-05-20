@@ -166,7 +166,7 @@ function Home() {
           </p>
         </header>
 
-        <div className="mt-8 flex flex-col items-center justify-center sm:flex-row gap-5">
+        <div className="mt-8 flex flex-col justify-center sm:flex-row gap-5">
           <div className="flex gap-5 w-2/3">
             <img
               src="./images/winter3.jpg"
@@ -185,13 +185,13 @@ function Home() {
             <img
               src="./images/winter2.jpg"
               alt=""
-              className="w-full transition duration-500 group-hover:opacity-90"
+              className="w-full h-full transition duration-500 group-hover:opacity-90"
             />
 
             <img
               src="./images/winter4.jpg"
               alt=""
-              className="w-full transition duration-500 "
+              className="w-full h-full transition duration-500 "
             />
           </div>
         </div>
