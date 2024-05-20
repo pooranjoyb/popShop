@@ -174,8 +174,8 @@ function Auth() {
               {isForgotPassword
                 ? "Reset Password"
                 : isLogin
-                  ? "Login"
-                  : "Sign Up"}
+                ? "Login"
+                : "Sign Up"}
             </h1>
             {!isLogin && !isForgotPassword && (
               <h1 className="text-sm font-semibold mb-6 text-gray-500 text-center">
