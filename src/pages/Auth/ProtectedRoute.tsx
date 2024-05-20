@@ -15,7 +15,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   useEffect(() => {
     if (isAuthenticated === false) {
-      navigate('/auth');
+      navigate('/');
     }
   }, [isAuthenticated, navigate]);
 
