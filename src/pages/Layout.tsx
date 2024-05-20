@@ -13,7 +13,7 @@ const Layout: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated === false) {
-      navigate('/auth');
+      navigate('/');
     }
   }, [isAuthenticated, navigate]);
 
