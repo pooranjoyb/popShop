@@ -5,13 +5,55 @@
 *,
 html,
 body {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 ::-moz-selection {
-    background: #FFD166;
+  background: #ffd166;
 }
 
 ::selection {
-    background: #FFD166;
+  background: #ffd166;
 }
+.bars {
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 6px;
+  border-radius: 3px;
+  background: #dfe1f0;
+}
+
+.bars div {
+  height: 6px;
+  border-radius: 3px;
+  transition: 0.45s;
+  width: 0%;
+}
+
+.bars.weak div {
+  background: #e24c71;
+  width: 33.33%;
+}
+
+.bars.medium div {
+  background: #f39845;
+  width: 66.66%;
+}
+
+.bars.strong div {
+  background: #57c558;
+  width: 100%;
+}
+
+.strength {
+  text-align: left;
+  height: 30px;
+  text-transform: capitalize;
+  color: #868b94;
+}
+
+
+
+

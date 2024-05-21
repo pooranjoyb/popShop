@@ -5,6 +5,7 @@ interface ButtonProps {
     onClick?: () => void;
 }
 
+
 function Button({ color, hover, text, onClick }: ButtonProps) {
     return (
         <div className="flex items-center justify-center">
