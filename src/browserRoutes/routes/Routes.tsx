@@ -9,6 +9,7 @@ import { Navigate, createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "../../pages/Auth/ProtectedRoute";
 import { useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
+import Profile from "../../pages/Profile/Profile";
 
   const Routes = ()=>{
     const isAuthenticated = useSelector((state:RootState)=> state?.auth?.isAuthenticated);
@@ -26,6 +27,10 @@ import { RootState } from "../../utils/features/store";
       {
         index : true, 
         element: <Home />,
+      },
+      {
+        path:"profile",
+        element:<Profile/>
       },
       {
         path: 'shop',
