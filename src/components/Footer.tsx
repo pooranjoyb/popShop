@@ -129,7 +129,7 @@ export default function NewFooter() {
         <div className="row-span-3 flex justify-stretch gap-8 h-full w-full max-sm:flex-col max-sm:items-center">
           <div className="space-y-8 grow w-full">
             <p className="text-4xl font-extrabold">
-              <h1>Call Us</h1>
+              <span>Call Us</span><br />
               <span
                 style={{
                   textShadow:
