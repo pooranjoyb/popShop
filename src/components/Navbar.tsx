@@ -64,7 +64,7 @@ function Navbar() {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                <img src="./images/winter2.jpg" />
+                <img src="/images/winter2.jpg" />
               </div>
             </div>
             <ul

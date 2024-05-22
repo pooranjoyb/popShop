@@ -62,7 +62,7 @@ function Home() {
         </div>
         <img
           className="w-2/3 sm:w-1/3 py-4 sm:p-0"
-          src="./images/hero.png"
+          src="/images/hero.png"
           alt=""
         />
       </motion.div>
@@ -93,7 +93,7 @@ function Home() {
               <div className="px-8 sm:p-0">
                 <img
                   className=" w-full mt-8"
-                  src="./images/fashion.jpg"
+                  src="/images/fashion.jpg"
                   alt=""
                 />
               </div>
@@ -102,7 +102,7 @@ function Home() {
             <div className="w-full px-4 lg:w-6/12">
               <div className="px-8 sm:p-0">
                 <div className="relative z-10 inline-block px-4 pt-11 lg:pt-0">
-                  <img src="./images/dress.jpg" alt="hero" className="w-full" />
+                  <img src="/images/dress.jpg" alt="hero" className="w-full" />
                   <span className="absolute -bottom-8 -right-10 z-[-1]">
                     <svg
                       width="93"
@@ -169,27 +169,27 @@ function Home() {
         <div className="mt-8 flex flex-col items-center justify-center sm:flex-row gap-5">
           <div className="flex gap-5 w-2/3">
             <img
-              src="./images/winter3.jpg"
+              src="/images/winter3.jpg"
               alt=""
               className="w-full transition duration-1000 "
             />
           </div>
           <div className="flex gap-5 w-2/3">
             <img
-              src="./images/winter1.jpg"
+              src="/images/winter1.jpg"
               alt=""
               className="w-full transition duration-1000 group-hover:opacity-90"
             />
           </div>
           <div className="flex flex-col w-2/3 gap-5">
             <img
-              src="./images/winter2.jpg"
+              src="/images/winter2.jpg"
               alt=""
               className="w-full transition duration-500 group-hover:opacity-90"
             />
 
             <img
-              src="./images/winter4.jpg"
+              src="/images/winter4.jpg"
               alt=""
               className="w-full transition duration-500 "
             />

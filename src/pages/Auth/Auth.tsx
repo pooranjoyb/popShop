@@ -161,7 +161,7 @@ function Auth() {
         <div className="hidden lg:flex items-center justify-center flex-1 bg-white text-black">
           <div className="max-w-md text-center">
             <img
-              src="./images/winter1.jpg"
+              src="/images/winter1.jpg"
               className="rounded-xl"
               alt="image"
             />
