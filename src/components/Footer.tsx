@@ -3,7 +3,6 @@ import { RiTwitterXFill } from "react-icons/ri";
 import { FaGithub } from "react-icons/fa6";
 import { FaFacebook } from "react-icons/fa";
 import { IoLogoInstagram } from "react-icons/io5";
-import { FaDribbble } from "react-icons/fa";
 
 
 function Footer() {
@@ -83,7 +82,7 @@ function Footer() {
 
                 <li>
                   <a
-                    href="#"
+                    href="https://github.com/pooranjoyb/popShop"
                     rel="noreferrer"
                     target="_blank"
                     className="text-gray-700 transition hover:opacity-75"
@@ -93,18 +92,6 @@ function Footer() {
                   </a>
                 </li>
 
-                <li>
-                  <a
-                    href="#"
-                    rel="noreferrer"
-                    target="_blank"
-                    className="text-gray-700 transition hover:opacity-75"
-                  >
-                    <span className="sr-only">Dribbble</span>
-
-                    <FaDribbble className="w-6 h-6" />
-                  </a>
-                </li>
               </ul>
             </div>
 
@@ -115,7 +102,7 @@ function Footer() {
                 <ul className="mt-6 space-y-4 text-sm">
                   <li>
                     <Link
-                      to="/"
+                      to="/home/profile"
                       className="text-gray-700 transition hover:opacity-75"
                     >
                       {" "}
@@ -124,7 +111,7 @@ function Footer() {
                   </li>
                   <li>
                     <Link
-                      to="/cart"
+                      to="/home/cart"
                       className="text-gray-700 transition hover:opacity-75"
                     >
                       {" "}
@@ -133,7 +120,7 @@ function Footer() {
                   </li>
                   <li>
                     <Link
-                      to="/shop"
+                      to="/home/shop"
                       className="text-gray-700 transition hover:opacity-75"
                     >
                       {" "}

@@ -5,10 +5,21 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import Button from "./Button";
 import { RootState } from "../utils/features/store";
 import { logout } from "../utils/features/Auth/authSlice";
+import { Slide, toast } from "react-toastify";
+
 function Navbar() {
   const userName = useSelector((state: RootState) => state.auth.user?.username);
-
   const dispatch = useDispatch();
+
+  const toastNotification = (message: string) => {
+    toast(message, {
+      position: "top-right",
+      autoClose: 5000,
+      closeOnClick: true,
+      pauseOnHover: false,
+      transition: Slide,
+    });
+  };
 
   return (
     <>
@@ -61,10 +72,10 @@ function Navbar() {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a className="justify-between">
+                <NavLink to={"/home/profile"} className="justify-between">
                   {userName || <p>Profile</p>}
                   <span className="badge">New</span>
-                </a>
+                </NavLink>
               </li>
               <li>
                 <a>Settings</a>
@@ -74,6 +85,7 @@ function Navbar() {
                   to="/"
                   onClick={() => {
                     dispatch(logout());
+                    toastNotification("Successfully Logged Out!!!");
                   }}
                   end
                 >

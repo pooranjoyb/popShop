@@ -7,6 +7,7 @@ import ProductDetail from "../../pages/Shop/ProductDetail";
 import Cart from "../../pages/Cart/Cart";
 import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "../../pages/Auth/ProtectedRoute";
+import Profile from "../../pages/Profile/Profile";
 
 export const Routes = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ export const Routes = createBrowserRouter([
         path: 'cart',
         element: <Cart />,
       },
+      {
+        path: 'profile',
+        element: <Profile />
+      }
     ],
     errorElement:<Error/>
   },

@@ -13,6 +13,7 @@ body {
 }
 
 ::selection {
+
   background: #ffd166;
 }
 .bars {
@@ -56,4 +57,20 @@ body {
 
 
 
+
+
+    background: #FFD166;
+}
+
+.profile-background {
+    background: hsla(164, 95%, 43%, 1);
+
+    background: linear-gradient(180deg, hsla(164, 95%, 43%, 1) 0%, hsla(42, 100%, 70%, 1) 52%, hsla(346, 84%, 61%, 1) 100%, hsla(195, 83%, 38%, 1) 100%);
+
+    background: -moz-linear-gradient(180deg, hsla(164, 95%, 43%, 1) 0%, hsla(42, 100%, 70%, 1) 52%, hsla(346, 84%, 61%, 1) 100%, hsla(195, 83%, 38%, 1) 100%);
+
+    background: -webkit-linear-gradient(180deg, hsla(164, 95%, 43%, 1) 0%, hsla(42, 100%, 70%, 1) 52%, hsla(346, 84%, 61%, 1) 100%, hsla(195, 83%, 38%, 1) 100%);
+
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#06D6A0", endColorstr="#FFD166", GradientType=1);
+}
 
