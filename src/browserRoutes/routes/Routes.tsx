@@ -10,6 +10,7 @@ import ProtectedRoute from "../../pages/Auth/ProtectedRoute";
 import { useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
 import Profile from "../../pages/Profile/Profile";
+import TopButton from "../../components/TopButton";
 
   const Routes = ()=>{
     const isAuthenticated = useSelector((state:RootState)=> state?.auth?.isAuthenticated);
@@ -22,7 +23,7 @@ import Profile from "../../pages/Profile/Profile";
   },
   {
     path: '/home',
-    element: (<ProtectedRoute><Layout /></ProtectedRoute>), 
+    element: (<ProtectedRoute><Layout /><TopButton/></ProtectedRoute>), 
     children: [
       {
         index : true, 
