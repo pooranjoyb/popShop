@@ -75,7 +75,7 @@ function Auth() {
         setLogin((prevLoginState) => !prevLoginState);
         toastNotification("New User Created !!", "success");
       }
-      // navigate("/home");
+      navigate("/");
     } catch (err) {
       if (err instanceof z.ZodError) {
         const newErrors = err.flatten().fieldErrors;

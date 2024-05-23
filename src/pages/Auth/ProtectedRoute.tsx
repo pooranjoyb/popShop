@@ -1,13 +1,28 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
-import { Navigate } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
+
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const isAuthenticated = useSelector((state: RootState) => state.auth?.isAuthenticated);
-   
-  return isAuthenticated !== undefined ? (isAuthenticated ? children : <Navigate to="/" />): null; // Conditional rendering based on state availability
-  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated === false) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
+
+  // Conditional rendering based on state availability
+  if (isAuthenticated === undefined) {
+    return null; 
   }
+
+  return isAuthenticated ? <>{children}</> : null;
+}

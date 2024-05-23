@@ -33,6 +33,7 @@ function Navbar() {
           </Link>
         </div>
         <div className="flex-none gap-6 mr-12">
+
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
@@ -51,7 +52,7 @@ function Navbar() {
               <div className="card-body">
                 <span className="font-bold text-lg text-mynavy">8 Items</span>
                 <span className="text-mynavy">Subtotal: $999</span>
-                <Link to="/home/cart" className="card-actions w-full">
+                <Link to="/home/shop/cart" className="card-actions w-full">
                   <Button text="View cart" color="myred" hover="myyellow" />
                 </Link>
               </div>
@@ -66,6 +67,7 @@ function Navbar() {
               <div className="w-10 rounded-full">
                 <img src="/images/winter2.jpg" />
               </div>
+
             </div>
             <ul
               tabIndex={0}
