@@ -15,7 +15,7 @@ function Error() {
             <Head h1="404 Not Found" h2="Error! :(" />
           </div>
         </div>
-        <img className="w-1/3" src="./images/hero.png" alt="" />
+        <img className="w-1/3" src="/images/hero.png" alt="" />
       </div>
 
       {/* Footer  */}
