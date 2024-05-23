@@ -8,6 +8,7 @@ import Cart from "../../pages/Cart/Cart";
 import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "../../pages/Auth/ProtectedRoute";
 import Profile from "../../pages/Profile/Profile";
+import TopButton from "../../components/TopButton";
 
 export const Routes = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ export const Routes = createBrowserRouter([
   },
   {
     path: '/home',
-    element: (<ProtectedRoute><Layout /></ProtectedRoute>), 
+    element: (<ProtectedRoute><Layout /><TopButton/></ProtectedRoute>), 
     children: [
       {
         index: true, 
