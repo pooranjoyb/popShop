@@ -12,6 +12,7 @@ import {
 import { useDispatch } from "react-redux";
 import { login } from "../../utils/features/Auth/authSlice";
 import { Slide, toast, TypeOptions } from "react-toastify";
+
 interface USER {
   username: string;
   email: string;
@@ -29,7 +30,7 @@ function Auth() {
     email: "",
     pass: "",
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Record<string, string[]>>({});
 
   const handleAuthRequest = () => setLogin(!isLogin);
   const handleForgotPasswordRequest = () =>
@@ -38,7 +39,7 @@ function Auth() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: "" }));
+    setErrors((prev) => ({ ...prev, [name]: [] }));
   };
 
   type ToastType = TypeOptions;
@@ -68,7 +69,7 @@ function Auth() {
       console.log(database_data);
 
       if (error) {
-        setErrors({ general: "User Already Exists" });
+        setErrors({ general: ["User Already Exists"] });
         toastNotification("User Already Exists !", "error");
         return;
       } else {
@@ -81,9 +82,9 @@ function Auth() {
         const newErrors = err.flatten().fieldErrors;
         setErrors(
           Object.keys(newErrors).reduce((acc, key) => {
-            acc[key] = newErrors[key]?.join(", ") ?? "";
+            acc[key] = newErrors[key] ?? [];
             return acc;
-          }, {} as Record<string, string>)
+          }, {} as Record<string, string[]>)
         );
       }
     }
@@ -98,7 +99,7 @@ function Auth() {
       );
 
       if (error) {
-        setErrors({ email: "Error sending password reset email" });
+        setErrors({ email: ["Error sending password reset email"] });
         toastNotification("Error sending password reset email", "error");
         return;
       } else {
@@ -110,9 +111,9 @@ function Auth() {
         const newErrors = err.flatten().fieldErrors;
         setErrors(
           Object.keys(newErrors).reduce((acc, key) => {
-            acc[key] = newErrors[key]?.join(", ") ?? "";
+            acc[key] = newErrors[key] ?? [];
             return acc;
-          }, {} as Record<string, string>)
+          }, {} as Record<string, string[]>)
         );
       }
     }
@@ -132,7 +133,7 @@ function Auth() {
         .eq("password", validateData.password);
 
       if (error || data.length === 0) {
-        setErrors({ username: "User not found or credentials are incorrect" });
+        setErrors({ username: ["User not found or credentials are incorrect"] });
         toastNotification("Credentials are incorrect !!", "error");
 
         return;
@@ -147,9 +148,9 @@ function Auth() {
         const newErrors = err.flatten().fieldErrors;
         setErrors(
           Object.keys(newErrors).reduce((acc, key) => {
-            acc[key] = newErrors[key]?.join(", ") ?? "";
+            acc[key] = newErrors[key] ?? [];
             return acc;
-          }, {} as Record<string, string>)
+          }, {} as Record<string, string[]>)
         );
       }
     }
@@ -238,9 +239,11 @@ function Auth() {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   {errors.email && (
-                    <p className="px-2 text-xs mt-1" style={{ color: "red" }}>
-                      {errors.email}
-                    </p>
+                    <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
+                      {errors.email.map((error, index) => (
+                        <li key={index}>{error}</li>
+                      ))}
+                    </ul>
                   )}
                 </div>
                 <div onClick={handleResetPassword}>
@@ -270,9 +273,11 @@ function Auth() {
                     onChange={handleInputChange}
                   />
                   {errors.username && (
-                    <p className="px-2 text-xs mt-1" style={{ color: "red" }}>
-                      {errors.username}
-                    </p>
+                    <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
+                      {errors.username.map((error, index) => (
+                        <li key={index}>{error}</li>
+                      ))}
+                    </ul>
                   )}
                 </div>
                 {!isLogin && (
@@ -293,9 +298,11 @@ function Auth() {
                       onChange={handleInputChange}
                     />
                     {errors.email && (
-                      <p className="px-2 text-xs mt-1" style={{ color: "red" }}>
-                        {errors.email}
-                      </p>
+                      <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
+                        {errors.email.map((error, index) => (
+                          <li key={index}>{error}</li>
+                        ))}
+                      </ul>
                     )}
                   </div>
                 )}
@@ -316,9 +323,11 @@ function Auth() {
                     onChange={handleInputChange}
                   />
                   {errors.password && (
-                    <p className="px-2 text-xs mt-1" style={{ color: "red" }}>
-                      {errors.password}
-                    </p>
+                    <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
+                      {errors.password.map((error, index) => (
+                        <li key={index}>{error}</li>
+                      ))}
+                    </ul>
                   )}
                 </div>
                 {isLogin ? (
