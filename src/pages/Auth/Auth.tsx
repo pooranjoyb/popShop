@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
+import bcrypt from 'bcryptjs';
 import { supabase } from "../../utils/client";
 import Footer from "../../components/Footer";
 import Button from "../../components/Button";
@@ -39,7 +40,7 @@ function Auth() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: [] }));
+    setErrors((prev) => ({ ...prev, [name]: [] }));  // Clear the error for the specific field
   };
 
   type ToastType = TypeOptions;
@@ -63,7 +64,13 @@ function Auth() {
         password: userData.pass,
       });
 
-      const { error } = await supabase.from("users").insert([validateData]);
+      const hashedPassword = await bcrypt.hash(validateData.password, 10);
+
+      const { error } = await supabase.from("users").insert([{
+        username: validateData.username,
+        email: validateData.email,
+        password: hashedPassword,
+      }]);
 
       if (error) {
         setErrors({ general: ["User Already Exists"] });
@@ -126,20 +133,27 @@ function Auth() {
       const { data, error } = await supabase
         .from("users")
         .select("*")
-        .eq("username", validateData.username)
-        .eq("password", validateData.password);
+        .eq("username", validateData.username);
 
       if (error || data.length === 0) {
         setErrors({ username: ["User not found or credentials are incorrect"] });
         toastNotification("Credentials are incorrect !!", "error");
-
         return;
-      } else {
-        toastNotification("User LoggedIn !!", "success");
-        dispatch(login({ username: validateData.username }));
       }
 
+      const user = data[0];
+      const isPasswordValid = await bcrypt.compare(validateData.password, user.password);
+
+      if (!isPasswordValid) {
+        setErrors({ password: ["Incorrect password"] });
+        toastNotification("Credentials are incorrect !!", "error");
+        return;
+      }
+
+      toastNotification("User LoggedIn !!", "success");
+      dispatch(login({ username: validateData.username }));
       navigate("/home");
+
     } catch (err) {
       if (err instanceof z.ZodError) {
         const newErrors = err.flatten().fieldErrors;
@@ -180,7 +194,7 @@ function Auth() {
               </h1>
             )}
             <div className="mt-4 flex flex-col lg:flex-row items-center justify-between ">
-              <div className="w-full lg:w-ful mb-2 lg:mb-0">
+              <div className="w-full lg:w-full mb-2 lg:mb-0">
                 <button
                   type="button"
                   className="w-full flex justify-center items-center gap-2 bg-white text-sm text-gray-600 p-2 rounded-md hover:bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-colors duration-300"
@@ -233,7 +247,10 @@ function Auth() {
                     name="email"
                     className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setErrors((prev) => ({ ...prev, email: [] }));  // Clear the error for email field
+                    }}
                   />
                   {errors.email && (
                     <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
@@ -375,7 +392,6 @@ function Auth() {
           </div>
         </div>
       </div>
-
       {/* Footer  */}
       <Footer />
     </>
