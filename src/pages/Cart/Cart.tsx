@@ -138,9 +138,9 @@ function Cart() {
             </div>
             <div className="w-full px-4 xl:w-4/12">
               <div className="p-6 border border-blue-100 dark:bg-gray-900 dark:border-gray-900 bg-blue-50 md:p-8">
-                <h2 className="mb-8 text-3xl font-bold text-gray-700 dark:text-gray-400">
+                {/* <h2 className="mb-8 text-3xl font-bold text-gray-700 dark:text-gray-400">
                   Order Summary
-                </h2>
+                </h2> */}
                 <div className="flex items-center justify-between pb-4 mb-4 border-b border-gray-300 dark:border-gray-700 ">
                   <span className="text-gray-700 dark:text-gray-400">
                     Subtotal

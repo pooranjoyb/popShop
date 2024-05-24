@@ -10,7 +10,13 @@ import ProtectedRoute from "../../pages/Auth/ProtectedRoute";
 import { useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
 import Profile from "../../pages/Profile/Profile";
-import TopButton from "../../components/TopButton";
+import TopButton from "../../components/TopButton/TopButton";
+
+// Remove the duplicate declaration of the module
+
+declare module "../../components/TopButton/TopButton" {
+  const TopButton: any;
+}
 
   const Routes = ()=>{
     const isAuthenticated = useSelector((state:RootState)=> state?.auth?.isAuthenticated);
