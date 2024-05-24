@@ -12,15 +12,15 @@ function Cart() {
 
   return (
     <>
-      <div className=" mx-auto max-w-screen-xl px-4 pt-8 sm:py-12 flex justify-between items-center">
+      <div className="mx-auto max-w-screen-xl px-4 pt-8 sm:py-12 flex justify-between items-center">
         <Head h1="Your" h2="Cart" />
       </div>
 
       {/* Cart Details */}
-      <div className="justify-center flex-1 px-4 sm:py-6 mx-auto max-w-7xl lg:py-4 md:px-6">
+      <div className="justify-center flex-1 px-4 sm:py-6 mx-auto max-w-screen-xl lg:py-4 md:px-6">
         <div className="p-8 bg-gray-50 dark:bg-gray-800">
           <div className="flex flex-wrap -mx-4">
-            <div className="w-full px-4 mb-8 xl:w-8/12 xl:mb-0">
+            <div className="w-full px-4 mb-8 xl:mb-0">
               <div className="flex flex-wrap items-center mb-6 -mx-4 md:mb-8">
                 <div className="w-full md:block hidden px-4 mb-6 md:w-4/6 lg:w-6/12 md:mb-0">
                   <h2 className="font-bold text-gray-500 dark:text-gray-400">
@@ -125,7 +125,7 @@ function Cart() {
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-4">
-                <span className="text-gray-700 dark:text-gray-400">
+                <span className="">
                   Apply Coupon
                 </span>
                 <input
@@ -134,65 +134,7 @@ function Cart() {
                   placeholder="x304k45"
                 />
                 <Button text="Apply" color="mygreen" hover="myyellow" />
-              </div>
-            </div>
-            <div className="w-full px-4 xl:w-4/12">
-              <div className="p-6 border border-blue-100 dark:bg-gray-900 dark:border-gray-900 bg-blue-50 md:p-8">
-                <h2 className="mb-8 text-3xl font-bold text-gray-700 dark:text-gray-400">
-                  Order Summary
-                </h2>
-                <div className="flex items-center justify-between pb-4 mb-4 border-b border-gray-300 dark:border-gray-700 ">
-                  <span className="text-gray-700 dark:text-gray-400">
-                    Subtotal
-                  </span>
-                  <span className="text-xl font-bold text-gray-700 dark:text-gray-400 ">
-                    $99
-                  </span>
-                </div>
-                <div className="flex items-center justify-between pb-4 mb-4 ">
-                  <span className="text-gray-700 dark:text-gray-400 ">
-                    Shipping
-                  </span>
-                  <span className="text-xl font-bold text-gray-700 dark:text-gray-400 ">
-                    Free
-                  </span>
-                </div>
-                <div className="flex items-center justify-between pb-4 mb-4 ">
-                  <span className="text-gray-700 dark:text-gray-400">
-                    Order Total
-                  </span>
-                  <span className="text-xl font-bold text-gray-700 dark:text-gray-400">
-                    $99.00
-                  </span>
-                </div>
-                <h2 className="text-lg text-gray-500 dark:text-gray-400">
-                  We offer:
-                </h2>
-                <div className="flex items-center mb-4 ">
-                  <a href="#">
-                    <img
-                      src="https://i.postimg.cc/g22HQhX0/70599-visa-curved-icon.png"
-                      alt=""
-                      className="object-cover h-16 mr-2 w-26"
-                    />
-                  </a>
-                  <a href="#">
-                    <img
-                      src="https://i.postimg.cc/HW38JkkG/38602-mastercard-curved-icon.png"
-                      alt=""
-                      className="object-cover h-16 mr-2 w-26"
-                    />
-                  </a>
-                  <a href="#">
-                    <img
-                      src="https://i.postimg.cc/HL57j0V3/38605-paypal-straight-icon.png"
-                      alt=""
-                      className="object-cover h-16 mr-2 w-26"
-                    />
-                  </a>
-                </div>
-
-                <Button text="Checkout" color="mygreen" hover="myyellow" />
+                <Button text="Checkout" color="myyellow" hover="mygreen" />
               </div>
             </div>
           </div>

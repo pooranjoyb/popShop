@@ -64,9 +64,6 @@ function Auth() {
       });
 
       const { error } = await supabase.from("users").insert([validateData]);
-      const database_data = await supabase.from("users").select();
-
-      console.log(database_data);
 
       if (error) {
         setErrors({ general: ["User Already Exists"] });

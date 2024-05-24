@@ -1,6 +1,6 @@
 interface HeadProps {
-  h1: string;
-  h2: string;
+  h1?: string;
+  h2?: string;
 }
 
 export default function Head({ h1, h2 }: HeadProps) {
