@@ -42,12 +42,12 @@ function Navbar() {
             >
               <div className="indicator">
                 <MdOutlineShoppingCart className="h-5 w-5" />
-                <span className="badge badge-sm indicator-item">8</span>
+                <span className="badge badge-sm indicator-item ">8</span>
               </div>
             </div>
             <div
               tabIndex={0}
-              className="mt-3 z-[1] card card-compact dropdown-content w-48 bg-base-100 shadow"
+              className="mt-3 z-[1] card card-compact dropdown-content w-48 bg-base-100 shadow-2xl"
             >
               <div className="card-body">
                 <span className="font-bold text-lg text-mynavy">8 Items</span>
@@ -80,7 +80,14 @@ function Navbar() {
                 </NavLink>
               </li>
               <li>
-                <a>Settings</a>
+              <NavLink to={"/Home/shop"} >
+                  { <p>Shop</p>}
+                </NavLink>
+              </li>
+              <li>
+              <NavLink to={"/Home/Shop/Cart"} >
+                  { <p>Cart</p>}
+                </NavLink>
               </li>
               <li>
                 <NavLink
