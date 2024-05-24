@@ -1,6 +1,7 @@
-import { Link} from "react-router-dom";
+import "./home.css"
+import { Link } from "react-router-dom";
 
-//components
+// components
 import Product from "../../components/Product";
 import Head from "../../components/Head";
 import Button from "../../components/Button";
@@ -8,7 +9,9 @@ import Button from "../../components/Button";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
+
 function Home() {
+  
   const [heroRef, heroInView] = useInView({
     triggerOnce: true,
     threshold: 0.5,
@@ -28,29 +31,30 @@ function Home() {
     triggerOnce: true,
     threshold: 0.5,
   });
+
   return (
     <>
-      {/* Hero  */}
+      {/* Hero */}
       <motion.div
         ref={heroRef}
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: heroInView ? 1 : 0, y: heroInView ? 0 : -100 }}
         transition={{ duration: 1 }}
-        className=" mx-auto max-w-screen-xl px-4 pt-8 gap-6 sm:gap-0 sm:py-12 flex flex-col sm:flex-row justify-between items-center"
+        className="mx-auto max-w-screen-xl px-4 pt-8 gap-6 sm:gap-0 sm:py-12 flex flex-col sm:flex-row justify-between items-center"
       >
-        <div className="max-w-xl ">
+        <div className="max-w-xl">
           <div className="text-mynavy">
             <Head h1="Make Your Look more" h2="Perfect" />
-
             <p className="mt-4 max-w-lg">Look your best on your best day</p>
-
             <div className="mt-8 w-full flex flex-wrap gap-4 text-center">
+           
               <a
                 href="#about"
                 className="btn w-1/2 bg-myred hover:bg-myyellow text-white"
               >
                 Get Started
-              </a>
+                </a>
+                
               <Link
                 to="/home/shop"
                 className="btn w-1/3 bg-mygreen hover:bg-myyellow text-white"
@@ -61,13 +65,13 @@ function Home() {
           </div>
         </div>
         <img
-          className="w-2/3 sm:w-1/3 py-4 sm:p-0"
+          className="w-2/3 sm:w-1/3 py-4 sm:p-0 image-hover-effect"
           src="/images/hero.png"
           alt=""
         />
       </motion.div>
 
-      {/* Section  */}
+      {/* Section */}
       <motion.div
         ref={aboutRef}
         id="about"
@@ -77,22 +81,21 @@ function Home() {
         transition={{ duration: 2 }}
       >
         <div className="container">
-          <div className="-mx-4 flex  flex-row-reverse flex-wrap">
+          <div className="-mx-4 flex flex-row-reverse flex-wrap">
             <div className="w-full flex-col px-4 lg:w-5/12 justify-between">
               <div className="flex-col px-2 pb-8 text-mynavy">
                 <Head h1="Eat, Sleep, Fashion," h2="Repeat" />
-                <h1 className="text-mynavy mb-4 text-2xl  font-extrabold text-dark mt-6">
+                <h1 className="text-mynavy mb-4 text-2xl font-extrabold text-dark mt-6">
                   Grab the limited time offer!
                 </h1>
-
                 <p className="mb">
                   Get our premium and exclusive collections at{" "}
-                  <b> &#x20B9;21000/-</b> only
+                  <b>&#x20B9;21000/-</b> only
                 </p>
               </div>
               <div className="px-8 sm:p-0">
                 <img
-                  className=" w-full mt-8"
+                  className="w-full mt-8 image-hover-effect"
                   src="/images/fashion.jpg"
                   alt=""
                 />
@@ -102,7 +105,11 @@ function Home() {
             <div className="w-full px-4 lg:w-6/12">
               <div className="px-8 sm:p-0">
                 <div className="relative z-10 inline-block px-4 pt-11 lg:pt-0">
-                  <img src="/images/dress.jpg" alt="hero" className="w-full" />
+                  <img
+                    src="/images/dress.jpg"
+                    alt="hero"
+                    className="w-full image-hover-effect"
+                  />
                   <span className="absolute -bottom-8 -right-10 z-[-1]">
                     <svg
                       width="93"
@@ -144,9 +151,8 @@ function Home() {
           </div>
         </div>
       </motion.div>
-      
 
-      {/* New Collections  */}
+      {/* New Collections */}
       <motion.div
         ref={collectionsRef}
         className="mx-auto overflow-hidden max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8"
@@ -161,7 +167,6 @@ function Home() {
           <div className="text-mynavy">
             <Head h1="New" h2="Collections" />
           </div>
-
           <p className="mx-auto mt-4 max-w-md text-gray-1000">
             Explore our New Collections
           </p>
@@ -172,36 +177,35 @@ function Home() {
             <img
               src="/images/winter3.jpg"
               alt=""
-              className="w-full transition duration-1000 "
+              className="w-full transition duration-1000 image-hover-effect"
             />
           </div>
           <div className="flex gap-5 w-2/3">
             <img
               src="/images/winter1.jpg"
               alt=""
-              className="w-full transition duration-1000 group-hover:opacity-90"
+              className="w-full transition duration-1000 image-hover-effect"
             />
           </div>
           <div className="flex flex-col w-2/3 gap-5">
             <img
               src="/images/winter2.jpg"
               alt=""
-              className="w-full h-full transition duration-500 group-hover:opacity-90"
+              className="w-full h-full transition duration-500 image-hover-effect"
             />
-
             <img
               src="/images/winter4.jpg"
               alt=""
-              className="w-full h-full transition duration-500 "
+              className="w-full h-full transition duration-500 image-hover-effect"
             />
           </div>
         </div>
       </motion.div>
 
-      {/* Products  */}
+      {/* Products */}
       <motion.div
         ref={productsRef}
-        className=" mx-auto overflow-hidden max-w-screen-xl px-4 py-16 flex flex-col justify-between items-center"
+        className="mx-auto overflow-hidden max-w-screen-xl px-4 py-16 flex flex-col justify-between items-center"
         initial={{ opacity: 0, y: 100 }}
         animate={{
           opacity: productsInView ? 1 : 0,

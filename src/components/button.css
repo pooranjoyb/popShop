@@ -1,0 +1,18 @@
+.btn {
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+.bg-blue {
+    background-color: #007BFF;
+}
+
+.bg-blue:hover {
+    background-color: #0056b3;
+}
+
+/* Add other color and hover classes as needed */

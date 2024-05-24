@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import './shop.css';
 // components
 import Head from "../../components/Head";
 import Product from "../../components/Product";
@@ -229,3 +229,4 @@ function Shop() {
 }
 
 export default Shop;
+
