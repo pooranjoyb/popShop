@@ -12,58 +12,59 @@ import { RootState } from "../../utils/features/store";
 import Profile from "../../pages/Profile/Profile";
 import TopButton from "../../components/TopButton/TopButton";
 
-// Remove the duplicate declaration of the module
+const Routes = () => {
+  const isAuthenticated = useSelector(
+    (state: RootState) => state?.auth?.isAuthenticated
+  );
 
-declare module "../../components/TopButton/TopButton" {
-  const TopButton: any;
-}
-
-  const Routes = ()=>{
-    const isAuthenticated = useSelector((state:RootState)=> state?.auth?.isAuthenticated);
-    
-    return createBrowserRouter([
-  {
-    path: '/',
-    element: isAuthenticated ? <Navigate to = '/home'/> : <Auth />,
-    errorElement: <Error />,
-  },
-  {
-    path: '/home',
-    element: (<ProtectedRoute><Layout /><TopButton/></ProtectedRoute>), 
-    children: [
-      {
-        index : true, 
-        element: <Home />,
-      },
-      {
-        path:"profile",
-        element:<Profile/>
-      },
-      {
-        path: 'shop',
-        children:[
-          {
-            index :true,
-            element: <Shop />,
-          },
-          {
-            path: 'product',
-            element: <ProductDetail />,
-          },
-          {
-            path: 'cart',
-            element: <Cart />,
-          },
-          
-        ]
-      },
-    ],
-    errorElement:<Error/>
-  },
-  {
-    path: '*',
-    element: <Error />, 
-  },
-])};
+  return createBrowserRouter([
+    {
+      path: "/",
+      element: isAuthenticated ? <Navigate to="/home" /> : <Auth />,
+      errorElement: <Error />,
+    },
+    {
+      path: "/home",
+      element: (
+        <ProtectedRoute>
+          <Layout />
+          <TopButton />
+        </ProtectedRoute>
+      ),
+      children: [
+        {
+          index: true,
+          element: <Home />,
+        },
+        {
+          path: "profile",
+          element: <Profile />,
+        },
+        {
+          path: "shop",
+          children: [
+            {
+              index: true,
+              element: <Shop />,
+            },
+            {
+              path: "product",
+              element: <ProductDetail />,
+            },
+            {
+              path: "cart",
+              element: <Cart />,
+            },
+          ],
+        },
+      ],
+      errorElement: <Error />,
+    },
+    {
+      path: "*",
+      element: <Error />,
+    },
+  ]);
+};
 
 export default Routes;
