@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineShoppingCart } from "react-icons/md";
 
@@ -33,7 +33,6 @@ function Navbar() {
           </Link>
         </div>
         <div className="flex-none gap-6 mr-12">
-
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
@@ -42,18 +41,18 @@ function Navbar() {
             >
               <div className="indicator">
                 <MdOutlineShoppingCart className="h-5 w-5" />
-                <span className="badge badge-sm indicator-item">8</span>
+                <span className="badge badge-sm indicator-item ">8</span>
               </div>
             </div>
             <div
               tabIndex={0}
-              className="mt-3 z-[1] card card-compact dropdown-content w-48 bg-base-100 shadow"
+              className="mt-3 z-[1] card card-compact dropdown-content w-48 bg-base-100 shadow-2xl"
             >
               <div className="card-body">
                 <span className="font-bold text-lg text-mynavy">8 Items</span>
                 <span className="text-mynavy">Subtotal: $999</span>
                 <Link to="/home/shop/cart" className="card-actions w-full">
-                  <Button text="View cart" color="myred" hover="myyellow" />
+                  <Button text="View cart" color="myyellow" hover="mygreen" />
                 </Link>
               </div>
             </div>
@@ -67,32 +66,32 @@ function Navbar() {
               <div className="w-10 rounded-full">
                 <img src="/images/winter2.jpg" />
               </div>
-
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 bg-base-100 rounded-box w-52 shadow-2xl"
             >
               <li>
-                <NavLink to={"/home/profile"} className="justify-between">
-                  {userName || <p>Profile</p>}
-                  <span className="badge">New</span>
-                </NavLink>
+                <Link to={"/home/profile"} className="justify-between">
+                  {`${userName}` || <p>Profile</p>}
+                </Link>
               </li>
               <li>
-                <a>Settings</a>
+                <Link to={"/home/shop"}>{<p>Shop</p>}</Link>
               </li>
               <li>
-                <NavLink
+                <Link to={"/home/shop/cart"}>{<p>Cart</p>}</Link>
+              </li>
+              <li>
+                <Link
                   to="/"
                   onClick={() => {
                     dispatch(logout());
                     toastNotification("Successfully Logged Out!!!");
                   }}
-                  end
                 >
                   Logout
-                </NavLink>
+                </Link>
               </li>
             </ul>
           </div>
