@@ -15,8 +15,13 @@
     "@reduxjs/toolkit": "^2.2.4",
     "@supabase/supabase-js": "^2.39.8",
     "appwrite": "^13.0.2",
+
     "framer-motion": "^11.2.6",
     "gsap": "^3.12.5",
+
+    "bcryptjs": "^2.4.3",
+    "framer-motion": "^11.1.9",
+
     "react": "^18.2.0",
     "react-awesome-button": "^7.0.5",
     "react-dom": "^18.3.1",
@@ -33,6 +38,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "@types/ws": "^8.5.10",
