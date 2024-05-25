@@ -77,7 +77,7 @@ const ServicesList = () => {
         </li>
         <li>
           <Link
-            to="/home/cart"
+            to="/home/shop/cart"
             className="text-gray-700 transition hover:opacity-75"
           >
             {" "}

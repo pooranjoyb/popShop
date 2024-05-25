@@ -2485,10 +2485,6 @@ html {
   margin-right: 3rem;
 }
 
-.mr-2 {
-  margin-right: 0.5rem;
-}
-
 .ms-2 {
   margin-inline-start: 0.5rem;
 }
@@ -2547,10 +2543,6 @@ html {
 
 .hidden {
   display: none;
-}
-
-.h-16 {
-  height: 4rem;
 }
 
 .h-4 {
@@ -2655,10 +2647,6 @@ html {
 
 .max-w-6xl {
   max-width: 72rem;
-}
-
-.max-w-7xl {
-  max-width: 80rem;
 }
 
 .max-w-lg {
@@ -2897,11 +2885,6 @@ html {
   padding-right: 1rem;
 }
 
-.px-5 {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-}
-
 .px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
@@ -2937,11 +2920,6 @@ html {
   padding-bottom: 1rem;
 }
 
-.py-6 {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -2949,10 +2927,6 @@ html {
 
 .pb-12 {
   padding-bottom: 3rem;
-}
-
-.pb-4 {
-  padding-bottom: 1rem;
 }
 
 .pb-8 {
@@ -3064,12 +3038,6 @@ html {
   opacity: 0.7;
 }
 
-.shadow {
-  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
 .shadow-2xl {
   --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
@@ -3132,6 +3100,11 @@ body {
   background-color: rgb(6 214 160 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-myred:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 71 111 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-myyellow:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(255 209 102 / var(--tw-bg-opacity));
@@ -3192,10 +3165,6 @@ body {
 }
 
 @media (min-width: 640px) {
-  .sm\:flex {
-    display: flex;
-  }
-
   .sm\:h-\[350px\] {
     height: 350px;
   }
@@ -3237,11 +3206,6 @@ body {
     padding-right: 1.5rem;
   }
 
-  .sm\:py-0 {
-    padding-top: 0px;
-    padding-bottom: 0px;
-  }
-
   .sm\:py-12 {
     padding-top: 3rem;
     padding-bottom: 3rem;
@@ -3250,10 +3214,6 @@ body {
   .sm\:py-6 {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
-  }
-
-  .sm\:text-start {
-    text-align: start;
   }
 
   .sm\:text-6xl {
@@ -3310,10 +3270,6 @@ body {
 
   .md\:flex-none {
     flex: none;
-  }
-
-  .md\:p-8 {
-    padding: 2rem;
   }
 
   .md\:px-6 {
@@ -3388,6 +3344,10 @@ body {
     width: 50%;
   }
 
+  .lg\:w-full {
+    width: 100%;
+  }
+
   .lg\:max-w-7xl {
     max-width: 80rem;
   }
@@ -3440,14 +3400,6 @@ body {
 @media (min-width: 1280px) {
   .xl\:mb-0 {
     margin-bottom: 0px;
-  }
-
-  .xl\:w-4\/12 {
-    width: 33.333333%;
-  }
-
-  .xl\:w-8\/12 {
-    width: 66.666667%;
   }
 
   .xl\:grid-cols-4 {

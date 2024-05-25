@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Head from "../../components/Head";
+import Button from "../../components/Button";
 
 function Profile() {
     const username = useSelector((state: RootState) => state.auth.user?.username);
@@ -16,23 +17,16 @@ function Profile() {
     return (
         <div className="flex relative flex-col gap-5 items-center justify-center px-10 lg:px-[300px]">
             <div className="absolute profile-background -z-20 w-full h-[250px] sm:h-[350px] top-[-98px]"></div>
-            <div className="sm:flex py-6 sm:py-0 sm:text-start w-full">
-                <Head h1="" h2="Profile" />
-            </div>
+
             <div className="avatar">
                 <div className="w-24 sm:w-80 rounded-full">
                     <img src="/images/winter2.jpg" alt="" />
                 </div>
             </div>
             <div className="w-full text-center">
-                <Head h1={username!} h2="" />
+                <Head h2={username!} />
             </div>
-            <Link
-                to="/home/shop"
-                className="btn px-5 bg-mygreen hover:bg-myyellow text-white"
-            >
-                Explore Products
-            </Link>
+            <Button text="Explore Products" color="mygreen" hover="myyellow"/>
 
             <div className="card flex w-full my-5 rounded-xl shadow-2xl">
                 <div className="flex p-5 sm:p-0 flex-col sm:flex-row w-full">

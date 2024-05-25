@@ -176,12 +176,19 @@ function Shop() {
                 ))}
               </div>
 
-              <div className="modal-action justify-center pe-5">
+              <div className="modal-action  pe-5">
                 <label
                   htmlFor="my_modal_6"
                   className="btn hover:bg-mygreen bg-myyellow"
                 >
                   Apply
+                </label>
+             
+                <label
+                 htmlFor="my_modal_6"
+                className="btn hover:bg-myred bg-myred"
+                >
+                 Cancel
                 </label>
               </div>
             </div>
