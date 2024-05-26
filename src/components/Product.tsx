@@ -35,7 +35,8 @@ function Product({ name, image, price, desc }: Data) {
         </button>
         <div className="flex flex-auto justify-between p-8 space-x-24">
 
-          <MdOutlineShoppingCart className="flex m-auto h-10 w-10" onClick={addToCart} />
+          <MdOutlineShoppingCart className="flex m-2 h-10 w-10" onClick={addToCart} />
+          
           <Button text="Buy Now" color="myyellow" hover="myred" />
         </div>
       </div>
