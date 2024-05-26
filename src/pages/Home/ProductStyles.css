@@ -1,0 +1,10 @@
+/* ProductStyles.css */
+img {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  
+  img:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+  
