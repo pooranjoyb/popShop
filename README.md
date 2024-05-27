@@ -42,9 +42,9 @@ The main aim of this project is to foster a collaborative community of creative 
 
 _**Sneak Peak of the project : [Youtube](https://www.youtube.com/watch?v=2R2ZEdpUx8Q&t=28s)**_
 
-_*[Click here to view the production deployment](https://pop-shop-github.vercel.app/)*_ _Username & Password : admin_
+_*[Click here to view the production deployment](https://pop-shop-github.vercel.app/)*_ _Username : admin & Password : Admin@123_
 
-_*[Click here to view the development deployment](https://github.com/pooranjoyb/popShop/deployments/Preview)*_ _Username & Password : admin_
+_*[Click here to view the development deployment](https://github.com/pooranjoyb/popShop/deployments/Preview)*_ _Username : admin & Password : Admin@123_
 
 ## Key Features 📌
 
