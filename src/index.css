@@ -27,7 +27,7 @@ body {
 
     filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#06D6A0", endColorstr="#FFD166", GradientType=1);
 }
-
+//These are img hover changes which are from home page and all images//
 img {
     transition: transform 0.5s ease, opacity 0.5s ease;
   }
