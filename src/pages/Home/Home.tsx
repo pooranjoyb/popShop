@@ -257,7 +257,7 @@ import { useInView } from 'react-intersection-observer';
 import Product from '../../components/Product';
 import Head from '../../components/Head';
 import Button from '../../components/Button';
-import './ProductStyles.css'; // Import the custom CSS file
+import '../../index.css'; // Import the custom CSS file
 
 function Home() {
   const [heroRef, heroInView] = useInView({

@@ -27,3 +27,13 @@ body {
 
     filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#06D6A0", endColorstr="#FFD166", GradientType=1);
 }
+
+img {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  
+  img:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+  
