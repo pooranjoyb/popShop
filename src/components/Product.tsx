@@ -33,7 +33,7 @@ function Product({ name, image, price, desc }: Data) {
           <h3 className="mt-4 text-sm text-gray-700">{name}</h3>
           <p className="mt-1 text-lg font-medium text-gray-900">${price}</p>
         </button>
-        <div className="flex flex-auto justify-between p-8 space-x-24">
+        <div className="flex flex-auto justify-between px-4 pb-4 space-x-24">
 
           <MdOutlineShoppingCart className="flex m-2 h-10 w-10" onClick={addToCart} />
           
