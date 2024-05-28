@@ -23,16 +23,14 @@ function Navbar() {
 
   return (
     <>
-      <div className="navbar mt-8">
-        <div className="flex-1 ml-14">
+      <div className="navbar">
+        <div className="flex-1 md:ml-16 ml-2">
           <Link
-            to="/home"
-            className="btn btn-ghost text-xl bg-mygreen hover:bg-myyellow"
-          >
-            PopShop.com
+            to="/home">
+            <img  src="./logo.png" alt="PopShop Logo" className="md:w-36 w-20 duration-100"/>
           </Link>
         </div>
-        <div className="flex-none gap-6 mr-12">
+        <div className="flex-none gap-6 md:mr-16 mr-2">
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
@@ -46,7 +44,7 @@ function Navbar() {
             </div>
             <div
               tabIndex={0}
-              className="mt-3 z-[1] card card-compact dropdown-content w-48 bg-base-100 shadow-2xl"
+              className="mt-3 z-[1] card card-compact dropdown-content w-32 bg-base-100 shadow-2xl"
             >
               <div className="card-body">
                 <span className="font-bold text-lg text-mynavy">8 Items</span>

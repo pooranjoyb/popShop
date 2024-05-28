@@ -16,7 +16,7 @@ function Profile() {
 
     return (
         <div className="flex relative flex-col gap-5 items-center justify-center px-10 lg:px-[300px]">
-            <div className="absolute profile-background -z-20 w-full h-[250px] sm:h-[350px] top-[-98px]"></div>
+            <div className="absolute profile-background -z-20 w-full h-[250px] sm:h-[350px] md:top-[-150px] top-[-200px]"></div>
 
             <div className="avatar">
                 <div className="w-24 sm:w-80 rounded-full">

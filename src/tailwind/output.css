@@ -2391,6 +2391,30 @@ html {
   top: -98px;
 }
 
+.top-\[-8px\] {
+  top: -8px;
+}
+
+.top-\[110px\] {
+  top: 110px;
+}
+
+.top-\[-110px\] {
+  top: -110px;
+}
+
+.top-\[-120px\] {
+  top: -120px;
+}
+
+.top-\[-150px\] {
+  top: -150px;
+}
+
+.top-\[-200px\] {
+  top: -200px;
+}
+
 .-z-20 {
   z-index: -20;
 }
@@ -2469,10 +2493,6 @@ html {
   margin-bottom: 2rem;
 }
 
-.ml-14 {
-  margin-left: 3.5rem;
-}
-
 .ml-2 {
   margin-left: 0.5rem;
 }
@@ -2481,8 +2501,8 @@ html {
   margin-right: 0.25rem;
 }
 
-.mr-12 {
-  margin-right: 3rem;
+.mr-2 {
+  margin-right: 0.5rem;
 }
 
 .ms-2 {
@@ -2601,6 +2621,10 @@ html {
   width: 66.666667%;
 }
 
+.w-20 {
+  width: 5rem;
+}
+
 .w-24 {
   width: 6rem;
 }
@@ -2611,10 +2635,6 @@ html {
 
 .w-4 {
   width: 1rem;
-}
-
-.w-48 {
-  width: 12rem;
 }
 
 .w-5 {
@@ -3056,14 +3076,28 @@ html {
   transition-duration: 150ms;
 }
 
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 .transition-colors {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
 
+.duration-100 {
+  transition-duration: 100ms;
+}
+
 .duration-1000 {
   transition-duration: 1000ms;
+}
+
+.duration-200 {
+  transition-duration: 200ms;
 }
 
 .duration-300 {
@@ -3072,6 +3106,10 @@ html {
 
 .duration-500 {
   transition-duration: 500ms;
+}
+
+.ease-in {
+  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
 
 *,
@@ -3089,10 +3127,19 @@ body {
 }
 
 .profile-background {
-  background: hsla(164, 95%, 43%, 1);
-  background: linear-gradient(180deg, hsla(164, 95%, 43%, 1) 0%, hsla(42, 100%, 70%, 1) 52%, hsla(346, 84%, 61%, 1) 100%, hsla(195, 83%, 38%, 1) 100%);
-  background: -webkit-linear-gradient(180deg, hsla(164, 95%, 43%, 1) 0%, hsla(42, 100%, 70%, 1) 52%, hsla(346, 84%, 61%, 1) 100%, hsla(195, 83%, 38%, 1) 100%);
+  background: hsla(164, 95%, 43%, 1) 100%;
+  background: linear-gradient(180deg, hsla(346, 84%, 61%, 1) 0%, hsla(42, 100%, 70%, 1) 52%, hsla(164, 95%, 43%, 1) 100%, hsla(195, 83%, 38%, 1) 100%);
+  background: -webkit-linear-gradient(180deg, hsla(346, 84%, 61%, 1) 0%, hsla(42, 100%, 70%, 1) 52%, hsla(164, 95%, 43%, 1) 100%, hsla(195, 83%, 38%, 1) 100%);
   filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#06D6A0", endColorstr="#FFD166", GradientType=1);
+}
+
+img {
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+img:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
 }
 
 .hover\:bg-mygreen:hover {
@@ -3228,12 +3275,24 @@ body {
 }
 
 @media (min-width: 768px) {
+  .md\:top-\[-150px\] {
+    top: -150px;
+  }
+
   .md\:mb-0 {
     margin-bottom: 0px;
   }
 
   .md\:mb-8 {
     margin-bottom: 2rem;
+  }
+
+  .md\:ml-16 {
+    margin-left: 4rem;
+  }
+
+  .md\:mr-16 {
+    margin-right: 4rem;
   }
 
   .md\:mr-6 {
@@ -3262,6 +3321,10 @@ body {
 
   .md\:w-24 {
     width: 6rem;
+  }
+
+  .md\:w-36 {
+    width: 9rem;
   }
 
   .md\:w-4\/6 {
@@ -3411,3 +3474,4 @@ body {
          column-gap: 2rem;
   }
 }
+
