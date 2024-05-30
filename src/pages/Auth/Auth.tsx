@@ -13,6 +13,8 @@ import {
 import { useDispatch } from "react-redux";
 import { login } from "../../utils/features/Auth/authSlice";
 import { Slide, toast, TypeOptions } from "react-toastify";
+import { LuEye, LuEyeOff } from "react-icons/lu";
+
 
 interface USER {
   username: string;
@@ -32,6 +34,8 @@ function Auth() {
     pass: "",
   });
   const [errors, setErrors] = useState<Record<string, string[]>>({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [isTyping, setIsTyping] = useState(true);
 
   const handleAuthRequest = () => setLogin(!isLogin);
   const handleForgotPasswordRequest = () =>
@@ -41,6 +45,7 @@ function Auth() {
     const { name, value } = e.target;
     setUserData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: [] }));  // Clear the error for the specific field
+    setIsTyping(false); 
   };
 
   type ToastType = TypeOptions;
@@ -167,6 +172,13 @@ function Auth() {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleBlur = () => {
+    setIsTyping(false); 
+  };
   return (
     <>
       <div className="text-mynavy flex flex-row-reverse h-screen">
@@ -320,30 +332,39 @@ function Auth() {
                     )}
                   </div>
                 )}
-                <div>
-                  <label
-                    htmlFor="pass"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Password
-                  </label>
+               
+
+               <div>
+                <label htmlFor="pass" className="block text-sm font-medium text-gray-700">
+                  Password
+                </label>
+                <div className="relative mt-1">
                   <input
                     required
-                    type="password"
+                    type={showPassword || isTyping  ? "text" : "password"}
                     id="pass"
                     name="pass"
-                    className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                    className="p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                     value={userData.pass}
                     onChange={handleInputChange}
+                    onBlur={handleBlur}
                   />
-                  {errors.password && (
-                    <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
-                      {errors.password.map((error, index) => (
-                        <li key={index}>{error}</li>
-                      ))}
-                    </ul>
-                  )}
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 px-3 flex items-center"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? (
+                      <LuEyeOff className="h-6 w-6 text-gray-700" />
+                    ) : (
+                      <LuEye className="h-6 w-6 text-gray-700" />
+                    )}
+                  </button>
                 </div>
+              </div>
+
+
+
                 {isLogin ? (
                   <div onClick={handleLogin}>
                     <Button color="mygreen" hover="myyellow" text="Login" />
