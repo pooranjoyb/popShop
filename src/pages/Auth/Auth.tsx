@@ -365,14 +365,12 @@ function Auth() {
                       color="mygreen"
                       hover="myyellow"
                       text="Login"
-                      type="submit"
                     />
                   ) : (
                     <Button
                       color="mygreen"
                       hover="myyellow"
                       text="Signup"
-                      type="submit"
                     />
                   )}
                 </>
