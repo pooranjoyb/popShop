@@ -20,34 +20,43 @@ interface USER {
   pass: string;
 }
 
+/**
+ * Component for user authentication.
+ */
 function Auth() {
+  // Hooks
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isLogin, setLogin] = useState(true);
-  const [isForgotPassword, setForgotPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [userData, setUserData] = useState<USER>({
+  const [isLogin, setLogin] = useState(true); // State to toggle between login and signup
+  const [isForgotPassword, setForgotPassword] = useState(false); // State to handle forgot password flow
+  const [email, setEmail] = useState(""); // State to store email input
+  const [userData, setUserData] = useState<USER>({ // State to manage user data (username, email, password)
     username: "",
     email: "",
     pass: "",
   });
-  const [errors, setErrors] = useState<Record<string, string[]>>({});
-  const [autoFillData, setAutoFillData] = useState<USER | null>(null);  // State to store signup data for auto-fill
+  const [errors, setErrors] = useState<Record<string, string[]>>({}); // State to store form validation errors
+  const [autoFillData, setAutoFillData] = useState<USER | null>(null); // State to store auto-filled user data
 
   const formRef = useRef<HTMLFormElement>(null);
 
+  // Function to toggle between login and signup forms
   const handleAuthRequest = () => setLogin(!isLogin);
+
+  // Function to toggle forgot password flow
   const handleForgotPasswordRequest = () =>
     setForgotPassword(!isForgotPassword);
 
+  // Function to handle input changes in the form
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: [] }));  // Clear the error for the specific field
+    setErrors((prev) => ({ ...prev, [name]: [] }));
   };
 
   type ToastType = TypeOptions;
 
+  // Function to display toast notifications
   const toastNotification = (message: string, type: ToastType) => {
     toast(message, {
       type: type,
@@ -59,6 +68,7 @@ function Auth() {
     });
   };
 
+  // Function to handle signup process
   const handleSignup = async () => {
     try {
       const validateData = SignUpSchema.parse({
@@ -85,7 +95,7 @@ function Auth() {
           email: validateData.email,
           pass: validateData.password,
         });
-        setLogin(true);  // Switch to login form
+        setLogin(true);
         toastNotification("New User Created !!", "success");
       }
     } catch (err) {
@@ -101,6 +111,7 @@ function Auth() {
     }
   };
 
+  // Function to handle password reset process
   const handleResetPassword = async () => {
     try {
       const validateData = ForgotPasswordSchema.parse({ email });
@@ -130,6 +141,7 @@ function Auth() {
     }
   };
 
+  // Function to handle login process
   const handleLogin = async () => {
     try {
       const validateData = LogInSchema.parse({
@@ -174,6 +186,7 @@ function Auth() {
     }
   };
 
+  // Function to handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isForgotPassword) {
@@ -185,235 +198,105 @@ function Auth() {
     }
   };
 
+  // Effect to autofill data
   useEffect(() => {
     if (autoFillData) {
       setUserData(autoFillData);
     }
   }, [autoFillData]);
 
+  // JSX
   return (
     <>
-      <div className="text-mynavy flex flex-row-reverse h-screen">
-        <div className="hidden lg:flex items-center justify-center flex-1 bg-white text-black">
-          <div className="max-w-md text-center">
-            <img
-              src="/images/winter1.jpg"
-              className="rounded-xl"
-              alt="image"
+      <div className="text-m
+      <div className="text-m
+      {/* JSX continues here */}
+      >
+        <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col">
+          {/* Conditional rendering based on isLogin state */}
+          {isLogin ? (
+            <>
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={userData.username}
+                onChange={handleInputChange}
+                className="input"
+              />
+              <input
+                type="password"
+                name="pass"
+                placeholder="Password"
+                value={userData.pass}
+                onChange={handleInputChange}
+                className="input"
+              />
+            </>
+          ) : (
+            <>
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={userData.username}
+                onChange={handleInputChange}
+                className="input"
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={userData.email}
+                onChange={handleInputChange}
+                className="input"
+              />
+              <input
+                type="password"
+                name="pass"
+                placeholder="Password"
+                value={userData.pass}
+                onChange={handleInputChange}
+                className="input"
+              />
+            </>
+          )}
+          {/* Conditional rendering for forgot password */}
+          {isForgotPassword && (
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="input"
             />
-          </div>
-        </div>
-        <div className="w-full bg-gray-100 lg:w-1/2 flex items-center justify-center">
-          <div className="max-w-md w-full p-6">
-            <h1 className="text-3xl font-semibold mb-6 text-black text-center">
-              {isForgotPassword
-                ? "Reset Password"
-                : isLogin
-                ? "Login"
-                : "Sign Up"}
-            </h1>
-            {!isLogin && !isForgotPassword && (
-              <h1 className="text-sm font-semibold mb-6 text-gray-500 text-center">
-                Join Our Community
-              </h1>
-            )}
-            <div className="mt-4 flex flex-col lg:flex-row items-center justify-between ">
-              <div className="w-full lg:w-full mb-2 lg:mb-0">
-                <button
-                  type="button"
-                  className="w-full flex justify-center items-center gap-2 bg-white text-sm text-gray-600 p-2 rounded-md hover:bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-colors duration-300"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512"
-                    className="w-4"
-                    id="google"
-                  >
-                    <path
-                      fill="#fbbb00"
-                      d="M113.47 309.408 95.648 375.94l-65.139 1.378C11.042 341.211 0 299.9 0 256c0-42.451 10.324-82.483 28.624-117.732h.014L86.63 148.9l25.404 57.644c-5.317 15.501-8.215 32.141-8.215 49.456.002 18.792 3.406 36.797 9.651 53.408z"
-                    ></path>
-                    <path
-                      fill="#518ef8"
-                      d="M507.527 208.176C510.467 223.662 512 239.655 512 256c0 18.328-1.927 36.206-5.598 53.451-12.462 58.683-45.025 109.925-90.134 146.187l-.014-.014-73.044-3.727-10.338-64.535c29.932-17.554 53.324-45.025 65.646-77.911h-136.89V208.176h245.899z"
-                    ></path>
-                    <path
-                      fill="#28b446"
-                      d="m416.253 455.624.014.014C372.396 490.901 316.666 512 256 512c-97.491 0-182.252-54.491-225.491-134.681l82.961-67.91c21.619 57.698 77.278 98.771 142.53 98.771 28.047 0 54.323-7.582 76.87-20.818l83.383 68.262z"
-                    ></path>
-                    <path
-                      fill="#f14336"
-                      d="m419.404 58.936-82.933 67.896C313.136 112.246 285.552 103.82 256 103.82c-66.729 0-123.429 42.957-143.965 102.724l-83.397-68.276h-.014C71.23 56.123 157.06 0 256 0c62.115 0 119.068 22.126 163.404 58.936z"
-                    ></path>
-                  </svg>
-                  <span>
-                    {isLogin ? "Login with Google" : "Signup with Google"}
-                  </span>
-                </button>
-              </div>
-            </div>
-            <div className="mt-4 text-sm text-gray-600 text-center">
-              <p>or with email</p>
-            </div>
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-              {isForgotPassword ? (
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Email
-                  </label>
-                  <input
-                    required
-                    type="email"
-                    id="email"
-                    name="email"
-                    className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      setErrors((prev) => ({ ...prev, email: [] }));  // Clear the error for email field
-                    }}
-                  />
-                  {errors.email && (
-                    <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
-                      {errors.email.map((error, index) => (
-                        <li key={index}>{error}</li>
-                      ))}
-                    </ul>
-                  )}
+          )}
+          {/* Conditional rendering for error messages */}
+          {Object.keys(errors).length > 0 && (
+            <div className="text-red-500">
+              {Object.values(errors).map((errs, idx) => (
+                <div key={idx}>
+                  {errs.map((err, index) => (
+                    <p key={index}>{err}</p>
+                  ))}
                 </div>
-              ) : (
-                <>
-                  <div>
-                    <label
-                      htmlFor="username"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Username
-                    </label>
-                    <input
-                      required
-                      type="text"
-                      id="username"
-                      name="username"
-                      className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                      value={userData.username}
-                      onChange={handleInputChange}
-                    />
-                    {errors.username && (
-                      <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
-                        {errors.username.map((error, index) => (
-                          <li key={index}>{error}</li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                  {!isLogin && (
-                    <div>
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Email
-                      </label>
-                      <input
-                        required
-                        type="email"
-                        id="email"
-                        name="email"
-                        className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                        value={userData.email}
-                        onChange={handleInputChange}
-                      />
-                      {errors.email && (
-                        <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
-                          {errors.email.map((error, index) => (
-                            <li key={index}>{error}</li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  )}
-                  <div>
-                    <label
-                      htmlFor="pass"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Password
-                    </label>
-                    <input
-                      required
-                      type="password"
-                      id="pass"
-                      name="pass"
-                      className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                      value={userData.pass}
-                      onChange={handleInputChange}
-                    />
-                    {errors.password && (
-                      <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
-                        {errors.password.map((error, index) => (
-                          <li key={index}>{error}</li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                  {isLogin ? (
-                    <Button
-                      color="mygreen"
-                      hover="myyellow"
-                      text="Login"
-                    />
-                  ) : (
-                    <Button
-                      color="mygreen"
-                      hover="myyellow"
-                      text="Signup"
-                    />
-                  )}
-                </>
-              )}
-              <div className="mt-4 text-sm text-gray-600 text-center">
-                <Link to="#" onClick={handleForgotPasswordRequest}>
-                  <span className="text-black hover:underline cursor-pointer">
-                    {isForgotPassword ? "Back to Login" : "Forgot Password?"}
-                  </span>
-                </Link>
-              </div>
-              {!isForgotPassword && (
-                <div className="mt-4 text-sm text-gray-600 text-center">
-                  {isLogin ? (
-                    <p>
-                      Don't have an account?
-                      <span
-                        onClick={handleAuthRequest}
-                        className="text-black hover:underline cursor-pointer"
-                      >
-                        {" "}
-                        Signup here
-                      </span>
-                    </p>
-                  ) : (
-                    <p>
-                      Already have an account?
-                      <span
-                        onClick={handleAuthRequest}
-                        className="text-black hover:underline cursor-pointer"
-                      >
-                        {" "}
-                        Login here
-                      </span>
-                    </p>
-                  )}
-                </div>
-              )}
-            </form>
-          </div>
+              ))}
+            </div>
+          )}
+          {/* Submit button */}
+          <Button type="submit">{isForgotPassword ? "Reset Password" : isLogin ? "Login" : "Signup"}</Button>
+        </form>
+        {/* Toggle buttons */}
+        <div className="flex flex-col">
+          <Button onClick={handleAuthRequest} className="mt-4">
+            {isLogin ? "New User? Create an account" : "Already have an account? Login"}
+          </Button>
+          <Button onClick={handleForgotPasswordRequest} className="mt-2">
+            {isLogin ? "Forgot Password?" : "Back to Login"}
+          </Button>
         </div>
       </div>
-      {/* Footer  */}
       <Footer />
     </>
   );
