@@ -4,15 +4,15 @@ import { z } from "zod";
 const SignUpSchema = z.object({
   username: z
     .string()
-    .min(3, { message: "Username must be at least 3 characters" })
-    .max(20, { message: "Username must be less than 20 characters" })
+    .min(3)
+    .max(20)
     .regex(/^[a-zA-Z0-9_]*$/, { message: "Username must contain only letters, numbers, and underscores" }),
   email: z
     .string()
-    .email({ message: "Invalid email address" }),
+    .email(),
   password: z
     .string()
-    .min(5, { message: "Password must be at least 5 characters long" })
+    .min(5)
     .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
     .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
     .regex(/[0-9]/, { message: "Password must contain at least one number" })
@@ -23,17 +23,17 @@ const SignUpSchema = z.object({
 const LogInSchema = z.object({
   username: z
     .string()
-    .min(1, { message: "Username is required" }),
+    .min(1),
   password: z
     .string()
-    .min(1, { message: "Password is required" }),
+    .min(1),
 });
 
 // ForgotPasswordSchema
 const ForgotPasswordSchema = z.object({
   email: z
     .string()
-    .email({ message: "Invalid email address" }),
+    .email(),
 });
 
 export { SignUpSchema, LogInSchema, ForgotPasswordSchema };
