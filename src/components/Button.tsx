@@ -1,24 +1,18 @@
-import React from "react";
-
 interface ButtonProps {
     color?: string;
     hover?: string;
-    text?: string;
+    text: string;
     onClick?: () => void;
-    className?: string;
-    type?: "button" | "submit" | "reset"; // Define type prop with specific values
-    children?: React.ReactNode; // Ensure children is included in the props
-  }  
+}
 
-const Button: React.FC<ButtonProps> = ({ color, hover, text, onClick, className, children }) => {
-  return (
-    <button
-      onClick={onClick}
-      className={`btn ${color} ${hover} ${className}`}
-    >
-      {text || children}
-    </button>
-  );
-};
+function Button({ color, hover, text, onClick }: ButtonProps) {
+    return (
+        <div className="flex items-center justify-center">
+            <button className={`btn bg-${color} hover:bg-${hover}  `} onClick={onClick}>
+                {text}
+            </button>
+        </div>
+    )
+}
 
-export default Button; 
+export default Button
