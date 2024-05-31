@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import bcrypt from 'bcryptjs';
@@ -32,6 +32,9 @@ function Auth() {
     pass: "",
   });
   const [errors, setErrors] = useState<Record<string, string[]>>({});
+  const [autoFillData, setAutoFillData] = useState<USER | null>(null);  // State to store signup data for auto-fill
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleAuthRequest = () => setLogin(!isLogin);
   const handleForgotPasswordRequest = () =>
@@ -77,10 +80,14 @@ function Auth() {
         toastNotification("User Already Exists !", "error");
         return;
       } else {
-        setLogin((prevLoginState) => !prevLoginState);
+        setAutoFillData({
+          username: validateData.username,
+          email: validateData.email,
+          pass: validateData.password,
+        });
+        setLogin(true);  // Switch to login form
         toastNotification("New User Created !!", "success");
       }
-      navigate("/");
     } catch (err) {
       if (err instanceof z.ZodError) {
         const newErrors = err.flatten().fieldErrors;
@@ -167,6 +174,23 @@ function Auth() {
     }
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isForgotPassword) {
+      handleResetPassword();
+    } else if (isLogin) {
+      handleLogin();
+    } else {
+      handleSignup();
+    }
+  };
+
+  useEffect(() => {
+    if (autoFillData) {
+      setUserData(autoFillData);
+    }
+  }, [autoFillData]);
+
   return (
     <>
       <div className="text-mynavy flex flex-row-reverse h-screen">
@@ -231,8 +255,8 @@ function Auth() {
             <div className="mt-4 text-sm text-gray-600 text-center">
               <p>or with email</p>
             </div>
-            {isForgotPassword ? (
-              <div className="space-y-4">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+              {isForgotPassword ? (
                 <div>
                   <label
                     htmlFor="email"
@@ -260,135 +284,132 @@ function Auth() {
                     </ul>
                   )}
                 </div>
-                <div onClick={handleResetPassword}>
-                  <Button
-                    color="mygreen"
-                    hover="myyellow"
-                    text="Reset Password"
-                  />
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div>
-                  <label
-                    htmlFor="username"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Username
-                  </label>
-                  <input
-                    required
-                    type="text"
-                    id="username"
-                    name="username"
-                    className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                    value={userData.username}
-                    onChange={handleInputChange}
-                  />
-                  {errors.username && (
-                    <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
-                      {errors.username.map((error, index) => (
-                        <li key={index}>{error}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-                {!isLogin && (
+              ) : (
+                <>
                   <div>
                     <label
-                      htmlFor="email"
+                      htmlFor="username"
                       className="block text-sm font-medium text-gray-700"
                     >
-                      Email
+                      Username
                     </label>
                     <input
                       required
-                      type="email"
-                      id="email"
-                      name="email"
+                      type="text"
+                      id="username"
+                      name="username"
                       className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                      value={userData.email}
+                      value={userData.username}
                       onChange={handleInputChange}
                     />
-                    {errors.email && (
+                    {errors.username && (
                       <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
-                        {errors.email.map((error, index) => (
+                        {errors.username.map((error, index) => (
                           <li key={index}>{error}</li>
                         ))}
                       </ul>
                     )}
                   </div>
-                )}
-                <div>
-                  <label
-                    htmlFor="pass"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Password
-                  </label>
-                  <input
-                    required
-                    type="password"
-                    id="pass"
-                    name="pass"
-                    className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                    value={userData.pass}
-                    onChange={handleInputChange}
-                  />
-                  {errors.password && (
-                    <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
-                      {errors.password.map((error, index) => (
-                        <li key={index}>{error}</li>
-                      ))}
-                    </ul>
+                  {!isLogin && (
+                    <div>
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Email
+                      </label>
+                      <input
+                        required
+                        type="email"
+                        id="email"
+                        name="email"
+                        className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                        value={userData.email}
+                        onChange={handleInputChange}
+                      />
+                      {errors.email && (
+                        <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
+                          {errors.email.map((error, index) => (
+                            <li key={index}>{error}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  )}
+                  <div>
+                    <label
+                      htmlFor="pass"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Password
+                    </label>
+                    <input
+                      required
+                      type="password"
+                      id="pass"
+                      name="pass"
+                      className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                      value={userData.pass}
+                      onChange={handleInputChange}
+                    />
+                    {errors.password && (
+                      <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
+                        {errors.password.map((error, index) => (
+                          <li key={index}>{error}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  {isLogin ? (
+                    <Button
+                      color="mygreen"
+                      hover="myyellow"
+                      text="Login"
+                    />
+                  ) : (
+                    <Button
+                      color="mygreen"
+                      hover="myyellow"
+                      text="Signup"
+                    />
+                  )}
+                </>
+              )}
+              <div className="mt-4 text-sm text-gray-600 text-center">
+                <Link to="#" onClick={handleForgotPasswordRequest}>
+                  <span className="text-black hover:underline cursor-pointer">
+                    {isForgotPassword ? "Back to Login" : "Forgot Password?"}
+                  </span>
+                </Link>
+              </div>
+              {!isForgotPassword && (
+                <div className="mt-4 text-sm text-gray-600 text-center">
+                  {isLogin ? (
+                    <p>
+                      Don't have an account?
+                      <span
+                        onClick={handleAuthRequest}
+                        className="text-black hover:underline cursor-pointer"
+                      >
+                        {" "}
+                        Signup here
+                      </span>
+                    </p>
+                  ) : (
+                    <p>
+                      Already have an account?
+                      <span
+                        onClick={handleAuthRequest}
+                        className="text-black hover:underline cursor-pointer"
+                      >
+                        {" "}
+                        Login here
+                      </span>
+                    </p>
                   )}
                 </div>
-                {isLogin ? (
-                  <div onClick={handleLogin}>
-                    <Button color="mygreen" hover="myyellow" text="Login" />
-                  </div>
-                ) : (
-                  <div onClick={handleSignup}>
-                    <Button color="mygreen" hover="myyellow" text="Signup" />
-                  </div>
-                )}
-              </div>
-            )}
-            <div className="mt-4 text-sm text-gray-600 text-center">
-              <Link to="#" onClick={handleForgotPasswordRequest}>
-                <span className="text-black hover:underline cursor-pointer">
-                  {isForgotPassword ? "Back to Login" : "Forgot Password?"}
-                </span>
-              </Link>
-            </div>
-            {!isForgotPassword && (
-              <div className="mt-4 text-sm text-gray-600 text-center">
-                {isLogin ? (
-                  <p>
-                    Don't have an account?
-                    <span
-                      onClick={handleAuthRequest}
-                      className="text-black hover:underline cursor-pointer"
-                    >
-                      {" "}
-                      Signup here
-                    </span>
-                  </p>
-                ) : (
-                  <p>
-                    Already have an account?
-                    <span
-                      onClick={handleAuthRequest}
-                      className="text-black hover:underline cursor-pointer"
-                    >
-                      {" "}
-                      Login here
-                    </span>
-                  </p>
-                )}
-              </div>
-            )}
+              )}
+            </form>
           </div>
         </div>
       </div>
