@@ -1,9 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // components
 import Head from "../../components/Head";
 import Button from "../../components/Button";
+import QuantityButton from "../Cart/QuantityButton";
 
 interface Data {
     name: string;
@@ -12,13 +15,49 @@ interface Data {
     desc: string;
 }
 
+interface RatingItem {
+    className: string;
+    checked?: boolean;
+}
+
+const commonClasses = "mask mask-star-2";
+
+const ratingItems: RatingItem[] = [
+    { className: `${commonClasses} mask-half-1` },
+    { className: `${commonClasses} mask-half-2` },
+    { className: `${commonClasses} mask-half-1` },
+    { className: `${commonClasses} mask-half-2` },
+    { className: `${commonClasses} mask-half-1` },
+    { className: `${commonClasses} mask-half-2` },
+    { className: `${commonClasses} mask-half-1` },
+    { className: `${commonClasses} mask-half-2` },
+    { className: `${commonClasses} mask-half-1` },
+    { className: `${commonClasses} mask-half-2` },
+];
+
+
 function ProductDetail() {
+    const [filledStars, setFilledStars] = useState(0);
+    const availableSizes = ["XS", "S", "M", "L", "XL"];
+    const [size, setSize] = useState("");
+
+    const handleRatingChange = (index: number) => {
+        setFilledStars(index / 2 + 0.5);
+    };
+    const handleSize = (sizeValue: string) => {
+        setSize(sizeValue)
+    };
     const { state } = useLocation();
     const data = state as Data;
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    const addToCart = () => {
+        // logic for adding in cart
+        toast.success('Added to Cart', { autoClose: 2000 });
+    };
 
     return (
         <>
@@ -62,42 +101,54 @@ function ProductDetail() {
                                     <h2 className="w-16 text-xl font-bold dark:text-gray-400">
                                         Size:</h2>
                                     <div className="flex flex-wrap -mx-2 -mb-2">
-                                        <button
-                                            className="py-1 mb-2 mr-1 border w-11 hover:border-blue-400 dark:border-gray-400 hover:text-blue-600 dark:hover:border-gray-300 dark:text-gray-400">XL
-                                        </button>
-                                        <button
-                                            className="py-1 mb-2 mr-1 border w-11 hover:border-blue-400 hover:text-blue-600 dark:border-gray-400 dark:hover:border-gray-300 dark:text-gray-400">S
-                                        </button>
-                                        <button
-                                            className="py-1 mb-2 mr-1 border w-11 hover:border-blue-400 hover:text-blue-600 dark:border-gray-400 dark:hover:border-gray-300 dark:text-gray-400">M
-                                        </button>
-                                        <button
-                                            className="py-1 mb-2 mr-1 border w-11 hover:border-blue-400 hover:text-blue-600 dark:border-gray-400 dark:hover:border-gray-300 dark:text-gray-400">XS
-                                        </button>
+                                        {
+                                            availableSizes.map((value) => {
+                                                return (
+                                                    <button
+                                                        className={`py-1 mb-2 mr-1 border w-11 hover:border-blue-400 dark:border-gray-400 hover:text-blue-600 dark:hover:border-gray-300 dark:text-gray-400 ${value==size?"bg-mygreen":""}`} onClick={() => { handleSize(value) }}>{value}
+                                                    </button>
+                                                )
+                                            })
+                                        }
                                     </div>
                                 </div>
+
+                                <div className="rating rating-sm rating-half mb-8 items-center">
+                                    <h2 className="w-16 text-xl font-bold dark:text-gray-400">
+                                        Rating:
+                                    </h2>
+                                    <input
+                                        type="radio"
+                                        name="rating-10"
+                                        className="rating-hidden"
+                                        readOnly
+                                        onChange={() => handleRatingChange(-1)}
+                                        defaultChecked
+                                    />
+                                    {ratingItems.map((item, index) => (
+                                        <input
+                                            key={index}
+                                            type="radio"
+                                            name="rating-10"
+                                            className={item.className}
+                                            onChange={() => handleRatingChange(index)}
+                                            readOnly
+                                        />
+                                    ))}
+                                    <span className="ml-2">{`${filledStars} out of 5 `}
+                                    </span>
+
+                                </div>
+
                                 <div className="w-32 mb-8 ">
                                     <label htmlFor=""
                                         className="w-full text-xl font-semibold text-gray-700 dark:text-gray-400">Quantity</label>
-                                    <div className="relative flex flex-row w-full h-10 mt-4 bg-transparent rounded-lg">
-                                        <button
-                                            className="w-20 h-full text-gray-600 bg-gray-300 rounded-l outline-none cursor-pointer dark:hover:bg-gray-700 dark:text-gray-400 hover:text-gray-700 dark:bg-gray-900 hover:bg-gray-400">
-                                            <span className="m-auto text-2xl font-thin">-</span>
-                                        </button>
-                                        <input type="number"
-                                            className="flex items-center w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-300 outline-none dark:text-gray-400 dark:placeholder-gray-400 dark:bg-gray-900 focus:outline-none text-md hover:text-black"
-                                            placeholder="1" />
-                                        <button
-                                            className="w-20 h-full text-gray-600 bg-gray-300 rounded-r outline-none cursor-pointer dark:hover:bg-gray-700 dark:text-gray-400 dark:bg-gray-900 hover:text-gray-700 hover:bg-gray-400">
-                                            <span className="m-auto text-2xl font-thin">+</span>
-                                        </button>
-                                    </div>
+                                    <QuantityButton />
                                 </div>
                                 <div className="flex flex-wrap items-center gap-10 ">
-                                    
-                                        <Button text="Add to Cart" color="mygreen" hover="myred" />
-                                        <Button text="Buy Now" color="myyellow" hover="myred" />
-                        
+
+                                    <Button text="Add to Cart" color="mygreen" hover="myred" onClick={addToCart} />
+                                    <Button text="Buy Now" color="myyellow" hover="myred" />
                                 </div>
                             </div>
                         </div>
