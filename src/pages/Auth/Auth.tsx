@@ -1,6 +1,5 @@
 // Import necessary dependencies and components
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod"; // Import Zod for schema validation
 import bcrypt from 'bcryptjs'; // Import bcrypt for password hashing
 import { supabase } from "../../utils/client"; // Import Supabase client
@@ -14,6 +13,7 @@ import {
 import { useDispatch } from "react-redux"; // Import useDispatch hook
 import { login } from "../../utils/features/Auth/authSlice"; // Import login action
 import { Slide, toast, TypeOptions } from "react-toastify"; // Import toast notifications
+import { useNavigate } from "react-router-dom";
 
 // Define the structure of a user
 interface USER {
@@ -46,8 +46,7 @@ function Auth() {
   const handleAuthRequest = () => setLogin(!isLogin);
 
   // Function to toggle forgot password flow
-  const handleForgotPasswordRequest = () =>
-    setForgotPassword(!isForgotPassword);
+  const handleForgotPasswordRequest = () => setForgotPassword(!isForgotPassword);
 
   // Function to handle input changes in the form
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -196,134 +195,131 @@ function Auth() {
     } catch (err) {
       // Handle Zod validation errors
       if (err instanceof z.ZodError) {
-        const newErrors = err.flatten().
-        // Handle Zod validation errors
-        if (err instanceof z.ZodError) {
-          const newErrors = err.flatten().fieldErrors;
-          setErrors(
-            Object.keys(newErrors).reduce((acc, key) => {
-              acc[key] = newErrors[key] ?? [];
-              return acc;
-            }, {} as Record<string, string[]>)
-          );
-        }
-      }
-    };
-
-    // Function to handle form submission
-    const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      if (isForgotPassword) {
-        handleResetPassword();
-      } else if (isLogin) {
-        handleLogin();
+        const newErrors = err.flatten().fieldErrors;
+        setErrors(
+          Object.keys(newErrors).reduce((acc, key) => {
+            acc[key] = newErrors[key] ?? [];
+            return acc;
+          }, {} as Record<string, string[]>)
+        );
       } else {
-        handleSignup();
+        // Handle other types of errors (optional)
+        console.error(err);
       }
-    };
+    }
+  };
 
-    // Effect to autofill data
-    useEffect(() => {
-      if (autoFillData) {
-        setUserData(autoFillData);
-      }
-    }, [autoFillData]);
+  // Function to handle form submission
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isForgotPassword) {
+      handleResetPassword();
+    } else if (isLogin) {
+      handleLogin();
+    } else {
+      handleSignup();
+    }
+  };
 
-    // JSX
-    return (
-      <>
-        <div className="text-m
-        <div className="text-m
-        {/* JSX continues here */}
-        >
-          <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col">
-            {/* Conditional rendering based on isLogin state */}
-            {isLogin ? (
-              <>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="Username"
-                  value={userData.username}
-                  onChange={handleInputChange}
-                  className="input"
-                />
-                <input
-                  type="password"
-                  name="pass"
-                  placeholder="Password"
-                  value={userData.pass}
-                  onChange={handleInputChange}
-                  className="input"
-                />
-              </>
-            ) : (
-              <>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="Username"
-                  value={userData.username}
-                  onChange={handleInputChange}
-                  className="input"
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={userData.email}
-                  onChange={handleInputChange}
-                  className="input"
-                />
-                <input
-                  type="password"
-                  name="pass"
-                  placeholder="Password"
-                  value={userData.pass}
-                  onChange={handleInputChange}
-                  className="input"
-                />
-              </>
-            )}
-            {/* Conditional rendering for forgot password */}
-            {isForgotPassword && (
+  // Effect to autofill data
+  useEffect(() => {
+    if (autoFillData) {
+      setUserData(autoFillData);
+    }
+  }, [autoFillData]);
+
+  // JSX
+  return (
+    <>
+      <div className="text-m">
+        <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col">
+          {/* Conditional rendering based on isLogin state */}
+          {isLogin ? (
+            <>
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={userData.username}
+                onChange={handleInputChange}
+                className="input"
+              />
+              <input
+                type="password"
+                name="pass"
+                placeholder="Password"
+                value={userData.pass}
+                onChange={handleInputChange}
+                className="input"
+              />
+            </>
+          ) : (
+            <>
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={userData.username}
+                onChange={handleInputChange}
+                className="input"
+              />
               <input
                 type="email"
                 name="email"
                 placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={userData.email}
+                onChange={handleInputChange}
                 className="input"
               />
-            )}
-            {/* Conditional rendering for error messages */}
-            {Object.keys(errors).length > 0 && (
-              <div className="text-red-500">
-                {Object.values(errors).map((errs, idx) => (
-                  <div key={idx}>
-                    {errs.map((err, index) => (
-                      <p key={index}>{err}</p>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            )}
-            {/* Submit button */}
-            <Button type="submit">{isForgotPassword ? "Reset Password" : isLogin ? "Login" : "Signup"}</Button>
-          </form>
-          {/* Toggle buttons */}
-          <div className="flex flex-col">
-            <Button onClick={handleAuthRequest} className="mt-4">
-              {isLogin ? "New User? Create an account" : "Already have an account? Login"}
-            </Button>
-            <Button onClick={handleForgotPasswordRequest} className="mt-2">
-              {isLogin ? "Forgot Password?" : "Back to Login"}
-            </Button>
-          </div>
+              <input
+                type="password"
+                name="pass"
+                placeholder="Password"
+                value={userData.pass}
+                onChange={handleInputChange}
+                className="input"
+              />
+            </>
+          )}
+          {/* Conditional rendering for forgot password */}
+          {isForgotPassword && (
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="input"
+            />
+          )}
+          {/* Conditional rendering for error messages */}
+          {Object.keys(errors).length > 0 && (
+            <div className="text-red-500">
+              {Object.values(errors).map((errs, idx) => (
+                <div key={idx}>
+                  {errs.map((err, index) => (
+                    <p key={index}>{err}</p>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
+          {/* Submit button */}
+          <Button type="submit">{isForgotPassword ? "Reset Password" : isLogin ? "Login" : "Signup"}</Button>
+        </form>
+        {/* Toggle buttons */}
+        <div className="flex flex-col">
+          <Button onClick={handleAuthRequest} className="mt-4">
+            {isLogin ? "New User? Create an account" : "Already have an account? Login"}
+          </Button>
+          <Button onClick={handleForgotPasswordRequest} className="mt-2">
+            {isLogin ? "Forgot Password?" : "Back to Login"}
+          </Button>
         </div>
-        <Footer />
-      </>
-    );
-  }
+      </div>
+      <Footer />
+    </>
+  );
+}
 
 export default Auth;
