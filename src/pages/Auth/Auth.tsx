@@ -4,7 +4,6 @@ import { z } from "zod"; // Import Zod for schema validation
 import bcrypt from 'bcryptjs'; // Import bcrypt for password hashing
 import { supabase } from "../../utils/client"; // Import Supabase client
 import Footer from "../../components/Footer"; // Import Footer component
-import Button from "../../components/Button"; // Import Button component
 import {
   SignUpSchema,
   LogInSchema,
@@ -305,16 +304,16 @@ function Auth() {
             </div>
           )}
           {/* Submit button */}
-          <Button type="submit">{isForgotPassword ? "Reset Password" : isLogin ? "Login" : "Signup"}</Button>
+          <button type="submit" className="btn">{isForgotPassword ? "Reset Password" : isLogin ? "Login" : "Signup"}</button>
         </form>
         {/* Toggle buttons */}
         <div className="flex flex-col">
-          <Button onClick={handleAuthRequest} className="mt-4">
+          <button onClick={handleAuthRequest} className="btn mt-4">
             {isLogin ? "New User? Create an account" : "Already have an account? Login"}
-          </Button>
-          <Button onClick={handleForgotPasswordRequest} className="mt-2">
+          </button>
+          <button onClick={handleForgotPasswordRequest} className="btn mt-2">
             {isLogin ? "Forgot Password?" : "Back to Login"}
-          </Button>
+          </button>
         </div>
       </div>
       <Footer />
