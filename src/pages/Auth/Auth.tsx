@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 import { supabase } from "../../utils/client";
 import Footer from "../../components/Footer";
 import Button from "../../components/Button";
@@ -18,6 +18,11 @@ interface USER {
   username: string;
   email: string;
   pass: string;
+  firstname: string;
+  lastname: string;
+  gender: boolean;
+  phone: string;
+  createdAt: string | null;
 }
 
 function Auth() {
@@ -30,9 +35,14 @@ function Auth() {
     username: "",
     email: "",
     pass: "",
+    firstname: "",
+    lastname: "",
+    phone: "",
+    gender: false,
+    createdAt: new Date().toISOString(),
   });
   const [errors, setErrors] = useState<Record<string, string[]>>({});
-  const [autoFillData, setAutoFillData] = useState<USER | null>(null);  // State to store signup data for auto-fill
+  const [autoFillData, setAutoFillData] = useState<USER | null>(null);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -43,7 +53,7 @@ function Auth() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: [] }));  // Clear the error for the specific field
+    setErrors((prev) => ({ ...prev, [name]: [] }));
   };
 
   type ToastType = TypeOptions;
@@ -65,15 +75,24 @@ function Auth() {
         username: userData.username,
         email: userData.email,
         password: userData.pass,
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        phone: userData.phone,
+        gender: userData.gender,
+        createdAt: userData.createdAt
       });
 
       const hashedPassword = await bcrypt.hash(validateData.password, 10);
 
-      const { error } = await supabase.from("users").insert([{
-        username: validateData.username,
-        email: validateData.email,
-        password: hashedPassword,
-      }]);
+      console.log(validateData)
+
+      const { error } = await supabase.from("users").insert([
+        {
+          username: validateData.username,
+          email: validateData.email,
+          password: hashedPassword,
+        },
+      ]);
 
       if (error) {
         setErrors({ general: ["User Already Exists"] });
@@ -84,8 +103,13 @@ function Auth() {
           username: validateData.username,
           email: validateData.email,
           pass: validateData.password,
+          firstname: userData.firstname,
+          lastname: userData.lastname,
+          phone: userData.phone,
+          gender: userData.gender,
+          createdAt: userData.createdAt
         });
-        setLogin(true);  // Switch to login form
+        setLogin(true);
         toastNotification("New User Created !!", "success");
       }
     } catch (err) {
@@ -143,13 +167,18 @@ function Auth() {
         .eq("username", validateData.username);
 
       if (error || data.length === 0) {
-        setErrors({ username: ["User not found or credentials are incorrect"] });
+        setErrors({
+          username: ["User not found or credentials are incorrect"],
+        });
         toastNotification("Credentials are incorrect !!", "error");
         return;
       }
 
       const user = data[0];
-      const isPasswordValid = await bcrypt.compare(validateData.password, user.password);
+      const isPasswordValid = await bcrypt.compare(
+        validateData.password,
+        user.password
+      );
 
       if (!isPasswordValid) {
         setErrors({ password: ["Incorrect password"] });
@@ -160,7 +189,6 @@ function Auth() {
       toastNotification("User LoggedIn !!", "success");
       dispatch(login({ username: validateData.username }));
       navigate("/home");
-
     } catch (err) {
       if (err instanceof z.ZodError) {
         const newErrors = err.flatten().fieldErrors;
@@ -193,18 +221,14 @@ function Auth() {
 
   return (
     <>
-      <div className="text-mynavy flex flex-row-reverse h-screen">
-        <div className="hidden lg:flex items-center justify-center flex-1 bg-white text-black">
+      <div className="text-mynavy flex flex-row-reverse my-16">
+        <div className="flex items-center justify-center flex-1 bg-white text-black">
           <div className="max-w-md text-center">
-            <img
-              src="/images/winter1.jpg"
-              className="rounded-xl"
-              alt="image"
-            />
+            <img src="/images/winter1.jpg" className="rounded-xl" alt="image" />
           </div>
         </div>
         <div className="w-full bg-gray-100 lg:w-1/2 flex items-center justify-center">
-          <div className="max-w-md w-full p-6">
+          <div className="max-w-md w-full">
             <h1 className="text-3xl font-semibold mb-6 text-black text-center">
               {isForgotPassword
                 ? "Reset Password"
@@ -273,7 +297,7 @@ function Auth() {
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
-                      setErrors((prev) => ({ ...prev, email: [] }));  // Clear the error for email field
+                      setErrors((prev) => ({ ...prev, email: [] }));
                     }}
                   />
                   {errors.email && (
@@ -294,7 +318,6 @@ function Auth() {
                       Username
                     </label>
                     <input
-                      required
                       type="text"
                       id="username"
                       name="username"
@@ -303,7 +326,10 @@ function Auth() {
                       onChange={handleInputChange}
                     />
                     {errors.username && (
-                      <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
+                      <ul
+                        className="px-2 text-xs mt-1"
+                        style={{ color: "red" }}
+                      >
                         {errors.username.map((error, index) => (
                           <li key={index}>{error}</li>
                         ))}
@@ -311,30 +337,145 @@ function Auth() {
                     )}
                   </div>
                   {!isLogin && (
-                    <div>
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Email
-                      </label>
-                      <input
-                        required
-                        type="email"
-                        id="email"
-                        name="email"
-                        className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                        value={userData.email}
-                        onChange={handleInputChange}
-                      />
-                      {errors.email && (
-                        <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
-                          {errors.email.map((error, index) => (
-                            <li key={index}>{error}</li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
+                    <>
+                      <div>
+                        <label
+                          htmlFor="email"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Email
+                        </label>
+                        <input
+                          type="text"
+                          id="email"
+                          name="email"
+                          className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                          value={userData.email}
+                          onChange={handleInputChange}
+                        />
+                        {errors.email && (
+                          <ul
+                            className="px-2 text-xs mt-1"
+                            style={{ color: "red" }}
+                          >
+                            {errors.email.map((error, index) => (
+                              <li key={index}>{error}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                      <div className="w-full flex gap-2">
+                        <div className="w-1/2">
+                          <label
+                            htmlFor="firstname"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            First Name
+                          </label>
+                          <input
+                            type="text"
+                            id="firstname"
+                            name="firstname"
+                            className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                            value={userData.firstname}
+                            onChange={handleInputChange}
+                          />
+                          {errors.firstname && (
+                            <ul
+                              className="px-2 text-xs mt-1"
+                              style={{ color: "red" }}
+                            >
+                              {errors.firstname.map((error, index) => (
+                                <li key={index}>{error}</li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                        <div className="w-1/2">
+                          <label
+                            htmlFor="lastname"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Last Name
+                          </label>
+                          <input
+                            type="text"
+                            id="lastname"
+                            name="lastname"
+                            className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                            value={userData.lastname}
+                            onChange={handleInputChange}
+                          />
+                          {errors.lastname && (
+                            <ul
+                              className="px-2 text-xs mt-1"
+                              style={{ color: "red" }}
+                            >
+                              {errors.lastname.map((error, index) => (
+                                <li key={index}>{error}</li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      </div>
+                      <div className="w-full flex gap-2">
+                        <div className="w-1/2 mt-5">
+                          <select
+                            className="select w-full select-primary select-md max-w-xs"
+                            value={userData.gender ? 1 : 0}
+                            onChange={(e) => {
+                              const genderBoolean = e.target.value === "1";
+                              setUserData({
+                                ...userData,
+                                gender: genderBoolean,
+                              });
+                            }}
+                          >
+                            <option disabled value={-1}>
+                              Gender
+                            </option>
+                            <option value={0}>Male</option>
+                            <option value={1}>Female</option>
+                          </select>
+                          {errors.gender && (
+                            <ul
+                              className="px-2 text-xs mt-1"
+                              style={{ color: "red" }}
+                            >
+                              {errors.gender.map((error, index) => (
+                                <li key={index}>{error}</li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                        <div className="w-1/2">
+                          <label
+                            htmlFor="email"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Phone
+                          </label>
+                          <input
+                            type="text"
+                            id="phone"
+                            name="phone"
+                            className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                            value={userData.phone}
+                            onChange={handleInputChange}
+                          />
+                          {errors.phone && (
+                            <ul
+                              className="px-2 text-xs mt-1"
+                              style={{ color: "red" }}
+                            >
+                              {errors.phone.map((error, index) => (
+                                <li key={index}>{error}</li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      </div>
+                    </>
                   )}
                   <div>
                     <label
@@ -344,7 +485,6 @@ function Auth() {
                       Password
                     </label>
                     <input
-                      required
                       type="password"
                       id="pass"
                       name="pass"
@@ -353,7 +493,10 @@ function Auth() {
                       onChange={handleInputChange}
                     />
                     {errors.password && (
-                      <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
+                      <ul
+                        className="px-2 text-xs mt-1"
+                        style={{ color: "red" }}
+                      >
                         {errors.password.map((error, index) => (
                           <li key={index}>{error}</li>
                         ))}
@@ -361,17 +504,9 @@ function Auth() {
                     )}
                   </div>
                   {isLogin ? (
-                    <Button
-                      color="mygreen"
-                      hover="myyellow"
-                      text="Login"
-                    />
+                    <Button color="mygreen" hover="myyellow" text="Login" />
                   ) : (
-                    <Button
-                      color="mygreen"
-                      hover="myyellow"
-                      text="Signup"
-                    />
+                    <Button color="mygreen" hover="myyellow" text="Signup" />
                   )}
                 </>
               )}
