@@ -1,53 +1,69 @@
+// Import necessary dependencies and components
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { z } from "zod";
-import bcrypt from 'bcryptjs';
-import { supabase } from "../../utils/client";
-import Footer from "../../components/Footer";
-import Button from "../../components/Button";
+import { z } from "zod"; // Import Zod for schema validation
+import bcrypt from 'bcryptjs'; // Import bcrypt for password hashing
+import { supabase } from "../../utils/client"; // Import Supabase client
+import Footer from "../../components/Footer"; // Import Footer component
 import {
   SignUpSchema,
   LogInSchema,
   ForgotPasswordSchema,
-} from "../../utils/schema";
+} from "../../utils/schema"; 
 import { useDispatch } from "react-redux";
 import { login } from "../../utils/features/Auth/authSlice";
 import { Slide, toast, TypeOptions } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../../utils/features/Auth/authSlice";
+import { Slide, toast, TypeOptions } from "react-toastify";
+import { LuEye, LuEyeOff } from "react-icons/lu";
 
+
+// Define the structure of a user
 interface USER {
   username: string;
   email: string;
   pass: string;
 }
 
+/**
+ * Component for user authentication.
+ */
 function Auth() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [isLogin, setLogin] = useState(true);
-  const [isForgotPassword, setForgotPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [userData, setUserData] = useState<USER>({
+  // Hooks
+  const navigate = useNavigate(); // Use navigate for navigation
+  const dispatch = useDispatch(); // Use dispatch for state management
+  const [isLogin, setLogin] = useState(true); // State to toggle between login and signup
+  const [isForgotPassword, setForgotPassword] = useState(false); // State to handle forgot password flow
+  const [email, setEmail] = useState(""); // State to store email input
+  const [userData, setUserData] = useState<USER>({ // State to manage user data (username, email, password)
     username: "",
     email: "",
     pass: "",
   });
   const [errors, setErrors] = useState<Record<string, string[]>>({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [isTyping, setIsTyping] = useState(true);
   const [autoFillData, setAutoFillData] = useState<USER | null>(null);  // State to store signup data for auto-fill
 
-  const formRef = useRef<HTMLFormElement>(null);
+  const formRef = useRef<HTMLFormElement>(null); // Reference to the form element
 
+  // Function to toggle between login and signup forms
   const handleAuthRequest = () => setLogin(!isLogin);
-  const handleForgotPasswordRequest = () =>
-    setForgotPassword(!isForgotPassword);
 
+  // Function to toggle forgot password flow
+  const handleForgotPasswordRequest = () => setForgotPassword(!isForgotPassword);
+
+  // Function to handle input changes in the form
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: [] }));  // Clear the error for the specific field
+    setIsTyping(false); 
   };
 
   type ToastType = TypeOptions;
-
+  
   const toastNotification = (message: string, type: ToastType) => {
     toast(message, {
       type: type,
@@ -61,6 +77,7 @@ function Auth() {
 
   const handleSignup = async () => {
     try {
+    
       const validateData = SignUpSchema.parse({
         username: userData.username,
         email: userData.email,
@@ -80,15 +97,17 @@ function Auth() {
         toastNotification("User Already Exists !", "error");
         return;
       } else {
+        
         setAutoFillData({
           username: validateData.username,
           email: validateData.email,
           pass: validateData.password,
         });
-        setLogin(true);  // Switch to login form
+        setLogin(true);
         toastNotification("New User Created !!", "success");
       }
     } catch (err) {
+ 
       if (err instanceof z.ZodError) {
         const newErrors = err.flatten().fieldErrors;
         setErrors(
@@ -101,23 +120,29 @@ function Auth() {
     }
   };
 
+  // Function to handle password reset process
   const handleResetPassword = async () => {
     try {
+      // Validate email for password reset
       const validateData = ForgotPasswordSchema.parse({ email });
+
 
       const { error } = await supabase.auth.resetPasswordForEmail(
         validateData.email
       );
 
+     
       if (error) {
         setErrors({ email: ["Error sending password reset email"] });
         toastNotification("Error sending password reset email", "error");
         return;
       } else {
+
         setForgotPassword(false);
         toastNotification("Password reset email sent!", "success");
       }
     } catch (err) {
+    
       if (err instanceof z.ZodError) {
         const newErrors = err.flatten().fieldErrors;
         setErrors(
@@ -130,38 +155,46 @@ function Auth() {
     }
   };
 
+  
   const handleLogin = async () => {
     try {
+      // Validate user input using LogInSchema
       const validateData = LogInSchema.parse({
         username: userData.username,
         password: userData.pass,
       });
+
 
       const { data, error } = await supabase
         .from("users")
         .select("*")
         .eq("username", validateData.username);
 
+      // Handle error if user not found or credentials are incorrect
       if (error || data.length === 0) {
         setErrors({ username: ["User not found or credentials are incorrect"] });
         toastNotification("Credentials are incorrect !!", "error");
         return;
       }
 
+      // Compare hashed password with the provided password
       const user = data[0];
       const isPasswordValid = await bcrypt.compare(validateData.password, user.password);
 
+      // Handle error if password is incorrect
       if (!isPasswordValid) {
         setErrors({ password: ["Incorrect password"] });
         toastNotification("Credentials are incorrect !!", "error");
         return;
       }
 
+      // Show success message, dispatch login action, and navigate to home page
       toastNotification("User LoggedIn !!", "success");
       dispatch(login({ username: validateData.username }));
       navigate("/home");
 
     } catch (err) {
+      // Handle Zod validation errors
       if (err instanceof z.ZodError) {
         const newErrors = err.flatten().fieldErrors;
         setErrors(
@@ -170,8 +203,19 @@ function Auth() {
             return acc;
           }, {} as Record<string, string[]>)
         );
+      } else {
+        // Handle other types of errors (optional)
+        console.error(err);
       }
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleBlur = () => {
+    setIsTyping(false); 
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -185,22 +229,83 @@ function Auth() {
     }
   };
 
+  // Effect to autofill data
   useEffect(() => {
     if (autoFillData) {
       setUserData(autoFillData);
     }
   }, [autoFillData]);
-
+  
   return (
     <>
-      <div className="text-mynavy flex flex-row-reverse h-screen">
-        <div className="hidden lg:flex items-center justify-center flex-1 bg-white text-black">
-          <div className="max-w-md text-center">
-            <img
-              src="/images/winter1.jpg"
-              className="rounded-xl"
-              alt="image"
+      <div className="text-m">
+        <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col">
+          {/* Conditional rendering based on isLogin state */}
+          {isLogin ? (
+            <>
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={userData.username}
+                onChange={handleInputChange}
+                className="input"
+              />
+              <input
+                type="password"
+                name="pass"
+                placeholder="Password"
+                value={userData.pass}
+                onChange={handleInputChange}
+                className="input"
+              />
+            </>
+          ) : (
+            <>
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={userData.username}
+                onChange={handleInputChange}
+                className="input"
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={userData.email}
+                onChange={handleInputChange}
+                className="input"
+              />
+              <input
+                type="password"
+                name="pass"
+                placeholder="Password"
+                value={userData.pass}
+                onChange={handleInputChange}
+                className="input"
+              />
+            </>
+          )}
+          {/* Conditional rendering for forgot password */}
+          {isForgotPassword && (
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="input"
             />
+          )}
+          {Object.keys(errors).length > 0 && (
+            <div className="text-red-500">
+              {Object.values(errors).map((errs, idx) => (
+                <div key={idx}>
+                  {errs.map((err, index) => (
+                    <p key={index}>{err}</p>
+                  ))}
           </div>
         </div>
         <div className="w-full bg-gray-100 lg:w-1/2 flex items-center justify-center">
@@ -337,21 +442,30 @@ function Auth() {
                     </div>
                   )}
                   <div>
-                    <label
-                      htmlFor="pass"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                     <label htmlFor="pass" className="block text-sm font-medium text-gray-700">
                       Password
                     </label>
                     <input
                       required
-                      type="password"
                       id="pass"
+                      type={showPassword || isTyping  ? "text" : "password"}
                       name="pass"
                       className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                       value={userData.pass}
                       onChange={handleInputChange}
+                      onBlur={handleBlur}
                     />
+                    <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 px-3 flex items-center"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? (
+                      <LuEyeOff className="h-6 w-6 text-gray-700" />
+                    ) : (
+                      <LuEye className="h-6 w-6 text-gray-700" />
+                    )}
+                  </button>
                     {errors.password && (
                       <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
                         {errors.password.map((error, index) => (
@@ -408,12 +522,22 @@ function Auth() {
                     </p>
                   )}
                 </div>
-              )}
-            </form>
-          </div>
+              ))}
+            </div>
+          )}
+          {/* Submit button */}
+          <button type="submit" className="btn">{isForgotPassword ? "Reset Password" : isLogin ? "Login" : "Signup"}</button>
+        </form>
+        {/* Toggle buttons */}
+        <div className="flex flex-col">
+          <button onClick={handleAuthRequest} className="btn mt-4">
+            {isLogin ? "New User? Create an account" : "Already have an account? Login"}
+          </button>
+          <button onClick={handleForgotPasswordRequest} className="btn mt-2">
+            {isLogin ? "Forgot Password?" : "Back to Login"}
+          </button>
         </div>
       </div>
-      {/* Footer  */}
       <Footer />
     </>
   );
