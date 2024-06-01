@@ -10,6 +10,7 @@ import { Slide, toast } from "react-toastify";
 function Navbar() {
   const userName = useSelector((state: RootState) => state.auth.user?.username);
   const dispatch = useDispatch();
+  const itemsInCart = useSelector((state:RootState)=>state.cart.item).length;
 
   const toastNotification = (message: string) => {
     toast(message, {
@@ -39,7 +40,7 @@ function Navbar() {
             >
               <div className="indicator">
                 <MdOutlineShoppingCart className="h-5 w-5" />
-                <span className="badge badge-sm indicator-item ">8</span>
+                <span className="badge badge-sm indicator-item ">{itemsInCart}</span>
               </div>
             </div>
             <div
