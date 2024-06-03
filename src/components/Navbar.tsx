@@ -1,12 +1,42 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineShoppingCart } from "react-icons/md";
 
+import Glassnav from "./Floating_Nav";
 import Button from "./Button";
 import { RootState } from "../utils/features/store";
 import { logout } from "../utils/features/Auth/authSlice";
 import { Slide, toast } from "react-toastify";
 
+
+function Screensize() {
+  const [windowSize, setWindowSize] = useState({ width: window.innerWidth});
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth});
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return (
+    windowSize.width
+  )
+}
+function Floatingnav(){
+  if(Screensize() >= 1024){
+    return(<div
+      className="lg:flex lg:justify-center z-[100]">
+      <Glassnav/>
+    </div>)
+    
+  }else{
+    return <div></div>
+  }
+}
 function Navbar() {
   const userName = useSelector((state: RootState) => state.auth.user?.username);
   const dispatch = useDispatch();
@@ -20,15 +50,18 @@ function Navbar() {
       transition: Slide,
     });
   };
-
+  
   return (
     <>
-      <div className="navbar">
-        <div className="flex-1 md:ml-16 ml-2">
+      <div className="navbar flex justify-between">
+        <div className="flex md:ml-16 ml-2">
           <Link
             to="/home">
             <img  src="./logo.png" alt="PopShop Logo" className="md:w-36 w-20 duration-100"/>
           </Link>
+        </div>
+        <div>
+          {Floatingnav()}
         </div>
         <div className="flex-none gap-6 md:mr-16 mr-2">
           <div className="dropdown dropdown-end">
