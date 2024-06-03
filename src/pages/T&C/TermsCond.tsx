@@ -1,6 +1,11 @@
+import NewFooter from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+
 function TermsCond() {
     return (
-        <div className="mx-auto max-w-screen-xl flex px-4 pt-8 sm:pt-8 pb-4 ">
+        <>
+        <Navbar/>
+        <div className="mx-auto max-w-screen-xl mb-20 flex px-4 pt-8 sm:pt-8 pb-4 ">
             <div className="">
                 <div className="">
                     <div className="">
@@ -366,6 +371,8 @@ function TermsCond() {
                 </div>
             </div>
         </div>
+        <NewFooter/>
+        </>
     );
 }
 export default TermsCond;
