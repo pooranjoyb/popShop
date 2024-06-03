@@ -764,7 +764,7 @@ html {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  border-radius: var(--rounded-btn, 0.5rem);
+  border-radius: 1rem !important;
   border-color: transparent;
   border-color: oklch(var(--btn-color, var(--b2)) / var(--tw-border-opacity));
   padding-left: 1rem;
@@ -781,7 +781,7 @@ html {
   animation: button-pop var(--animation-btn, 0.25s) ease-out;
   transition-property: color, background-color, border-color, opacity, box-shadow, transform;
   --tw-text-opacity: 1;
-  color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
+  color: white !important;
   --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -790,6 +790,7 @@ html {
   --tw-bg-opacity: 1;
   --tw-border-opacity: 1;
 }
+
 
 .btn-disabled,
   .btn[disabled],

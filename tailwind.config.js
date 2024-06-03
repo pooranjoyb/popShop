@@ -14,7 +14,7 @@ module.exports = {
       "myred": "#EF476F",
       "myyellow": "#FFD166",
       "myblue": "#118AB2",
-      "mynavy": "#073B4C"
+      "mynavy": "#073B4C",
     },
   },
 }
