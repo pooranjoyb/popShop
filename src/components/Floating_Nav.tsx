@@ -29,16 +29,16 @@ function Floatingnav(){
             >
                 <ul className="flex justify-between">
                     <a href="/home">
-                    <li className="hover:bg-myyellow bg-mygreen font-medium px-4 py-2 m-2 rounded-full">Home</li>
+                    <li className="hover:bg-myyellow font-bold px-4 py-2 m-2 rounded-full">Home</li>
                     </a>
                     <a href="/home#Collections">
-                    <li className="hover:bg-myyellow bg-mygreen font-medium px-4 py-2 m-2 rounded-full">New Collections</li>
+                    <li className="hover:bg-myyellow font-bold px-4 py-2 m-2 rounded-full">New Collections</li>
                     </a>
                     <a href="/home#Products">
-                    <li className="hover:bg-myyellow bg-mygreen font-medium px-4 py-2 m-2 rounded-full">Our Products</li>
+                    <li className="hover:bg-myyellow font-bold px-4 py-2 m-2 rounded-full">Our Products</li>
                     </a>
                     <a href="#Footer">
-                    <li className="hover:bg-myyellow bg-mygreen font-medium px-4 py-2 m-2 rounded-full">Contact Us</li>
+                    <li className="hover:bg-myyellow font-bold px-4 py-2 m-2 rounded-full">Contact Us</li>
                     </a>
                 </ul>
             </motion.div>
