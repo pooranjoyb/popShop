@@ -20,18 +20,18 @@ function Contact() {
         <>
             <Navbar />
             {/* main */}
-            <div className="mx-auto max-w-screen-xl flex px-4 pt-8 sm:pt-8 pb-4 ">
-                <Head h1="Contact" h2="Us" />
-            </div>
-            <h1 className="text-base md:text-lg font-medium text-[#073b4c] mx-auto max-w-screen-xl px-4 ">
-                Need to get in touch with us? Either fill out the form with your
-                inquiry or find the department email you'd like to contact
-                below.
-            </h1>
-            <div className="px-4 mt-10 mb-20 md:mb-40 sm:py-6 mx-auto max-w-screen-md lg:py-4 md:px-6 flex flex-col gap-4">
+            <div className="px-4 mt-5 mb-20 md:mb-40 sm:py-6 mx-auto max-w-screen-md lg:py-4 md:px-6 flex flex-col gap-4">
+                <div className="my-5 flex-col flex gap-5">
+                    <Head h1="Contact" h2="Us" />
+                    <h1 className="text-base md:text-lg font-medium text-mynavy mx-auto max-w-screen-xl px-4 ">
+                        Need to get in touch with us? Either fill out the form
+                        with your inquiry or find the department email you'd
+                        like to contact below.
+                    </h1>
+                </div>
                 <label className="form-control w-full">
                     <div className="label">
-                        <span className="label-text text-base md:text-lg font-medium text-[#073b4c]">
+                        <span className="label-text text-base md:text-lg font-medium text-mynavy">
                             What is your Name?
                         </span>
                     </div>
