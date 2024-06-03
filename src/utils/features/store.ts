@@ -3,6 +3,7 @@ import authSlice from "./Auth/authSlice";
 import { encryptTransform } from 'redux-persist-transform-encrypt';
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import cartSlice from "./cart/cartSlice";
 
 // const secretkey = import.meta.env.VITE_REDUX_PERSIST_SECRET_KEY;
 
@@ -23,6 +24,7 @@ const persistConfig ={
 
 const rootReducer:Reducer = combineReducers({
   auth: authSlice,
+  cart:cartSlice
 })
 
 
