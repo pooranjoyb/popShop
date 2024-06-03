@@ -4,7 +4,6 @@ import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { supabase } from "../../utils/client";
 // import Footer from "../../components/Footer";
-import Button from "../../components/Button";
 import {
   SignUpSchema,
   LogInSchema,
@@ -263,7 +262,7 @@ function Auth() {
                     type="email"
                     id="email"
                     name="email"
-                    className="mt-2 p-2 w-full placeholder:text-sm shadow border border-[#C4C4C4] rounded-xl focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                    className="mt-2 p-2 w-full placeholder:text-sm shadow border border-[#C4C4C4] rounded-xl focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 mb-6"
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
@@ -277,6 +276,9 @@ function Auth() {
                       ))}
                     </ul>
                   )}
+                  <button className="bg-mygreen hover:bg-myyellow w-full text-[1rem] shadow-lg btn" onClick={handleResetPassword}>
+                    Reset
+                  </button>
                 </div>
               ) : (
                 <>
@@ -488,10 +490,14 @@ function Auth() {
                   <div className="mt-8 flex flex-col">
                   {isLogin ? (
                  
-                    <Button color="mygreen" hover="myyellow" text="Login" />
+               <button className="bg-mygreen hover:bg-myyellow w-full text-[1rem] shadow-lg btn" onClick={handleResetPassword}>
+                 Login
+               </button>
                   ) : (
-                    <Button color="mygreen" hover="myyellow" text="Signup" />
-                  )}
+                <button className="bg-mygreen hover:bg-myyellow w-full text-[1rem] shadow-lg btn" onClick={handleResetPassword}>
+                    Signup
+                </button>
+                )}
                    <div className="mt-4 flex flex-col lg:flex-row items-center justify-between ">
               <div className="w-full lg:w-full mb-2 lg:mb-0">
                 <button
@@ -530,7 +536,6 @@ function Auth() {
             </div>
                 </>
               )}
-             
               {!isForgotPassword && (
                 <div className="mt-4 text-sm text-gray-600 text-center">
                   {isLogin ? (

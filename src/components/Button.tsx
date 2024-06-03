@@ -7,8 +7,8 @@ interface ButtonProps {
 
 function Button({ color, hover, text, onClick }: ButtonProps) {
     return (
-        <div className="flex items-center justify-center w-full">
-            <button className={`btn bg-${color} hover:bg-${hover} w-full text-[1rem] shadow-lg`} onClick={onClick}>
+        <div className="flex items-center justify-center">
+            <button className={`btn bg-${color} hover:bg-${hover}  `} onClick={onClick}>
                 {text}
             </button>
         </div>
