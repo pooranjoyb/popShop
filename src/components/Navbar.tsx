@@ -8,6 +8,7 @@ import Button from "./Button";
 import { RootState } from "../utils/features/store";
 import { logout } from "../utils/features/Auth/authSlice";
 import { Slide, toast } from "react-toastify";
+import { useState } from "react";
 
 function Screensize() {
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth});
@@ -39,6 +40,8 @@ function Floatingnav(){
 function Navbar() {
   const userName = useSelector((state: RootState) => state.auth.user?.username);
   const dispatch = useDispatch();
+  const itemsInCart = useSelector((state: RootState) => state.cart.item).length;
+  const [showMenu, setShowMenu] = useState(false);
 
   const toastNotification = (message: string) => {
     toast(message, {
@@ -50,13 +53,23 @@ function Navbar() {
     });
   };
   
+  const handleToggleMenu = () => {
+    setShowMenu((prev) => !prev);
+  };
+  const handleCloseMenu = () => {
+    setShowMenu(false);
+  };
+
   return (
     <>
-      <div className="navbar flex justify-between">
-        <div className="flex md:ml-16 ml-2">
-          <Link
-            to="/home">
-            <img  src="./logo.png" alt="PopShop Logo" className="md:w-36 w-20 duration-100"/>
+      <div className="navbar">
+        <div className="flex-1 md:ml-16 ml-2">
+          <Link to="/home">
+            <img
+              src="./logo.png"
+              alt="PopShop Logo"
+              className="md:w-36 w-20 duration-100"
+            />
           </Link>
         </div>
         <div>
@@ -71,7 +84,9 @@ function Navbar() {
             >
               <div className="indicator">
                 <MdOutlineShoppingCart className="h-5 w-5" />
-                <span className="badge badge-sm indicator-item ">8</span>
+                <span className="badge badge-sm indicator-item ">
+                  {itemsInCart}
+                </span>
               </div>
             </div>
             <div
@@ -92,38 +107,41 @@ function Navbar() {
               tabIndex={0}
               role="button"
               className="btn btn-ghost btn-circle avatar"
+              onClick={handleToggleMenu}
             >
               <div className="w-10 rounded-full">
                 <img src="/images/winter2.jpg" />
               </div>
             </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 bg-base-100 rounded-box w-52 shadow-2xl"
-            >
-              <li>
-                <Link to={"/home/profile"} className="justify-between">
-                  {`${userName}` || <p>Profile</p>}
-                </Link>
-              </li>
-              <li>
-                <Link to={"/home/shop"}>{<p>Shop</p>}</Link>
-              </li>
-              <li>
-                <Link to={"/home/shop/cart"}>{<p>Cart</p>}</Link>
-              </li>
-              <li>
-                <Link
-                  to="/"
-                  onClick={() => {
-                    dispatch(logout());
-                    toastNotification("Successfully Logged Out!!!");
-                  }}
-                >
-                  Logout
-                </Link>
-              </li>
-            </ul>
+            {showMenu && (
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 bg-base-100 rounded-box w-52 shadow-2xl"
+              >
+                <li onClick={handleCloseMenu}>
+                  <Link to={"/home/profile"} className="justify-between">
+                    {`${userName}` || <p>Profile</p>}
+                  </Link>
+                </li>
+                <li onClick={handleCloseMenu}>
+                  <Link to={"/home/shop"}>{<p>Shop</p>}</Link>
+                </li>
+                <li onClick={handleCloseMenu}>
+                  <Link to={"/home/shop/cart"}>{<p>Cart</p>}</Link>
+                </li>
+                <li onClick={handleCloseMenu}>
+                  <Link
+                    to="/"
+                    onClick={() => {
+                      dispatch(logout());
+                      toastNotification("Successfully Logged Out!!!");
+                    }}
+                  >
+                    Logout
+                  </Link>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
       </div>

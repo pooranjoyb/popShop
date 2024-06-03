@@ -9,22 +9,22 @@ import '../../index.css'; // Import the custom CSS file
 function Home() {
   const [heroRef, heroInView] = useInView({
     triggerOnce: true,
-    threshold: 0.5,
+    threshold: 0.2,
   });
 
   const [aboutRef, aboutInView] = useInView({
     triggerOnce: true,
-    threshold: 0.5,
+    threshold: 0.1,
   });
 
   const [collectionsRef, collectionsInView] = useInView({
     triggerOnce: true,
-    threshold: 0.5,
+    threshold: 0.2,
   });
 
   const [productsRef, productsInView] = useInView({
     triggerOnce: true,
-    threshold: 0.5,
+    threshold: 0.2,
   });
 
   return (

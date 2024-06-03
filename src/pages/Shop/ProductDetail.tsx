@@ -8,7 +8,7 @@ import Head from "../../components/Head";
 import Button from "../../components/Button";
 import QuantityButton from "../Cart/QuantityButton";
 
-interface Data {
+export interface Data {
     name: string;
     image: string;
     price: number;
