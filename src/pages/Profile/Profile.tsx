@@ -1,81 +1,127 @@
+import { useEffect, useState } from "react";
+import { supabase } from "../../utils/client";
 import { useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
 import { useNavigate } from "react-router-dom";
 import Head from "../../components/Head";
 import Button from "../../components/Button";
+import Loader from "../../components/Loader/Loader";
+
+interface USER {
+  username: string;
+  email: string;
+  pass: string;
+  firstname: string;
+  lastname: string;
+  gender: string;
+  phone: string;
+  createdAt: string | null;
+}
 
 function Profile() {
-    const username = useSelector((state: RootState) => state.auth.user?.username);
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const username = useSelector((state: RootState) => state.auth.user?.username);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+  const [userData, setUserData] = useState<USER>();
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  if (!isAuthenticated) {
+    navigate("/home");
+  }
 
-    if (!isAuthenticated) {
-        navigate('/home');
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("username", username);
 
-    return (
-        <div className="flex relative flex-col gap-5 items-center justify-center px-10 lg:px-[300px]">
-            <div className="absolute profile-background -z-20 w-full h-[250px] sm:h-[350px] md:top-[-150px] top-[-200px]"></div>
+      if (error) {
+        console.error(error);
+      } else {
+        setUserData(data[0]);
+      }
+    };
 
-            <div className="avatar">
-                <div className="w-24 sm:w-80 rounded-full">
-                    <img src="/images/winter2.jpg" alt="" />
-                </div>
-            </div>
-            <div className="w-full text-center">
-                <Head h2={username!} />
-            </div>
-            <Button text="Explore Products" color="mygreen" hover="myyellow"/>
+    fetchData();
+}, []);
 
-            <div className="card flex w-full my-5 rounded-xl shadow-2xl">
-                <div className="flex p-5 sm:p-0 flex-col sm:flex-row w-full">
-                    <div className="flex-1 lg:p-12 text-justify">
-                        <div className="flex sm:flex-row flex-col items-start sm:items-center  text-lg sm:text-xl justify-start">
-                            <div className="label">
-                                <span className="label-text text-xl">First Name : </span>
-                            </div>
-                            <h1 className=" font-bold text-mynavy">Fname</h1>
-                        </div>
-                        <div className="flex sm:flex-row flex-col items-start sm:items-center  text-lg sm:text-xl justify-start">
-                            <div className="label">
-                                <span className="label-text text-xl">Last Name : </span>
-                            </div>
-                            <h1 className=" font-bold text-mynavy">Lname</h1>
-                        </div>
-                        <div className="flex sm:flex-row flex-col items-start sm:items-center  text-lg sm:text-xl justify-start">
-                            <div className="label">
-                                <span className="label-text text-xl">Gender</span>
-                            </div>
-                            <h1 className=" font-bold text-mynavy">Male</h1>
-                        </div>
-                    </div>
+  if (!userData) {
+    return <Loader />;
+  }
+  return (
+    <div className="flex relative flex-col gap-5 items-center justify-center md:px-48 px-8">
+      <div className="absolute profile-background -z-20 w-full h-[250px] sm:h-[350px] md:top-[-150px] top-[-200px]"></div>
 
-                    <div className="flex-1 lg:p-12 text-justify">
-                        <div className="flex sm:flex-row flex-col items-start sm:items-center  text-lg sm:text-xl justify-start">
-                            <div className="label">
-                                <span className="label-text text-xl">Address : </span>
-                            </div>
-                            <h1 className=" font-bold text-mynavy">Address</h1>
-                        </div>   
-                        <div className="flex sm:flex-row flex-col items-start sm:items-center text-lg sm:text-xl justify-start">
-                            <div className="label">
-                                <span className="label-text text-xl">Phone Number : </span>
-                            </div>
-                            <h1 className=" font-bold text-mynavy">1234567890</h1>
-                        </div>
-                        <div className="flex sm:flex-row flex-col items-start sm:items-center  text-lg sm:text-xl justify-start">
-                            <div className="label">
-                                <span className="label-text text-xl">Account Creation Date : </span>
-                            </div>
-                            <h1 className=" font-bold text-mynavy">1/1/24</h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+      <div className="avatar">
+        <div className="w-24 sm:w-80 rounded-full">
+          <img src="/images/winter2.jpg" alt="" />
         </div>
-    )
+      </div>
+      <div className="w-full text-center">
+        <Head h2={username!} />
+      </div>
+      <Button text="Explore Products" color="mygreen" hover="myyellow" />
+
+      <div className="card flex w-full my-5 rounded-xl shadow-2xl">
+        <div className="flex p-5 sm:p-0 flex-col sm:flex-row w-full md:items-center">
+          <div className="flex-1 md:p-8 text-justify">
+            <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
+              <div className="label">
+                <span className="label-text md:text-xl text-sm">
+                  First Name : <b>{userData.firstname}</b>
+                </span>
+              </div>
+            </div>
+            <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
+              <div className="label">
+                <span className="label-text md:text-xl text-sm">
+                  Last Name : <b> {userData.lastname}</b>
+                </span>
+              </div>
+            </div>
+            <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
+              <div className="label">
+                <span className="label-text md:text-xl text-sm">
+                  Gender :{" "}
+                  <b>
+                    {userData.gender.charAt(0).toUpperCase() +
+                      userData.gender.slice(1)}
+                  </b>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex-1 md:p-8 text-justify">
+            <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
+              <div className="label">
+                <span className="label-text md:text-xl text-sm">
+                  Email : <b>{userData.email}</b>{" "}
+                </span>
+              </div>
+            </div>
+            <div className="flex sm:flex-row flex-col items-start sm:items-center text-sm md:text-xl justify-start">
+              <div className="label">
+                <span className="label-text md:text-xl text-sm">
+                  Phone Number : <b>{userData.phone}</b>
+                </span>
+              </div>
+            </div>
+            <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
+              <div className="label">
+                <span className="label-text md:text-xl text-sm">
+                  Account Creation Date :{" "}
+                  <b> {new Date(userData.createdAt!).toLocaleDateString()}</b>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Profile;
