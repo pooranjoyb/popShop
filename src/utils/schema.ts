@@ -5,7 +5,7 @@ const getCurrentTime = () => new Date().toISOString();
 const SignUpSchema = z.object({
   username: z
     .string()
-    .min(5, "Username must be at least 5 characters")
+    .min(3, "Username must be at least 5 characters")
     .max(20, "Username must be less than 20 characters")
     .regex(
       /^[a-zA-Z0-9_]*$/,
@@ -27,11 +27,11 @@ const SignUpSchema = z.object({
     }),
   firstname: z
     .string()
-    .min(5, "First Name must be at least 5 character long")
+    .min(3, "First Name must be at least 5 character long")
     .max(20, "First Name must be less than 20 characters"),
   lastname: z
     .string()
-    .min(5, "Last Name must be at least 5 character long")
+    .min(3, "Last Name must be at least 5 character long")
     .max(20, "Last Name must be less than 20 characters"),
   gender: z
     .boolean()
