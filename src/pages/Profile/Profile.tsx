@@ -26,6 +26,10 @@ function Profile() {
   const [userData, setUserData] = useState<USER>();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (!isAuthenticated) {
     navigate("/home");
   }
@@ -45,7 +49,7 @@ function Profile() {
     };
 
     fetchData();
-}, []);
+  }, [userData]);
 
   if (!userData) {
     return <Loader />;

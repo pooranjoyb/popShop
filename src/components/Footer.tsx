@@ -95,7 +95,7 @@ const ServicesList = () => {
         </li>
         <li>
           <Link
-            to="/contact"
+            to="/home/contact"
             className="text-gray-700 transition hover:opacity-75"
           >
             {" "}
@@ -163,9 +163,9 @@ export default function NewFooter() {
         </div>
         <div className="mt-12 border-t border-gray-100 flex flex-wrap max-sm:text-left items-center justify-between pt-8 space-8 gap-x-8">
         <div className="text-xs flex gap-x-4">
-            <Link to="/terms-and-conditions#terms">Terms & Conditions</Link>
-            <Link to="/terms-and-conditions#">Privacy Policy</Link>
-            <Link to="/terms-and-conditions#cookies">Cookies</Link>
+            <Link to="/home/terms-and-conditions#terms">Terms & Conditions</Link>
+            <Link to="/home/terms-and-conditions#">Privacy Policy</Link>
+            <Link to="/home/terms-and-conditions#cookies">Cookies</Link>
           </div>
           <p className="text-xs text-gray-500">
             &copy; 2024. PopShop.com. All rights reserved.

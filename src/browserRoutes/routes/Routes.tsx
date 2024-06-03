@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
 import Profile from "../../pages/Profile/Profile";
 import TopButton from "../../components/TopButton/TopButton";
-import TermsCond from "../../pages/T&C/TermsCond";
+import TermsandConditions from "../../pages/T&C/TermsCond";
 
 const Routes = () => {
   const isAuthenticated = useSelector(
@@ -59,15 +59,16 @@ const Routes = () => {
             },
           ],
         },
+        {
+          path: "contact",
+          element: <Contact />,
+        },
+        {
+          path: "terms-and-conditions",
+          element: <TermsandConditions />,
+        },
       ],
       errorElement: <Error />,
-    },
-    {
-      path:"/contact",
-      element: <Contact/>,
-    },{
-      path:"/terms-and-conditions",
-      element: <TermsCond/>,
     },
     {
       path: "*",
