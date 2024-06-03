@@ -8,7 +8,7 @@ import Button from "./Button";
 import { RootState } from "../utils/features/store";
 import { logout } from "../utils/features/Auth/authSlice";
 import { Slide, toast } from "react-toastify";
-import { useState } from "react";
+
 
 function Screensize() {
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth});
