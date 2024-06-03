@@ -91,6 +91,11 @@ function Auth() {
           username: validateData.username,
           email: validateData.email,
           password: hashedPassword,
+          firstname:validateData.firstname,
+          lastname:validateData.lastname,
+          gender:validateData.gender ?"female":"male",
+          phone:validateData.phone,
+          createdAt:validateData.createdAt
         },
       ]);
 
