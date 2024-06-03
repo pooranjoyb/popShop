@@ -276,7 +276,7 @@ function Auth() {
                       ))}
                     </ul>
                   )}
-                  <button className="bg-mygreen hover:bg-myyellow w-full text-[1rem] shadow-lg btn" onClick={handleResetPassword}>
+                  <button className="bg-mygreen hover:bg-myyellow text-mywhite w-full text-[1rem] shadow-lg rounded-xl py-2.5" onClick={handleResetPassword}>
                     Reset
                   </button>
                 </div>
@@ -490,11 +490,11 @@ function Auth() {
                   <div className="mt-8 flex flex-col">
                   {isLogin ? (
                  
-               <button className="bg-mygreen hover:bg-myyellow w-full text-[1rem] shadow-lg btn" onClick={handleResetPassword}>
+               <button className="bg-mygreen hover:bg-myyellow text-mywhite w-full text-[1rem] shadow-lg rounded-xl py-2.5">
                  Login
                </button>
                   ) : (
-                <button className="bg-mygreen hover:bg-myyellow w-full text-[1rem] shadow-lg btn" onClick={handleResetPassword}>
+                <button className="bg-mygreen hover:bg-myyellow text-mywhite w-full text-[1rem] shadow-lg rounded-xl py-2.5">
                     Signup
                 </button>
                 )}
