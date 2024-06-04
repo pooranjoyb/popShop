@@ -27,14 +27,10 @@ function Screensize() {
   )
 }
 function Floatingnav(){
-  if(Screensize() >= 1024){
-    return(<div
-      className="lg:flex lg:justify-center z-[100]">
+  if(Screensize() > 1024){
+    return(
       <Glassnav/>
-    </div>)
-    
-  }else{
-    return <div></div>
+    )
   }
 }
 function Navbar() {
@@ -62,8 +58,8 @@ function Navbar() {
 
   return (
     <>
-      <div className="navbar">
-        <div className="flex-1 md:ml-16 ml-2">
+      <div className="navbar flex justify-between">
+        <div className="flex md:ml-16 ml-2">
           <Link to="/home">
             <img
               src="./logo.png"
@@ -72,9 +68,11 @@ function Navbar() {
             />
           </Link>
         </div>
-        <div>
+
+        <div className="flex justify-center z-[100]">
           {Floatingnav()}
-        </div>
+        </div>        
+        
         <div className="flex-none gap-6 md:mr-16 mr-2">
           <div className="dropdown dropdown-end">
             <div
