@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Head from "../../components/Head";
 import Button from "../../components/Button";
 import Loader from "../../components/Loader/Loader";
+import EditProfileModal from "./EditProfileModal";
 
 interface USER {
   username: string;
@@ -34,22 +35,26 @@ function Profile() {
     navigate("/home");
   }
 
+  const fetchData = async () => {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("username", username);
+
+    if (error) {
+      console.error(error);
+    } else {
+      setUserData(data[0]);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const { data, error } = await supabase
-        .from("users")
-        .select("*")
-        .eq("username", username);
-
-      if (error) {
-        console.error(error);
-      } else {
-        setUserData(data[0]);
-      }
-    };
-
     fetchData();
   }, [userData]);
+
+  const handleUpdate = () => {
+    fetchData();
+  };
 
   if (!userData) {
     return <Loader />;
@@ -69,6 +74,17 @@ function Profile() {
       <Button text="Explore Products" color="mygreen" hover="myyellow" />
 
       <div className="card flex w-full my-5 rounded-xl shadow-2xl">
+        {/* Button to open modal  */}
+        <div className="w-full card">
+          <label
+            htmlFor="my_modal_1"
+            className="btn bg-mygreen hover:bg-myyellow"
+          >
+            Edit Profile
+          </label>
+        </div>
+        <EditProfileModal userData={userData} onUpdate={handleUpdate} />
+
         <div className="flex p-5 sm:p-0 flex-col sm:flex-row w-full md:items-center">
           <div className="flex-1 md:p-8 text-justify">
             <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
