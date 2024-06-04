@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
 import { useNavigate } from "react-router-dom";
 import Head from "../../components/Head";
-import Button from "../../components/Button";
 import Loader from "../../components/Loader/Loader";
 import EditProfileModal from "./EditProfileModal";
 
