@@ -71,18 +71,17 @@ function Profile() {
       <div className="w-full text-center">
         <Head h2={username!} />
       </div>
-      <Button text="Explore Products" color="mygreen" hover="myyellow" />
-
-      <div className="card flex w-full my-5 rounded-xl shadow-2xl">
-        {/* Button to open modal  */}
-        <div className="w-full card">
+      <div className="flex gap-5">
+        <div className="card">
           <label
             htmlFor="my_modal_1"
-            className="btn bg-mygreen hover:bg-myyellow"
+            className="btn bg-myyellow hover:bg-mygreen"
           >
             Edit Profile
           </label>
         </div>
+      </div>
+      <div className="card flex w-full mb-5 rounded-xl shadow-2xl">
         <EditProfileModal userData={userData} onUpdate={handleUpdate} />
 
         <div className="flex p-5 sm:p-0 flex-col sm:flex-row w-full md:items-center">

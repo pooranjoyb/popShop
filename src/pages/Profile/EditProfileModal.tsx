@@ -41,7 +41,7 @@ function EditProfileModal({ userData, onUpdate }: Props) {
                 className="modal-toggle w-5xl"
             />
             <div className="modal" role="dialog">
-                <div className="modal-box w-full card">
+                <div className="modal-box md:w-full px-4 card">
                     <h3 className="font-bold text-center text-lg">
                         Edit Your Profile
                     </h3>
