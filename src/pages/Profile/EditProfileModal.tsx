@@ -41,14 +41,14 @@ function EditProfileModal({ userData }: Props) {
                 className="modal-toggle w-5xl"
             />
             <div className="modal" role="dialog">
-                <div className="modal-box w-[30rem]">
+                <div className="modal-box w-full card">
                     <h3 className="font-bold text-center text-lg">
                         Edit Your Profile
                     </h3>
-                    <div className="flex font-semiold justify-around mt-5">
+                    <div className="flex font-semiold justify-around mt-5 flex-col sm:flex-row">
                         <div className="flex flex-col">
                             {/* First Name  */}
-                            <div className="w-full p-4">
+                            <div className="w-full sm:p-4 p-1">
                                 <label
                                     htmlFor="firstname"
                                     className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
@@ -68,7 +68,7 @@ function EditProfileModal({ userData }: Props) {
                                 />
                             </div>
                             {/* Last Name  */}
-                            <div className="w-full p-4">
+                            <div className="w-full sm:p-4 p-1">
                                 <label
                                     htmlFor="lastname"
                                     className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
@@ -88,7 +88,7 @@ function EditProfileModal({ userData }: Props) {
                                 />
                             </div>
                             {/* Phone number  */}
-                            <div className="w-full p-4">
+                            <div className="w-full sm:p-4 p-1">
                                 <label
                                     htmlFor="email"
                                     className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
@@ -110,7 +110,7 @@ function EditProfileModal({ userData }: Props) {
                         </div>
                         <div className="flex flex-col">
                             {/* Gender  */}
-                            <div className="w-full p-4">
+                            <div className="w-full sm:p-4 p-1">
                                 <label
                                     htmlFor="email"
                                     className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
@@ -120,7 +120,7 @@ function EditProfileModal({ userData }: Props) {
                                 <p className="ml-1">{userData.gender.charAt(0).toUpperCase() + userData.gender.slice(1)}</p>
                             </div>
                             {/* Email  */}
-                            <div className="w-full p-4">
+                            <div className="w-full sm:p-4 p-1">
                                 <label
                                     htmlFor="email"
                                     className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
@@ -130,7 +130,7 @@ function EditProfileModal({ userData }: Props) {
                                 <p className="ml-1">{userData.email}</p>
                             </div>
                             {/* Account creation date  */}
-                            <div className="w-full p-4">
+                            <div className="w-full sm:p-4 p-1">
                                 <label
                                     htmlFor="email"
                                     className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
