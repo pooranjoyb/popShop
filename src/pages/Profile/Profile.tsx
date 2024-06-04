@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Head from "../../components/Head";
 import Button from "../../components/Button";
 import Loader from "../../components/Loader/Loader";
+import EditProfileModal from "./EditProfileModal";
 
 interface USER {
   username: string;
@@ -45,7 +46,7 @@ function Profile() {
     };
 
     fetchData();
-}, []);
+  }, []);
 
   if (!userData) {
     return <Loader />;
@@ -65,57 +66,66 @@ function Profile() {
       <Button text="Explore Products" color="mygreen" hover="myyellow" />
 
       <div className="card flex w-full my-5 rounded-xl shadow-2xl">
-        <div className="flex p-5 sm:p-0 flex-col sm:flex-row w-full md:items-center">
-          <div className="flex-1 md:p-8 text-justify">
-            <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
-              <div className="label">
-                <span className="label-text md:text-xl text-sm">
-                  First Name : <b>{userData.firstname}</b>
-                </span>
-              </div>
-            </div>
-            <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
-              <div className="label">
-                <span className="label-text md:text-xl text-sm">
-                  Last Name : <b> {userData.lastname}</b>
-                </span>
-              </div>
-            </div>
-            <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
-              <div className="label">
-                <span className="label-text md:text-xl text-sm">
-                  Gender :{" "}
-                  <b>
-                    {userData.gender.charAt(0).toUpperCase() +
-                      userData.gender.slice(1)}
-                  </b>
-                </span>
-              </div>
+        {/* Button to open modal  */}
+        <label
+          htmlFor="my_modal_1"
+          className="btn bg-mygreen hover:bg-myyellow"
+        >
+          Edit Profile
+        </label>
+        <EditProfileModal userData={userData}/>
+      </div>
+
+      <div className="flex p-5 sm:p-0 flex-col sm:flex-row w-full md:items-center">
+        <div className="flex-1 md:p-8 text-justify">
+          <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
+            <div className="label">
+              <span className="label-text md:text-xl text-sm">
+                First Name : <b>{userData.firstname}</b>
+              </span>
             </div>
           </div>
+          <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
+            <div className="label">
+              <span className="label-text md:text-xl text-sm">
+                Last Name : <b> {userData.lastname}</b>
+              </span>
+            </div>
+          </div>
+          <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
+            <div className="label">
+              <span className="label-text md:text-xl text-sm">
+                Gender :{" "}
+                <b>
+                  {userData.gender.charAt(0).toUpperCase() +
+                    userData.gender.slice(1)}
+                </b>
+              </span>
+            </div>
+          </div>
+        </div>
 
-          <div className="flex-1 md:p-8 text-justify">
-            <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
-              <div className="label">
-                <span className="label-text md:text-xl text-sm">
-                  Email : <b>{userData.email}</b>{" "}
-                </span>
-              </div>
+        <div className="flex-1 md:p-8 text-justify">
+          <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
+            <div className="label">
+              <span className="label-text md:text-xl text-sm">
+                Email : <b>{userData.email}</b>{" "}
+              </span>
             </div>
-            <div className="flex sm:flex-row flex-col items-start sm:items-center text-sm md:text-xl justify-start">
-              <div className="label">
-                <span className="label-text md:text-xl text-sm">
-                  Phone Number : <b>{userData.phone}</b>
-                </span>
-              </div>
+          </div>
+          <div className="flex sm:flex-row flex-col items-start sm:items-center text-sm md:text-xl justify-start">
+            <div className="label">
+              <span className="label-text md:text-xl text-sm">
+                Phone Number : <b>{userData.phone}</b>
+              </span>
             </div>
-            <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
-              <div className="label">
-                <span className="label-text md:text-xl text-sm">
-                  Account Creation Date :{" "}
-                  <b> {new Date(userData.createdAt!).toLocaleDateString()}</b>
-                </span>
-              </div>
+          </div>
+          <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
+            <div className="label">
+              <span className="label-text md:text-xl text-sm">
+                Account Creation Date :{" "}
+                <b> {new Date(userData.createdAt!).toLocaleDateString()}</b>
+              </span>
             </div>
           </div>
         </div>
