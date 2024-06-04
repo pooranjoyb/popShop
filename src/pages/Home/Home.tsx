@@ -81,8 +81,8 @@ function Home() {
             <div className="w-full px-4 lg:w-6/12 duration-200 transition-all ease-in">
               <div className="px-8 sm:p-0">
                 <div className="relative z-10 inline-block px-4 pt-11 lg:pt-0 ">
-                  <img src="/images/dress.jpg" alt="hero" className="w-full" />
-                  <span className="absolute -bottom-8 -right-10 z-[-1]">
+                  <img src="/images/dress.jpg" alt="hero" className="w-full z-[-1]" />
+                  <span className="absolute -bottom-8 -right-10 z-[-2]">
                     <svg
                       width="93"
                       height="93"
@@ -126,6 +126,7 @@ function Home() {
 
       {/* New Collections Section */}
       <motion.div
+        id='Collections'
         ref={collectionsRef}
         className="mx-auto overflow-hidden max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8"
         initial={{ opacity: 0, y: 100 }}
@@ -172,6 +173,7 @@ function Home() {
 
       {/* Products Section */}
       <motion.div
+        id='Products'
         ref={productsRef}
         className="mx-auto overflow-hidden max-w-screen-xl px-4 py-16 flex flex-col justify-between items-center"
         initial={{ opacity: 0, y: 100 }}
