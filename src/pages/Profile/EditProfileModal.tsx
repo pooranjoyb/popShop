@@ -45,11 +45,10 @@ function EditProfileModal({ userData }: Props) {
                     <h3 className="font-bold text-center text-lg">
                         Edit Your Profile
                     </h3>
-                    <h4>{userData.username}</h4>
                     <div className="flex font-semiold justify-around mt-5">
                         <div className="flex flex-col">
                             {/* First Name  */}
-                            <div className="w-1/2">
+                            <div className="w-full p-4">
                                 <label
                                     htmlFor="firstname"
                                     className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
@@ -69,7 +68,7 @@ function EditProfileModal({ userData }: Props) {
                                 />
                             </div>
                             {/* Last Name  */}
-                            <div className="w-1/2">
+                            <div className="w-full p-4">
                                 <label
                                     htmlFor="lastname"
                                     className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
@@ -88,20 +87,8 @@ function EditProfileModal({ userData }: Props) {
                                     }
                                 />
                             </div>
-                            {/* Gender  */}
-                            <div className="w-1/2 mt-5">
-                                <label
-                                    htmlFor="email"
-                                    className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
-                                >
-                                    Gender
-                                </label>
-                                <p>{userData.gender}</p>
-                            </div>
-                        </div>
-                        <div className="flex flex-col">
                             {/* Phone number  */}
-                            <div className="w-1/2">
+                            <div className="w-full p-4">
                                 <label
                                     htmlFor="email"
                                     className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
@@ -120,25 +107,37 @@ function EditProfileModal({ userData }: Props) {
                                     }
                                 />
                             </div>
+                        </div>
+                        <div className="flex flex-col">
+                            {/* Gender  */}
+                            <div className="w-full p-4">
+                                <label
+                                    htmlFor="email"
+                                    className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
+                                >
+                                    Gender
+                                </label>
+                                <p className="ml-1">{userData.gender.charAt(0).toUpperCase() + userData.gender.slice(1)}</p>
+                            </div>
                             {/* Email  */}
-                            <div className="w-1/2">
+                            <div className="w-full p-4">
                                 <label
                                     htmlFor="email"
                                     className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
                                 >
                                     Email
                                 </label>
-                                <p>{userData.email}</p>
+                                <p className="ml-1">{userData.email}</p>
                             </div>
                             {/* Account creation date  */}
-                            <div className="w-1/2">
+                            <div className="w-full p-4">
                                 <label
                                     htmlFor="email"
                                     className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
                                 >
                                     Account creation date
                                 </label>
-                                <p>{String(userData.createdAt)}</p>
+                                <p className="ml-1">{String(userData.createdAt)}</p>
                             </div>
                         </div>
 

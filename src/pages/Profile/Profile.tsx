@@ -67,14 +67,16 @@ function Profile() {
 
       <div className="card flex w-full my-5 rounded-xl shadow-2xl">
         {/* Button to open modal  */}
+        <div className="w-full card">
         <label
           htmlFor="my_modal_1"
           className="btn bg-mygreen hover:bg-myyellow"
         >
           Edit Profile
         </label>
+        </div>
         <EditProfileModal userData={userData}/>
-      </div>
+      
 
       <div className="flex p-5 sm:p-0 flex-col sm:flex-row w-full md:items-center">
         <div className="flex-1 md:p-8 text-justify">
@@ -130,6 +132,7 @@ function Profile() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
