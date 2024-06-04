@@ -13,11 +13,11 @@ interface USER {
 
 interface Props {
     userData: USER;
+    onUpdate: () => void;
 }
 
-function EditProfileModal({ userData }: Props) {
+function EditProfileModal({ userData, onUpdate }: Props) {
     const [updatedData, setUpdatedData] = useState<USER>(userData);
-
 
     const handleUpdate = async () => {
         const { error } = await supabase
@@ -29,12 +29,12 @@ function EditProfileModal({ userData }: Props) {
             console.error(error);
         } else {
             setUpdatedData(updatedData);
+            onUpdate();
         }
     };
 
     return (
         <>
-            {/* Modal Body Starts*/}
             <input
                 type="checkbox"
                 id="my_modal_1"
@@ -47,7 +47,6 @@ function EditProfileModal({ userData }: Props) {
                     </h3>
                     <div className="flex font-semiold justify-around mt-5 flex-col sm:flex-row">
                         <div className="flex flex-col">
-                            {/* First Name  */}
                             <div className="w-full sm:p-4 p-1">
                                 <label
                                     htmlFor="firstname"
@@ -67,7 +66,6 @@ function EditProfileModal({ userData }: Props) {
                                     }
                                 />
                             </div>
-                            {/* Last Name  */}
                             <div className="w-full sm:p-4 p-1">
                                 <label
                                     htmlFor="lastname"
@@ -87,7 +85,6 @@ function EditProfileModal({ userData }: Props) {
                                     }
                                 />
                             </div>
-                            {/* Phone number  */}
                             <div className="w-full sm:p-4 p-1">
                                 <label
                                     htmlFor="email"
@@ -109,7 +106,6 @@ function EditProfileModal({ userData }: Props) {
                             </div>
                         </div>
                         <div className="flex flex-col">
-                            {/* Gender  */}
                             <div className="w-full sm:p-4 p-1">
                                 <label
                                     htmlFor="email"
@@ -119,7 +115,6 @@ function EditProfileModal({ userData }: Props) {
                                 </label>
                                 <p className="ml-1">{userData.gender.charAt(0).toUpperCase() + userData.gender.slice(1)}</p>
                             </div>
-                            {/* Email  */}
                             <div className="w-full sm:p-4 p-1">
                                 <label
                                     htmlFor="email"
@@ -129,7 +124,6 @@ function EditProfileModal({ userData }: Props) {
                                 </label>
                                 <p className="ml-1">{userData.email}</p>
                             </div>
-                            {/* Account creation date  */}
                             <div className="w-full sm:p-4 p-1">
                                 <label
                                     htmlFor="email"
@@ -140,8 +134,6 @@ function EditProfileModal({ userData }: Props) {
                                 <p className="ml-1">{String(userData.createdAt)}</p>
                             </div>
                         </div>
-
-
                     </div>
 
                     <div className="modal-action  pe-5">
@@ -162,7 +154,6 @@ function EditProfileModal({ userData }: Props) {
                     </div>
                 </div>
             </div>
-            {/* Modal Body Ends  */}
         </>
     );
 }
