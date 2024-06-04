@@ -92,8 +92,8 @@ function Navbar() {
               className="mt-3 z-[1] card card-compact dropdown-content w-32 bg-base-100 shadow-2xl"
             >
               <div className="card-body">
-                <span className="font-bold text-lg text-mynavy">8 Items</span>
-                <span className="text-mynavy">Subtotal: $999</span>
+                <span className="font-bold text-lg text-mynavy">{itemsInCart} Items</span>
+                <span className="text-mynavy">Subtotal: $$999</span>
                 <Link to="/home/shop/cart" className="card-actions w-full">
                   <Button text="View cart" color="myyellow" hover="mygreen" />
                 </Link>
