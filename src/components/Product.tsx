@@ -3,6 +3,8 @@ import Button from "./Button";
 import { toast } from 'react-toastify';
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { supabase } from "../utils/client";
+import { addItem } from "../utils/features/cart/cartSlice";
+import { useDispatch } from "react-redux";
 
 interface Data {
   name: string;
@@ -13,6 +15,7 @@ interface Data {
 
 function Product({ name, image, price, desc }: Data) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const addToCart = async () => {
     try {
       const product = {
@@ -28,13 +31,15 @@ function Product({ name, image, price, desc }: Data) {
         .from("Cart")
         .insert([
           {
-            username: "username", // replace with actual username
+            username: "xyz", // replace with actual username
             products: [product],
           },
         ]);
   
       if (error) throw error;
       console.log("Product added to cart:", data);
+      // Dispatch to Redux
+      dispatch(addItem({ item: product }));
       toast.success('Product added to cart');
     } catch (error) {
       console.error("Error adding product to cart:", error);
