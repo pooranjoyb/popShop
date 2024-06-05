@@ -79,23 +79,23 @@ function Auth() {
         lastname: userData.lastname,
         phone: userData.phone,
         gender: userData.gender,
-        createdAt: userData.createdAt
+        createdAt: userData.createdAt,
       });
 
       const hashedPassword = await bcrypt.hash(validateData.password, 10);
 
-      console.log(validateData)
+      console.log(validateData);
 
       const { error } = await supabase.from("users").insert([
         {
           username: validateData.username,
           email: validateData.email,
           password: hashedPassword,
-          firstname:validateData.firstname,
-          lastname:validateData.lastname,
-          gender:validateData.gender ?"female":"male",
-          phone:validateData.phone,
-          createdAt:validateData.createdAt
+          firstname: validateData.firstname,
+          lastname: validateData.lastname,
+          gender: validateData.gender ? "female" : "male",
+          phone: validateData.phone,
+          createdAt: validateData.createdAt,
         },
       ]);
 
@@ -112,7 +112,7 @@ function Auth() {
           lastname: userData.lastname,
           phone: userData.phone,
           gender: userData.gender,
-          createdAt: userData.createdAt
+          createdAt: userData.createdAt,
         });
         setLogin(true);
         toastNotification("New User Created !!", "success");
@@ -193,7 +193,7 @@ function Auth() {
 
       toastNotification("User LoggedIn !!", "success");
       dispatch(login({ username: validateData.username }));
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       if (err instanceof z.ZodError) {
         const newErrors = err.flatten().fieldErrors;

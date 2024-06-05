@@ -1,7 +1,7 @@
-import { FaFacebook, FaGithub } from "react-icons/fa6"
-import { IoLogoInstagram } from "react-icons/io5"
-import { RiTwitterXFill } from "react-icons/ri"
-import { Link } from "react-router-dom"
+import { FaFacebook, FaGithub } from "react-icons/fa6";
+import { IoLogoInstagram } from "react-icons/io5";
+import { RiTwitterXFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 const Socials = () => {
   return (
@@ -55,10 +55,9 @@ const Socials = () => {
           <FaGithub className="w-6 h-6" />
         </a>
       </li>
-
     </ul>
-  )
-}
+  );
+};
 
 const ServicesList = () => {
   return (
@@ -68,7 +67,7 @@ const ServicesList = () => {
       <ul className="mt-6 space-y-4 text-sm">
         <li>
           <Link
-            to="/home/profile"
+            to="/profile"
             className="text-gray-700 transition hover:opacity-75"
           >
             {" "}
@@ -77,7 +76,7 @@ const ServicesList = () => {
         </li>
         <li>
           <Link
-            to="/home/shop/cart"
+            to="/shop/cart"
             className="text-gray-700 transition hover:opacity-75"
           >
             {" "}
@@ -86,7 +85,7 @@ const ServicesList = () => {
         </li>
         <li>
           <Link
-            to="/home/shop"
+            to="/shop"
             className="text-gray-700 transition hover:opacity-75"
           >
             {" "}
@@ -94,10 +93,7 @@ const ServicesList = () => {
           </Link>
         </li>
         <li>
-          <Link
-            to="#"
-            className="text-gray-700 transition hover:opacity-75"
-          >
+          <Link to="#" className="text-gray-700 transition hover:opacity-75">
             {" "}
             Join Us{" "}
           </Link>
@@ -112,8 +108,8 @@ const ServicesList = () => {
         </li>
       </ul>
     </>
-  )
-}
+  );
+};
 
 export default function NewFooter() {
   return (
@@ -129,7 +125,8 @@ export default function NewFooter() {
         <div className="row-span-3 flex justify-stretch gap-8 h-full w-full max-sm:flex-col max-sm:items-center">
           <div className="space-y-8 grow w-full">
             <p className="text-4xl font-extrabold">
-              <span>Call Us</span><br />
+              <span>Call Us</span>
+              <br />
               <span
                 style={{
                   textShadow:
@@ -142,7 +139,8 @@ export default function NewFooter() {
               </span>
             </p>
             <p>
-              <span>Monday to Friday: 10am - 5pm</span><br />
+              <span>Monday to Friday: 10am - 5pm</span>
+              <br />
               <span>Weekend: 10am - 3pm</span>
             </p>
             <Socials />
@@ -163,5 +161,5 @@ export default function NewFooter() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

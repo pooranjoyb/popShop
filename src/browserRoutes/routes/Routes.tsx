@@ -20,16 +20,11 @@ const Routes = () => {
   return createBrowserRouter([
     {
       path: "/",
-      element: isAuthenticated ? <Navigate to="/home" /> : <Auth />,
-      errorElement: <Error />,
-    },
-    {
-      path: "/home",
       element: (
-        <ProtectedRoute>
+        <>
           <Layout />
           <TopButton />
-        </ProtectedRoute>
+        </>
       ),
       children: [
         {
@@ -37,8 +32,16 @@ const Routes = () => {
           element: <Home />,
         },
         {
+          path: "login",
+          element: <Auth />,
+        },
+        {
           path: "profile",
-          element: <Profile />,
+          element: (
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "shop",
@@ -60,6 +63,7 @@ const Routes = () => {
       ],
       errorElement: <Error />,
     },
+
     {
       path: "*",
       element: <Error />,

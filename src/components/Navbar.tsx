@@ -10,7 +10,7 @@ import { Slide, toast } from "react-toastify";
 function Navbar() {
   const userName = useSelector((state: RootState) => state.auth.user?.username);
   const dispatch = useDispatch();
-  const itemsInCart = useSelector((state:RootState)=>state.cart.item).length;
+  const itemsInCart = useSelector((state: RootState) => state.cart.item).length;
 
   const toastNotification = (message: string) => {
     toast(message, {
@@ -26,9 +26,12 @@ function Navbar() {
     <>
       <div className="navbar">
         <div className="flex-1 md:ml-16 ml-2">
-          <Link
-            to="/home">
-            <img  src="./logo.png" alt="PopShop Logo" className="md:w-36 w-20 duration-100"/>
+          <Link to="/">
+            <img
+              src="./logo.png"
+              alt="PopShop Logo"
+              className="md:w-36 w-20 duration-100"
+            />
           </Link>
         </div>
         <div className="flex-none gap-6 md:mr-16 mr-2">
@@ -40,7 +43,9 @@ function Navbar() {
             >
               <div className="indicator">
                 <MdOutlineShoppingCart className="h-5 w-5" />
-                <span className="badge badge-sm indicator-item ">{itemsInCart}</span>
+                <span className="badge badge-sm indicator-item ">
+                  {itemsInCart}
+                </span>
               </div>
             </div>
             <div
@@ -50,7 +55,7 @@ function Navbar() {
               <div className="card-body">
                 <span className="font-bold text-lg text-mynavy">8 Items</span>
                 <span className="text-mynavy">Subtotal: $999</span>
-                <Link to="/home/shop/cart" className="card-actions w-full">
+                <Link to="/shop/cart" className="card-actions w-full">
                   <Button text="View cart" color="myyellow" hover="mygreen" />
                 </Link>
               </div>
@@ -71,15 +76,15 @@ function Navbar() {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 bg-base-100 rounded-box w-52 shadow-2xl"
             >
               <li>
-                <Link to={"/home/profile"} className="justify-between">
-                  {`${userName}` || <p>Profile</p>}
+                <Link to={"/profile"} className="justify-between">
+                  {userName ? `${userName}` : <p>Profile</p>}
                 </Link>
               </li>
               <li>
-                <Link to={"/home/shop"}>{<p>Shop</p>}</Link>
+                <Link to={"/shop"}>{<p>Shop</p>}</Link>
               </li>
               <li>
-                <Link to={"/home/shop/cart"}>{<p>Cart</p>}</Link>
+                <Link to={"/shop/cart"}>{<p>Cart</p>}</Link>
               </li>
               <li>
                 <Link
