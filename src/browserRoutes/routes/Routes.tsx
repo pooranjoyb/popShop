@@ -6,18 +6,16 @@ import Contact from "../../pages/Contact/Contact";
 import Shop from "../../pages/Shop/Shop";
 import ProductDetail from "../../pages/Shop/ProductDetail";
 import Cart from "../../pages/Cart/Cart";
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "../../pages/Auth/ProtectedRoute";
-import { useSelector } from "react-redux";
-import { RootState } from "../../utils/features/store";
 import Profile from "../../pages/Profile/Profile";
 import TopButton from "../../components/TopButton/TopButton";
 import TermsandConditions from "../../pages/T&C/TermsCond";
 
 const Routes = () => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state?.auth?.isAuthenticated
-  );
+  // const isAuthenticated = useSelector(
+  //   (state: RootState) => state?.auth?.isAuthenticated
+  // );
 
   return createBrowserRouter([
     {
