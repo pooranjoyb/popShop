@@ -2851,6 +2851,10 @@ html {
   max-width: 72rem;
 }
 
+.max-w-full {
+  max-width: 100%;
+}
+
 .max-w-lg {
   max-width: 32rem;
 }
@@ -3146,11 +3150,6 @@ html {
   padding-right: 1rem;
 }
 
-.px-5 {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-}
-
 .px-6 {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -3225,10 +3224,6 @@ html {
 
 .pe-5 {
   padding-inline-end: 1.25rem;
-}
-
-.pt-10 {
-  padding-top: 2.5rem;
 }
 
 .pt-11 {
@@ -3587,11 +3582,6 @@ img:hover {
 }
 
 @media (min-width: 640px) {
-  .sm\:mx-auto {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   .sm\:h-\[350px\] {
     height: 350px;
   }
@@ -3606,10 +3596,6 @@ img:hover {
 
   .sm\:w-80 {
     width: 20rem;
-  }
-
-  .sm\:max-w-2xl {
-    max-width: 42rem;
   }
 
   .sm\:grid-cols-2 {
@@ -3628,21 +3614,12 @@ img:hover {
     gap: 0px;
   }
 
-  .sm\:rounded-lg {
-    border-radius: 0.5rem;
-  }
-
   .sm\:p-0 {
     padding: 0px;
   }
 
   .sm\:p-4 {
     padding: 1rem;
-  }
-
-  .sm\:px-10 {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
   }
 
   .sm\:px-6 {

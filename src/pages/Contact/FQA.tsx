@@ -4,12 +4,12 @@ function FQA() {
     return (
         <>
             <div
-                className="relative w-full bg-white px-6 pt-10 pb-8 mt-8 sm:mx-auto sm:max-w-2xl sm:rounded-lg sm:px-10">
-                <div className="mx-auto px-5">
+                className="px-4 mt-5 sm:py-6 mx-auto max-w-screen-md lg:py-4 md:px-6 flex flex-col gap-4">
+                <div className="mx-auto w-full">
                     <div className="flex flex-col items-center">
                         <Head h1="Explore" h2="FAQs" />
                     </div>
-                    <div className="mx-auto mt-8 grid max-w-xl divide-y divide-neutral-200">
+                    <div className="mx-auto mt-8 grid max-w-full divide-y divide-neutral-200">
                         <div className="py-5">
                             <details className="group">
                                 <summary className="flex cursor-pointer list-none items-center justify-between font-medium">
