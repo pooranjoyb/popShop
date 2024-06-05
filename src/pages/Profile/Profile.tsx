@@ -80,7 +80,7 @@ function Profile() {
           </label>
         </div>
       </div>
-      <div className="card flex w-full mb-5 rounded-xl shadow-2xl">
+      <div className="card flex w-full mb-28 rounded-xl shadow-2xl">
         <EditProfileModal userData={userData} onUpdate={handleUpdate} />
 
         <div className="flex p-5 sm:p-0 flex-col sm:flex-row w-full md:items-center">
