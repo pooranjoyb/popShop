@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import Head from "../../components/Head";
-// import tncImg from "../../../public/images/t&c.jpg"
 
 function TermsCond() {
   useEffect(() => {
