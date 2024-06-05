@@ -14,8 +14,8 @@ function TermsCond() {
           <div className="">
             <div className="">
               <div className="">
-                <div className="flex gap-6 items-center">
-                  <div className="group-text">
+                <div className="flex gap-4 items-center">
+                  <div className="group-text text-center">
                     <Head h2="Terms and Conditions" />
                     <div className="m-5">
                       <p className="mb-3 text-center font-bold">Welcome to Pop Shop!</p>
@@ -50,15 +50,15 @@ function TermsCond() {
                       </p>
                     </div>
                   </div>
-                  <div className="group-img">
+                  <div className="group-img hidden md:block">
                     <img src="../../../public/images/t&c.jpg" width={"2500px"} alt="t&c" />
                   </div>
                 </div>
-                <div className="flex gap-6 items-center">
-                  <div className="group-img">
+                <div className="flex gap-4 items-center">
+                  <div className="group-img hidden md:block">
                     <img src="../../../public/images/cookies.png" alt="cookies" />
                   </div>
-                  <div className="group-text">
+                  <div className="group-text text-center">
                     <Head h2="Cookies" />
                     <div className="m-5">
                       <p className="m-3 text-justify">
@@ -76,8 +76,8 @@ function TermsCond() {
                     </div>
                   </div>
                 </div>
-                <div className="flex gap-6 items-center">
-                  <div className="group-text">
+                <div className="flex gap-4 items-center">
+                  <div className="group-text text-center">
                     <Head h2="License" />
                     <div className="m-5">
                       <p className="m-3 text-justify">
@@ -89,10 +89,10 @@ function TermsCond() {
                       </p>
                       <p className="m-3 text-justify font-bold">You must not:</p>
                       <ul className="list-disc">
-                        <li className="mx-3 ml-6">Republish material from Pop Shop</li>
-                        <li className="mx-3 ml-6">Sell, rent or sub-license material from Pop Shop</li>
-                        <li className="mx-3 ml-6">Reproduce, duplicate or copy material from Pop Shop</li>
-                        <li className="mx-3 ml-6">Redistribute content from Pop Shop</li>
+                        <li className="mx-3 ml-6 text-justify">Republish material from Pop Shop</li>
+                        <li className="mx-3 ml-6 text-justify">Sell, rent or sub-license material from Pop Shop</li>
+                        <li className="mx-3 ml-6 text-justify">Reproduce, duplicate or copy material from Pop Shop</li>
+                        <li className="mx-3 ml-6 text-justify">Redistribute content from Pop Shop</li>
                       </ul>
 
                       <p className="m-3 text-justify">
@@ -115,21 +115,21 @@ function TermsCond() {
                       </p>
                       <p className="m-3 text-justify font-bold">You warrant and represent that:</p>
                       <ul className="list-disc">
-                        <li className="mx-3 ml-6">
+                        <li className="mx-3 ml-6 text-justify">
                           You are entitled to post the Comments on our website and
                           have all necessary licenses and consents to do so;
                         </li>
-                        <li className="mx-3 ml-6">
+                        <li className="mx-3 ml-6 text-justify">
                           The Comments do not invade any intellectual property right,
                           including without limitation copyright, patent or trademark
                           of any third party;
                         </li>
-                        <li className="mx-3 ml-6">
+                        <li className="mx-3 ml-6 text-justify">
                           The Comments do not contain any defamatory, libelous,
                           offensive, indecent or otherwise unlawful material which is
                           an invasion of privacy
                         </li>
-                        <li className="mx-3 ml-6">
+                        <li className="mx-3 ml-6 text-justify">
                           The Comments will not be used to solicit or promote business
                           or custom or present commercial activities or unlawful
                           activity.
@@ -141,18 +141,18 @@ function TermsCond() {
                         edit any of your Comments in any and all forms, formats or
                         media.
                       </p>
-                      </div>
                     </div>
-                    <div className="group-img">
-                      <img src="../../../public/images/license.png" width={"2500px"} alt="t&c" />
-                    </div>
+                  </div>
+                  <div className="group-img hidden md:block">
+                    <img src="../../../public/images/license.png" width={"2500px"} alt="t&c" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </>
-      );
+      </div>
+    </>
+  );
 }
-      export default TermsCond;
+export default TermsCond;
