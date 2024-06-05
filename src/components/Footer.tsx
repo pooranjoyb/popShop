@@ -93,7 +93,20 @@ const ServicesList = () => {
           </Link>
         </li>
         <li>
-          <Link to="#" className="text-gray-700 transition hover:opacity-75">
+
+          <Link
+            to="/contact"
+            className="text-gray-700 transition hover:opacity-75"
+          >
+            {" "}
+            Contact Us{" "}
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="#"
+            className="text-gray-700 transition hover:opacity-75"
+          >
             {" "}
             Join Us{" "}
           </Link>
@@ -106,6 +119,7 @@ const ServicesList = () => {
             About
           </Link>
         </li>
+        
       </ul>
     </>
   );
@@ -113,7 +127,7 @@ const ServicesList = () => {
 
 export default function NewFooter() {
   return (
-    <footer className="text-mynavy mx-auto max-w-screen-xl px-4 my-12 flex flex-wrap items-center gap-8 lg:grid lg:grid-cols-5 max-sm:flex-col">
+    <footer id="Footer" className="text-mynavy mx-auto max-w-screen-xl px-4 my-12 flex flex-wrap items-center gap-8 lg:grid lg:grid-cols-5 max-sm:flex-col">
       <div className="lg:col-span-2 h-full w-full p-2 sm:p-0">
         <img
           src="/images/footer.jpg"
@@ -150,11 +164,11 @@ export default function NewFooter() {
           </div>
         </div>
         <div className="mt-12 border-t border-gray-100 flex flex-wrap max-sm:text-left items-center justify-between pt-8 space-8 gap-x-8">
-          <ul className="text-xs flex gap-x-4">
-            <li>Terms & Conditions</li>
-            <li>Privacy Policy</li>
-            <li>Cookies</li>
-          </ul>
+        <div className="text-xs flex gap-x-4">
+            <Link to="/home/terms-and-conditions#terms">Terms & Conditions</Link>
+            <Link to="/home/terms-and-conditions#">Privacy Policy</Link>
+            <Link to="/home/terms-and-conditions#cookies">Cookies</Link>
+          </div>
           <p className="text-xs text-gray-500">
             &copy; 2024. PopShop.com. All rights reserved.
           </p>

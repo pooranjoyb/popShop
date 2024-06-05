@@ -2,6 +2,7 @@ import Auth from "../../pages/Auth/Auth";
 import Error from "../../pages/Error";
 import Layout from "../../pages/Layout";
 import Home from "../../pages/Home/Home";
+import Contact from "../../pages/Contact/Contact";
 import Shop from "../../pages/Shop/Shop";
 import ProductDetail from "../../pages/Shop/ProductDetail";
 import Cart from "../../pages/Cart/Cart";
@@ -11,6 +12,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
 import Profile from "../../pages/Profile/Profile";
 import TopButton from "../../components/TopButton/TopButton";
+import TermsandConditions from "../../pages/T&C/TermsCond";
 
 const Routes = () => {
   const isAuthenticated = useSelector(
@@ -59,6 +61,14 @@ const Routes = () => {
               element: <Cart />,
             },
           ],
+        },
+        {
+          path: "contact",
+          element: <Contact />,
+        },
+        {
+          path: "terms-and-conditions",
+          element: <TermsandConditions />,
         },
       ],
       errorElement: <Error />,
