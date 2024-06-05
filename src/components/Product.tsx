@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { toast } from 'react-toastify';
 import { MdOutlineShoppingCart } from "react-icons/md";
+import { supabase } from "../utils/client";
 
 interface Data {
   name: string;
@@ -12,9 +13,32 @@ interface Data {
 
 function Product({ name, image, price, desc }: Data) {
   const navigate = useNavigate();
-  const addToCart = () => {
-    // logic for adding in cart
-    toast.success('Added to Cart', { autoClose: 2000 });
+  const addToCart = async () => {
+    try {
+      const product = {
+        name,
+        image,
+        price,
+        desc,
+        quantity: 1, // assuming quantity as 1, replace with actual quantity
+        ratings: 5, // assuming ratings as 5, replace with actual ratings
+      };
+  
+      const { data, error } = await supabase
+        .from("Cart")
+        .insert([
+          {
+            username: "username", // replace with actual username
+            products: [product],
+          },
+        ]);
+  
+      if (error) throw error;
+      console.log("Product added to cart:", data);
+      toast.success('Product added to cart');
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+    }
   };
   const handleNavigate = () => {
     navigate("/home/shop/product", { state: { name, image, price, desc } });
@@ -37,7 +61,7 @@ function Product({ name, image, price, desc }: Data) {
 
           <MdOutlineShoppingCart className="flex m-2 h-10 w-10" onClick={addToCart} />
           
-          <Button text="Buy Now" color="myyellow" hover="myred" />
+          <Button text="Buy Now" color="myyellow" hover="myred" onClick={addToCart} />
         </div>
       </div>
       
