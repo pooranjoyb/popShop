@@ -35,7 +35,7 @@ function Home() {
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: heroInView ? 1 : 0, y: heroInView ? 0 : -100 }}
         transition={{ duration: 1 }}
-        className="mx-auto max-w-screen-xl px-4 pt-8 gap-6 sm:gap-0 sm:py-12 flex flex-col sm:flex-row justify-between items-center"
+        className="mx-auto max-w-screen-xl px-4 pt-8 gap-6 sm:gap-0 sm:py-12 flex flex-col sm:flex-row justify-between items-center mt-8"
       >
         <div className="max-w-xl">
           <div className="text-mynavy">
@@ -68,15 +68,15 @@ function Home() {
       <motion.div
         ref={aboutRef}
         id="about"
-        className="mx-auto overflow-hidden max-w-screen-xl my-20 flex justify-between items-center pb-12"
+        className="overflow-hidden max-w-screen-xl my-8 flex justify-between items-center pb-12 pt-24 sm:pt-96 lg:pt-24 w-full"
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: aboutInView ? 1 : 0, y: aboutInView ? 0 : 100 }}
         transition={{ duration: 2 }}
       >
-        <div className="container">
-          <div className="-mx-4 flex flex-row-reverse flex-wrap">
-            <div className="w-full flex-col px-4 lg:w-5/12 justify-between">
-              <div className="flex-col px-2 pb-8 text-mynavy">
+        <div className="container w-full">
+          <div className="mx-4 flex justify-end items-center flex-row-reverse flex-wrap w-full">
+            <div className="w-full flex-col flex-wrap px-4 lg:w-4/12 justify-between">
+              <div className="w-full flex-col text-wrap px-2 pb-8 text-mynavy">
                 <Head h1="Eat, Sleep, Fashion," h2="Repeat" />
                 <h1 className="text-mynavy mb-4 text-2xl font-extrabold text-dark mt-6">
                   Grab the limited time offer!
@@ -86,16 +86,13 @@ function Home() {
                   <b> &#x20B9;21000/-</b> only
                 </p>
               </div>
-              <div className="px-8 sm:p-0">
-                <img
-                  className="w-full mt-8 duration-100"
-                  src="/images/fashion.jpg"
-                  alt=""
-                />
+
+              <div className="w-full px-2 sm:p-0">
+                <img className="w-full mt-8 duration-100" src="/images/fashion.jpg" alt="" />
               </div>
             </div>
             <div className="hidden px-4 lg:block lg:w-1/12"></div>
-            <div className="w-full px-4 lg:w-6/12 duration-200 transition-all ease-in">
+            <div className="w-full lg:w-4/12 duration-200 transition-all ease-in">
               <div className="px-8 sm:p-0">
                 <div className="relative z-10 inline-block px-4 pt-11 lg:pt-0 ">
                   <img src="/images/dress.jpg" alt="hero" className="w-full z-[-1]" />
@@ -137,6 +134,7 @@ function Home() {
                 </div>
               </div>
             </div>
+            <div className="hidden px-4 lg:block lg:w-1/12"></div>
           </div>
         </div>
       </motion.div>
@@ -161,7 +159,7 @@ function Home() {
             Explore our New Collections
           </p>
         </header>
-        <div className="mt-8 flex flex-col justify-center sm:flex-row gap-5">
+        <div className="mt-8 flex flex-col items-center justify-center sm:flex-row gap-5">
           <div className="flex gap-5 w-2/3">
             <img
               src="/images/winter3.jpg"
