@@ -2,9 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { toast } from 'react-toastify';
 import { MdOutlineShoppingCart } from "react-icons/md";
-import { supabase } from "../utils/client";
-import { addItem } from "../utils/features/cart/cartSlice";
-import { useDispatch } from "react-redux";
+
 
 interface Data {
   name: string;
@@ -19,7 +17,7 @@ function Product({ name, image, price, desc }: Data) {
   const addToCart = async () => {
     toast.success('Product added to cart');
   };
-  
+
   const handleNavigate = () => {
     navigate("/home/shop/product", { state: { name, image, price, desc } });
   };
