@@ -15,36 +15,11 @@ interface Data {
 
 function Product({ name, image, price, desc }: Data) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
   const addToCart = async () => {
-    try {
-      const product = {
-        name,
-        image,
-        price,
-        desc,
-        quantity: 1, // assuming quantity as 1, replace with actual quantity
-        ratings: 5, // assuming ratings as 5, replace with actual ratings
-      };
-  
-      const { data, error } = await supabase
-        .from("Cart")
-        .insert([
-          {
-            username: "xyz", // replace with actual username
-            products: [product],
-          },
-        ]);
-  
-      if (error) throw error;
-      console.log("Product added to cart:", data);
-      // Dispatch to Redux
-      dispatch(addItem({ item: product }));
-      toast.success('Product added to cart');
-    } catch (error) {
-      console.error("Error adding product to cart:", error);
-    }
+    toast.success('Product added to cart');
   };
+  
   const handleNavigate = () => {
     navigate("/home/shop/product", { state: { name, image, price, desc } });
   };

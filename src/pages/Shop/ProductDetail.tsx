@@ -7,6 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Head from "../../components/Head";
 import Button from "../../components/Button";
 import QuantityButton from "../Cart/QuantityButton";
+import { addItem } from "../../utils/features/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { supabase } from "../../utils/client";
 
 export interface Data {
     name: string;
@@ -19,6 +22,18 @@ interface RatingItem {
     className: string;
     checked?: boolean;
 }
+// src/types.ts
+export interface UserState {
+    user: {
+      username: string;
+    };
+  }
+  
+  export interface RootState {
+    auth: UserState;
+  }
+  
+  
 
 const commonClasses = "mask mask-star-2";
 
@@ -54,9 +69,37 @@ function ProductDetail() {
         window.scrollTo(0, 0);
     }, []);
 
-    const addToCart = () => {
-        // logic for adding in cart
-        toast.success('Added to Cart', { autoClose: 2000 });
+    const dispatch = useDispatch();
+    const userName = useSelector((state: RootState) => state.auth.user.username);
+    const addToCart = async () => {
+        try {
+            const product = {
+                name: data.name,
+                image: data.image,
+                price: data.price,
+                desc: data.desc,
+                quantity: 1, // assuming quantity as 1, replace with actual quantity
+                ratings: 5, // assuming ratings as 5, replace with actual ratings
+            };
+
+            const { error } = await supabase
+                .from("Cart")
+                .insert([
+                    {
+                        username: userName, // replace with actual username
+                        products: [product],
+                    },
+                ]);
+
+            if (error) throw error;
+            console.log("Product added to cart:", product);
+
+            // Dispatch to Redux
+            dispatch(addItem({ item: product }));
+            toast.success('Product added to cart');
+        } catch (error) {
+            console.error("Error adding product to cart:", error);
+        }
     };
 
     return (
