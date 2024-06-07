@@ -67,7 +67,7 @@ function Checkout() {
                     <div className="w-full">
                         <div className="product pe-4 my-5 w-full">
                             <p className="font-medium">Twinmotion Bundle</p>
-                            <p className="font-medium py-1">$300.00</p>
+                            <p className="w-full text-end font-medium py-1">$300.00</p>
                             <div className="w-full justify-between flex">
                                 <span>Qty</span>
                                 <span>20</span>
@@ -79,7 +79,7 @@ function Checkout() {
                         </div>
                         <div className="product pe-4 my-5 w-full">
                             <p className="font-medium">Twinmotion Bundle</p>
-                            <p className="font-medium py-1">$300.00</p>
+                            <p className="w-full text-end font-medium py-1">$300.00</p>
                             <div className="w-full justify-between flex">
                                 <span>Qty</span>
                                 <span>20</span>
@@ -91,7 +91,7 @@ function Checkout() {
                         </div>
                         <div className="product pe-4 my-5 w-full">
                             <p className="font-medium">Twinmotion Bundle</p>
-                            <p className="font-medium py-1">$300.00</p>
+                            <p className="w-full text-end font-medium py-1">$300.00</p>
                             <div className="w-full justify-between flex">
                                 <span>Qty</span>
                                 <span>20</span>
