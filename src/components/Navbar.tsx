@@ -115,7 +115,7 @@ function Navbar() {
               >
                 <li onClick={handleCloseMenu}>
                   <Link to={"/profile"} className="justify-between">
-                    {userName ? `${userName}` : <p>Login</p>}
+                    {userName ? `${userName}` : <p>Profile</p>}
                   </Link>
                 </li>
                 <li onClick={handleCloseMenu}>
