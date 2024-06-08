@@ -58,7 +58,7 @@ function Home() {
       <motion.div
         ref={aboutRef}
         id="about"
-        className="overflow-hidden max-w-screen-xl my-8 flex justify-between items-center pb-12 pt-24 sm:pt-96 lg:pt-24 w-full"
+        className="max-w-screen-xl  flex flex-col lg:flex-row justify-between items-center pb-12 pt-24 sm:pt-64 lg:pt-12 w-full"
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: aboutInView ? 1 : 0, y: aboutInView ? 0 : 100 }}
         transition={{ duration: 2 }}
