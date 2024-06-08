@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import {useNavigate} from 'react-router-dom';
 
 // components
 import Head from '../../components/Head';
@@ -12,10 +13,12 @@ export interface ITEM {
   description: string;
   price: string;
   title: string;
-  image: string; // Add this line
+  image: string; 
 }
 
 const Cart: React.FC = () => {
+  
+  const navigate = useNavigate();
   const cartItems = useSelector((state: RootState) => state.cart.item);
 
   useEffect(() => {
@@ -105,7 +108,7 @@ const Cart: React.FC = () => {
                   placeholder="x304k45"
                 />
                 <Button text="Apply" color="mygreen" hover="myyellow" />
-                <Button text="Checkout" color="myyellow" hover="mygreen" />
+                <Button text="Checkout" color="myyellow" hover="mygreen" onClick={()=>{navigate('/home/shop/checkout')}} />
               </div>
             </div>
           </div>

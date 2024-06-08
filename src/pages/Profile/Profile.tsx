@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
 import { useNavigate } from "react-router-dom";
 import Head from "../../components/Head";
-import Button from "../../components/Button";
 import Loader from "../../components/Loader/Loader";
+import EditProfileModal from "./EditProfileModal";
 
 interface USER {
   username: string;
@@ -34,22 +34,26 @@ function Profile() {
     navigate("/home");
   }
 
+  const fetchData = async () => {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("username", username);
+
+    if (error) {
+      console.error(error);
+    } else {
+      setUserData(data[0]);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const { data, error } = await supabase
-        .from("users")
-        .select("*")
-        .eq("username", username);
-
-      if (error) {
-        console.error(error);
-      } else {
-        setUserData(data[0]);
-      }
-    };
-
     fetchData();
   }, [userData]);
+
+  const handleUpdate = () => {
+    fetchData();
+  };
 
   if (!userData) {
     return <Loader />;
@@ -66,9 +70,19 @@ function Profile() {
       <div className="w-full text-center">
         <Head h2={username!} />
       </div>
-      <Button text="Explore Products" color="mygreen" hover="myyellow" />
+      <div className="flex gap-5">
+        <div className="card">
+          <label
+            htmlFor="my_modal_1"
+            className="btn bg-myyellow hover:bg-mygreen"
+          >
+            Edit Profile
+          </label>
+        </div>
+      </div>
+      <div className="card flex w-full mb-28 rounded-xl shadow-2xl">
+        <EditProfileModal userData={userData} onUpdate={handleUpdate} />
 
-      <div className="card flex w-full my-5 rounded-xl shadow-2xl">
         <div className="flex p-5 sm:p-0 flex-col sm:flex-row w-full md:items-center">
           <div className="flex-1 md:p-8 text-justify">
             <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
