@@ -60,7 +60,7 @@ const Cart: React.FC = () => {
               </div>
               <div className="py-4 mb-8 border-t border-b border-gray-200 dark:border-gray-700">
                 {cartItems.map((item: ITEM) => (
-                  <div key={item.id} className="flex flex-wrap items-center mb-6 -mx-4 md:mb-8">
+                  <div key={item.image} className="flex flex-wrap items-center mb-6 -mx-4 md:mb-8">
                     <div className="w-full px-4 mb-6 md:w-4/6 lg:w-6/12 md:mb-0">
                       <div className="flex flex-wrap items-center -mx-4">
                         <div className="w-full px-4 mb-3 md:w-1/3">
