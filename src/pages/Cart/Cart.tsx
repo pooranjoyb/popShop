@@ -5,7 +5,10 @@ import Head from "../../components/Head";
 import Button from "../../components/Button";
 import QuantityButton from "./QuantityButton";
 
+import {useNavigate} from 'react-router-dom';
+
 function Cart() {
+  const navigate=useNavigate()
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -134,7 +137,7 @@ function Cart() {
                   placeholder="x304k45"
                 />
                 <Button text="Apply" color="mygreen" hover="myyellow" />
-                <Button text="Checkout" color="myyellow" hover="mygreen" />
+                <Button text="Checkout" color="myyellow" hover="mygreen" onClick={()=>{navigate('/home/shop/checkout')}} />
               </div>
             </div>
           </div>
