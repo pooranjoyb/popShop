@@ -87,9 +87,9 @@ function ProductDetail() {
                 .from('Cart')
                 .select('*')
                 .eq('username', userName)
-                .maybeSingle();
+                .single();
     
-            if (fetchError) {
+            if (fetchError && fetchError.code !== 'PGRST116') { // Ignore "No such record" error
                 console.error("Fetch error:", fetchError);
                 throw fetchError;
             }
