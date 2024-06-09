@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../utils/client'; // Ensure supabase client is properly configured
 
 // components
 import Head from '../../components/Head';
@@ -13,13 +14,41 @@ export interface ITEM {
   description: string;
   price: string;
   title: string;
-  image: string; 
+  image: string;
 }
 
 const Cart: React.FC = () => {
-  
+  const [cartItems, setCartItems] = useState<ITEM[]>([]);
   const navigate = useNavigate();
-  const cartItems = useSelector((state: RootState) => state.cart.item);
+  const userName = useSelector((state: RootState) => state.auth.user.username);
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('Cart')
+          .select('*')
+          .eq('username', userName)
+          .maybeSingle();
+
+        if (error) {
+          throw error;
+        }
+
+        if (data && data.products) {
+          setCartItems(data.products);
+        } else {
+          setCartItems([]);
+        }
+      } catch (error) {
+        console.error('Error fetching cart data:', error);
+      }
+    };
+
+    if (userName) {
+      fetchCartData();
+    }
+  }, [userName]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -60,7 +89,7 @@ const Cart: React.FC = () => {
               </div>
               <div className="py-4 mb-8 border-t border-b border-gray-200 dark:border-gray-700">
                 {cartItems.map((item: ITEM) => (
-                  <div key={item.image} className="flex flex-wrap items-center mb-6 -mx-4 md:mb-8">
+                  <div key={item.id} className="flex flex-wrap items-center mb-6 -mx-4 md:mb-8">
                     <div className="w-full px-4 mb-6 md:w-4/6 lg:w-6/12 md:mb-0">
                       <div className="flex flex-wrap items-center -mx-4">
                         <div className="w-full px-4 mb-3 md:w-1/3">
@@ -108,7 +137,7 @@ const Cart: React.FC = () => {
                   placeholder="x304k45"
                 />
                 <Button text="Apply" color="mygreen" hover="myyellow" />
-                <Button text="Checkout" color="myyellow" hover="mygreen" onClick={()=>{navigate('/home/shop/checkout')}} />
+                <Button text="Checkout" color="myyellow" hover="mygreen" onClick={() => { navigate('/home/shop/checkout') }} />
               </div>
             </div>
           </div>
