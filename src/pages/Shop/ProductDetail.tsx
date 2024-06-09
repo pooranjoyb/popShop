@@ -7,6 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Head from "../../components/Head";
 import Button from "../../components/Button";
 import QuantityButton from "../Cart/QuantityButton";
+import { addItem } from "../../utils/features/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { supabase } from "../../utils/client";
 
 export interface Data {
     name: string;
@@ -18,6 +21,16 @@ export interface Data {
 interface RatingItem {
     className: string;
     checked?: boolean;
+}
+
+export interface UserState {
+    user: {
+        username: string;
+    };
+}
+
+export interface RootState {
+    auth: UserState;
 }
 
 const commonClasses = "mask mask-star-2";
@@ -35,7 +48,6 @@ const ratingItems: RatingItem[] = [
     { className: `${commonClasses} mask-half-2` },
 ];
 
-
 function ProductDetail() {
     const [filledStars, setFilledStars] = useState(0);
     const availableSizes = ["XS", "S", "M", "L", "XL"];
@@ -44,9 +56,11 @@ function ProductDetail() {
     const handleRatingChange = (index: number) => {
         setFilledStars(index / 2 + 0.5);
     };
+
     const handleSize = (sizeValue: string) => {
-        setSize(sizeValue)
+        setSize(sizeValue);
     };
+
     const { state } = useLocation();
     const data = state as Data;
 
@@ -54,18 +68,80 @@ function ProductDetail() {
         window.scrollTo(0, 0);
     }, []);
 
-    const addToCart = () => {
-        // logic for adding in cart
-        toast.success('Added to Cart', { autoClose: 2000 });
-    };
+    const dispatch = useDispatch();
+    const userName = useSelector((state: RootState) => state.auth.user.username);
 
+    const addToCart = async () => {
+        try {
+            const product = {
+                name: data.name,
+                image: data.image,
+                price: data.price,
+                desc: data.desc,
+                quantity: 1,
+                ratings: 5,
+            };
+    
+            // Attempt to fetch the user's cart
+            const { data: userCart, error: fetchError } = await supabase
+                .from('Cart')
+                .select('*')
+                .eq('username', userName)
+                .single();
+    
+            if (fetchError && fetchError.code !== 'PGRST116') { // Ignore "No such record" error
+                console.error("Fetch error:", fetchError);
+                throw fetchError;
+            }
+    
+            if (userCart) {
+                // If the cart exists, update it
+                const updatedProducts = [...userCart.products, product];
+    
+                const { error: updateError } = await supabase
+                    .from('Cart')
+                    .update({ products: updatedProducts })
+                    .eq('username', userName);
+    
+                if (updateError) {
+                    console.error("Update error:", updateError);
+                    throw updateError;
+                }
+    
+                console.log("Product added to cart:", product);
+                dispatch(addItem({ item: product }));
+                toast.success('Product added to cart');
+            } else {
+                // If the cart does not exist, insert a new row
+                const { error: insertError } = await supabase
+                    .from('Cart')
+                    .insert([
+                        {
+                            username: userName,
+                            products: [product],
+                        },
+                    ]);
+    
+                if (insertError) {
+                    console.error("Insert error:", insertError);
+                    throw insertError;
+                }
+    
+                console.log("Product added to cart:", product);
+                dispatch(addItem({ item: product }));
+                toast.success('Product added to cart');
+            }
+        } catch (error) {
+            console.error("Error adding product to cart:", error);
+            toast.error('Error adding product to cart');
+        }
+    };
+    
     return (
         <>
             <div className=" mx-auto max-w-screen-xl px-4 py-12 flex justify-between items-center">
                 <Head h1="Product" h2="Detail" />
             </div>
-
-            {/* Product Details */}
 
             <section className="overflow-hidden bg-white py-11 font-poppins dark:bg-gray-800">
                 <div className="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
@@ -76,7 +152,6 @@ function ProductDetail() {
                                     <img src={data.image} alt=""
                                         className="object-cover w-full lg:h-full " />
                                 </div>
-
                             </div>
                         </div>
                         <div className="w-full px-4 md:w-1/2 ">
@@ -86,7 +161,6 @@ function ProductDetail() {
                                     <h2 className="max-w-xl mt-2 mb-6 text-2xl font-bold dark:text-gray-400 md:text-4xl">
                                         {data.name}
                                     </h2>
-
                                     <p className="max-w-md mb-8 text-gray-700 dark:text-gray-400">
                                         {data.desc}
                                     </p>
@@ -102,17 +176,17 @@ function ProductDetail() {
                                         Size:</h2>
                                     <div className="flex flex-wrap -mx-2 -mb-2">
                                         {
-                                            availableSizes.map((value) => {
-                                                return (
-                                                    <button
-                                                        className={`py-1 mb-2 mr-1 border w-11 hover:border-blue-400 dark:border-gray-400 hover:text-blue-600 dark:hover:border-gray-300 dark:text-gray-400 ${value==size?"bg-mygreen":""}`} onClick={() => { handleSize(value) }}>{value}
-                                                    </button>
-                                                )
-                                            })
+                                            availableSizes.map((value) => (
+                                                <button
+                                                    key={value}
+                                                    className={`py-1 mb-2 mr-1 border w-11 hover:border-blue-400 dark:border-gray-400 hover:text-blue-600 dark:hover:border-gray-300 dark:text-gray-400 ${value === size ? "bg-mygreen" : ""}`}
+                                                    onClick={() => { handleSize(value) }}>
+                                                    {value}
+                                                </button>
+                                            ))
                                         }
                                     </div>
                                 </div>
-
                                 <div className="rating rating-sm rating-half mb-8 items-center">
                                     <h2 className="w-16 text-xl font-bold dark:text-gray-400">
                                         Rating:
@@ -137,16 +211,12 @@ function ProductDetail() {
                                     ))}
                                     <span className="ml-2">{`${filledStars} out of 5 `}
                                     </span>
-
                                 </div>
-
                                 <div className="w-32 mb-8 ">
-                                    <label htmlFor=""
-                                        className="w-full text-xl font-semibold text-gray-700 dark:text-gray-400">Quantity</label>
+                                    <label htmlFor="" className="w-full text-xl font-semibold text-gray-700 dark:text-gray-400">Quantity</label>
                                     <QuantityButton />
                                 </div>
                                 <div className="flex flex-wrap items-center gap-10 ">
-
                                     <Button text="Add to Cart" color="mygreen" hover="myred" onClick={addToCart} />
                                     <Button text="Buy Now" color="myyellow" hover="myred" />
                                 </div>
@@ -155,9 +225,8 @@ function ProductDetail() {
                     </div>
                 </div>
             </section>
-
         </>
     )
 }
 
-export default ProductDetail
+export default ProductDetail;
