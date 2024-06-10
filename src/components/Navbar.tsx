@@ -8,36 +8,54 @@ import Button from "./Button";
 import { RootState } from "../utils/features/store";
 import { logout } from "../utils/features/Auth/authSlice";
 import { Slide, toast } from "react-toastify";
-
+import { supabase } from '../utils/client'; // Ensure the correct path to your Supabase client
 
 function Screensize() {
-  const [windowSize, setWindowSize] = useState({ width: window.innerWidth});
+  const [windowSize, setWindowSize] = useState({ width: window.innerWidth });
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowSize({ width: window.innerWidth});
+      setWindowSize({ width: window.innerWidth });
     };
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  return (
-    windowSize.width
-  )
+  return windowSize.width;
 }
-function Floatingnav(){
-  if(Screensize() > 1024){
-    return(
-      <Glassnav/>
-    )
+
+function Floatingnav() {
+  if (Screensize() > 1024) {
+    return <Glassnav />;
   }
 }
+
 function Navbar() {
   const userName = useSelector((state: RootState) => state.auth.user?.username);
   const dispatch = useDispatch();
-  const itemsInCart = useSelector((state: RootState) => state.cart.item).length;
+  const [itemsInCart, setItemsInCart] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      if (userName) {
+        const { data, error } = await supabase
+          .from('Cart')
+          .select('products')
+          .eq('username', userName)
+          .maybeSingle();
+
+        if (error) {
+          console.error('Error fetching cart data:', error);
+        } else {
+          setItemsInCart(data?.products?.length || 0);
+        }
+      }
+    };
+
+    fetchCartData();
+  }, [userName]);
 
   const toastNotification = (message: string) => {
     toast(message, {
@@ -48,10 +66,11 @@ function Navbar() {
       transition: Slide,
     });
   };
-  
+
   const handleToggleMenu = () => {
     setShowMenu((prev) => !prev);
   };
+
   const handleCloseMenu = () => {
     setShowMenu(false);
   };
@@ -82,7 +101,7 @@ function Navbar() {
             >
               <div className="indicator">
                 <MdOutlineShoppingCart className="h-5 w-5" />
-                <span className="badge badge-sm indicator-item ">
+                <span className="badge badge-sm indicator-item">
                   {itemsInCart}
                 </span>
               </div>
