@@ -129,9 +129,9 @@ function Shop() {
 
   return (
     <>
-      <div className=" mx-auto max-w-screen-xl px-4 pt-12 pb-8 flex justify-between items-center flex-wrap">        
+      <div className=" mx-auto max-w-screen-xl px-4 pt-12 pb-8 flex justify-center md:justify-between items-center flex-wrap">        
         <Head h1="Our" h2="Store" />
-        <div className="flex gap-6 mt-8 justify-end w-full">
+        <div className="flex gap-6 mt-8 justify-center md:justify-end w-full">
           {/* The button to open modal */}
           <label
             htmlFor="my_modal_6"
@@ -146,7 +146,7 @@ function Shop() {
             className="modal-toggle w-5xl"
           />
           <div className="modal" role="dialog">
-            <div className="modal-box w-[30rem]">
+            <div className="modal-box w-[18rem] md:w-[30rem]">
               <h3 className="font-bold text-center text-lg">
                 Apply your filters
               </h3>
