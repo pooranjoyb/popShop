@@ -13,9 +13,9 @@ import { RootState } from '../../utils/features/store';
 
 export interface ITEM {
   id: string;
-  description: string;
+  desc: string;
   price: string;
-  title: string;
+  name: string;
   image: string;
 }
 
@@ -134,10 +134,10 @@ const Cart: React.FC = () => {
                           </div>
                           <div className="w-2/3 px-4">
                             <h2 className="mb-2 text-xl font-bold dark:text-gray-400">
-                              {item.title}
+                              {item.name}
                             </h2>
                             <p className="text-gray-500 dark:text-gray-400 ">
-                              {item.description}
+                              {item.desc}
                             </p>
                           </div>
                         </div>
