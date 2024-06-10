@@ -4,9 +4,46 @@ import { useInView } from 'react-intersection-observer';
 import Product from '../../components/Product';
 import Head from '../../components/Head';
 import Button from '../../components/Button';
+import { useEffect,useState } from 'react';
+import { supabase } from '../../utils/client';
+import Loader from '../../components/Loader/Loader';
 import '../../index.css'; // Import the custom CSS file
 
+interface ProductType {
+  id: number;
+  created_at: string;
+  Image_link: string;
+  Price: number;
+  Name: string;
+}
+
 function Home() {
+
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const [smoothies, setSmoothies] = useState<ProductType[] | null>(null);
+
+  useEffect(() => {
+    const fetchSmoothies = async () => {
+      const { data, error } = await supabase
+        .from('Product_at_Home')
+        .select('id, created_at, Image_Link, Price, Name')
+      
+      if (error) {
+        setFetchError('Could not fetch the smoothies')
+        setSmoothies(null)
+        console.log(fetchError)
+      }
+      if (data) {
+        setSmoothies(data as ProductType[])
+        setFetchError(null)
+      }
+    }
+
+    fetchSmoothies()
+
+  }, [])
+
+
   const [heroRef, heroInView] = useInView({
     triggerOnce: true,
     threshold: 0.2,
@@ -187,30 +224,17 @@ function Home() {
         <div className="mt-12">
           <div className="mx-auto max-w-2xl px-4 py-8 lg:max-w-7xl lg:px-8">
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+            {smoothies!=null ? (smoothies.map((elem) => {
+            return (
               <Product
-                desc=""
-                image="https://images.unsplash.com/photo-1578996953841-b187dbe4bc8a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzl8fGJsYXplcnwwfHwwfHw%3D&auto=format&fit=crop&w=1000&q=60"
-                price={20}
-                name="Diamond Blue Suit"
+                key={elem.id}
+                // desc={elem.desc}
+                image={elem.Image_Link}
+                price={elem.Price}
+                name={elem.Name}
               />
-              <Product
-                desc=""
-                image="https://img.freepik.com/free-photo/model-suit-posing-studio_1303-12436.jpg?w=360&t=st=1708162653~exp=1708163253~hmac=04c46ae61b01bae7e68c3a3a52e084371b7529e79d0266419944786f5726b30b"
-                price={99}
-                name="Nomad Outfit"
-              />
-              <Product
-                desc=""
-                image="https://img.freepik.com/free-photo/young-woman-posing-with-paper-bag_23-2147741822.jpg?t=st=1715620411~exp=1715624011~hmac=240ba7232d04028ad4172480293d6b229d4d78e9b06532f3ca176d0e687239c1&w=360"
-                price={56}
-                name="Leaf Green Outfit"
-              />
-              <Product
-                desc=""
-                image="https://img.freepik.com/free-photo/full-shot-beautiful-lady_23-2148440576.jpg?w=360&t=st=1708162622~exp=1708163222~hmac=a0eb19d754c23e36840605ecb684ece75e8b20e74ba329c1d0958a10dec2824f"
-                price={99}
-                name="Red Casual Wear"
-              />
+            );
+          })):<Loader />}
             </div>
           </div>
           <Link to="/home/shop">

@@ -11,7 +11,7 @@ interface Data {
   desc: string;
 }
 
-function Product({ name, image, price, desc }: Data) {
+function Product({ name, image, price}: Data) {
   const navigate = useNavigate();
 
   const addToCart = async () => {
@@ -19,7 +19,7 @@ function Product({ name, image, price, desc }: Data) {
   };
 
   const handleNavigate = () => {
-    navigate("/home/shop/product", { state: { name, image, price, desc } });
+    navigate("/home/shop/product", { state: { name, image, price} });
   };
   return (
     <>

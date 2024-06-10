@@ -4,6 +4,16 @@ import { useEffect, useState } from "react";
 import Head from "../../components/Head";
 import Product from "../../components/Product";
 import { IoFilterCircleOutline } from "react-icons/io5";
+import Loader from "../../components/Loader/Loader";
+import { supabase } from "../../utils/client";
+
+interface ProductType {
+  id: number;
+  created_at: string;
+  Image_link: string;
+  Price: number;
+  Name: string;
+}
 
 const data = [
   {
@@ -94,20 +104,45 @@ const data = [
 
 function Shop() {
 
-  const [products, setproducts] = useState(data);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const [smoothies, setSmoothies] = useState<ProductType[] | null>(null);
+
+  useEffect(() => {
+    const fetchSmoothies = async () => {
+      const { data, error } = await supabase
+        .from('Product_table')
+        .select('id, created_at, Image_link, Price, Name')
+      
+      if (error) {
+        setFetchError('Could not fetch the smoothies')
+        setSmoothies(null)
+        
+      }
+      if (data) {
+        setSmoothies(data as ProductType[])
+        setFetchError(null)
+        
+      }
+    }
+
+    fetchSmoothies()
+
+  }, [])
+
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handlesearch = (e: any) => {
+  const handlesearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     console.log(value, "hello");
-    const filtereddata = data.filter((elem) => {
-      if (elem.name.toLowerCase().includes(value.toLowerCase())) return true;
+    const filtereddata = smoothies.filter((elem) => {
+      if (elem.Name.toLowerCase().includes(value.toLowerCase())) return true;
       else return;
     });
-    setproducts(filtereddata);
+    setSmoothies(filtereddata);
   };
 
   const filter = [
@@ -218,17 +253,17 @@ function Shop() {
       </div>
       <div className="mx-auto max-w-2xl px-4 py-8 lg:max-w-7xl lg:px-8">
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {products.map((elem, idx) => {
+        {smoothies!=null ? (smoothies.map((elem) => {
             return (
               <Product
-                key={idx}
-                desc={elem.desc}
-                image={elem.image}
-                price={elem.price}
-                name={elem.name}
+                key={elem.id}
+                // desc={elem.desc}
+                image={elem.Image_link}
+                price={elem.Price}
+                name={elem.Name}
               />
             );
-          })}
+          })):<Loader />}
         </div>
       </div>
     </>
