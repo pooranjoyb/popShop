@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../utils/client'; // Ensure supabase client is properly configured
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { MdDelete } from 'react-icons/md'; // Import the delete icon
 
 // components
 import Head from '../../components/Head';
@@ -32,7 +33,7 @@ const Cart: React.FC = () => {
           .from('Cart')
           .select('*')
           .eq('username', userName)
-          .maybeSingle();
+          .single();
 
         if (error) {
           throw error;
@@ -58,6 +59,40 @@ const Cart: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const handleRemoveItem = async (itemName: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('Cart')
+        .select('products')
+        .eq('username', userName)
+        .single();
+  
+      if (error) {
+        throw error;
+      }
+  
+      if (data && data.products) {
+        const updatedProducts = data.products.filter((item: ITEM) => item.name !== itemName);
+  
+        const { error: updateError } = await supabase
+          .from('Cart')
+          .update({ products: updatedProducts })
+          .eq('username', userName);
+  
+        if (updateError) {
+          throw updateError;
+        }
+  
+        setCartItems(updatedProducts);
+      }
+    } catch (error) {
+      console.error('Error removing item from cart:', error);
+    }
+  };
+  
+  
+  
 
   return (
     <>
@@ -87,7 +122,7 @@ const Cart: React.FC = () => {
                   </h2>
                 </div>
                 <div className="hidden md:block px-4 text-right md:w-1/6 lg:w-2/12 ">
-                  <h2 className="font-bold text-gray-500 dark:text-gray-400">
+                  <h2 className="font-bold text-gray-500 dark:text-gray-400 mr-36">
                     Subtotal
                   </h2>
                 </div>
@@ -150,10 +185,13 @@ const Cart: React.FC = () => {
                       <div className="w-auto px-4 md:w-1/6 lg:w-2/12 ">
                         <QuantityButton />
                       </div>
-                      <div className="w-auto px-4 text-right md:w-1/6 lg:w-2/12 ">
+                      <div className="w-auto px-4 text-right md:w-1/6 lg:w-2/12 flex items-center justify-between">
                         <p className="text-lg font-bold text-blue-500 dark:text-gray-400">
                           ${item.price}
                         </p>
+                        <button onClick={() => handleRemoveItem(item.name)} className="text-red-600 hover:text-red-800">
+                          <MdDelete size={24} />
+                        </button>
                       </div>
                     </div>
                   ))
@@ -177,4 +215,4 @@ const Cart: React.FC = () => {
   );
 }
 
-export default Cart;
+export default Cart
