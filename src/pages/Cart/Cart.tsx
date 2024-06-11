@@ -67,32 +67,32 @@ const Cart: React.FC = () => {
         .select('products')
         .eq('username', userName)
         .single();
-  
+
       if (error) {
         throw error;
       }
-  
+
       if (data && data.products) {
         const updatedProducts = data.products.filter((item: ITEM) => item.name !== itemName);
-  
+
         const { error: updateError } = await supabase
           .from('Cart')
           .update({ products: updatedProducts })
           .eq('username', userName);
-  
+
         if (updateError) {
           throw updateError;
         }
-  
+
         setCartItems(updatedProducts);
       }
     } catch (error) {
       console.error('Error removing item from cart:', error);
     }
   };
-  
-  
-  
+
+
+
 
   return (
     <>
@@ -154,7 +154,15 @@ const Cart: React.FC = () => {
                     </div>
                   ))
                 ) : (
-                  cartItems.map((item: ITEM) => (
+                  cartItems.length === 0 ? <div className="text-center py-8 items-center flex flex-col justify-center w-full">
+                    <img src="https://i.pinimg.com/564x/92/8b/b3/928bb331a32654ba76a4fc84386f3851.jpg" height={300} width={300} alt="" />
+                    <h2 className="text-2xl font-bold text-gray-500 dark:text-gray-400">
+                      Your cart is empty
+                    </h2>
+                    <p className="mt-2 text-gray-500 dark:text-gray-400">
+                      Start adding items to your cart from the shop.
+                    </p>
+                  </div> : cartItems.map((item: ITEM) => (
                     <div key={item.id} className="flex flex-wrap items-center mb-6 -mx-4 md:mb-8">
                       <div className="w-full px-4 mb-6 md:w-4/6 lg:w-6/12 md:mb-0">
                         <div className="flex flex-wrap items-center -mx-4">
