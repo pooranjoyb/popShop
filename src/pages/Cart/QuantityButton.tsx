@@ -1,21 +1,29 @@
-import { useState } from 'react'
+import React, { useState } from 'react';
 
+interface QuantityButtonProps {
+  initialQuantity: number;
+  onUpdate: (newQuantity: number) => void;
+}
 
-const QuantityButton = () => {
-    const [quantity, setQuantity] = useState(0);
+const QuantityButton: React.FC<QuantityButtonProps> = ({ initialQuantity, onUpdate }) => {
+  const [quantity, setQuantity] = useState(initialQuantity);
 
   const setIncrease = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    const updatedQuantity = quantity + 1;
+    setQuantity(updatedQuantity);
+    onUpdate(updatedQuantity);
   };
 
   const setDecrease = () => {
     if (quantity > 0) {
-      setQuantity((prevQuantity) => prevQuantity - 1);
+      const updatedQuantity = quantity - 1;
+      setQuantity(updatedQuantity);
+      onUpdate(updatedQuantity);
     }
   };
   return (
     <div className="inline-flex items-center px-4 font-semibold text-gray-500 border border-gray-200 rounded-md dark:border-gray-700 ">
-    <button onClick={() => setDecrease()} className="py-2 hover:text-gray-700 dark:text-gray-400">
+      <button onClick={() => setDecrease()} className="py-2 hover:text-gray-700 dark:text-gray-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -28,7 +36,7 @@ const QuantityButton = () => {
         </svg>
       </button>
       <div className="w-12 px-2 py-4 text-center border-0 rounded-md dark:bg-gray-800 bg-gray-50 dark:text-gray-400 md:text-right">{quantity}</div>
-      <button onClick={()=>setIncrease()} className="py-2 hover:text-gray-700 dark:text-gray-400">
+      <button onClick={() => setIncrease()} className="py-2 hover:text-gray-700 dark:text-gray-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"

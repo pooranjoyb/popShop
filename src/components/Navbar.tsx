@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineShoppingCart } from "react-icons/md";
-
-import Glassnav from "./Floating_Nav";
-import Button from "./Button";
+import { Slide, toast } from "react-toastify";
+import { supabase } from '../utils/client'; // Ensure the correct path to your Supabase client
 import { RootState } from "../utils/features/store";
 import { logout } from "../utils/features/Auth/authSlice";
-import { Slide, toast } from "react-toastify";
+import Glassnav from "./Floating_Nav";
+import Button from "./Button";
 
 function Screensize() {
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth });
@@ -23,17 +23,69 @@ function Screensize() {
 
   return windowSize.width;
 }
+
 function Floatingnav() {
   if (Screensize() > 1024) {
     return <Glassnav />;
   }
 }
+
 function Navbar() {
   const userName = useSelector((state: RootState) => state.auth.user?.username);
   const dispatch = useDispatch();
-  const itemsInCart = useSelector((state: RootState) => state.cart.item).length;
 
+  const [itemsInCart, setItemsInCart] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
+
+  useEffect(() => {
+    if (!userName) return;
+
+    // Fetch initial cart items count
+    const fetchCartItems = async () => {
+      const { data, error } = await supabase
+        .from('Cart')
+        .select('products')
+        .eq('username', userName);
+
+      console.log("items in cart:  ", data);
+
+      if (error) {
+        console.error('Error fetching cart items:', error);
+      } else {
+        // Assuming products is an array within each row in the Cart table
+        const totalItems = data.reduce((acc, item) => acc + item.products.length, 0);
+        setItemsInCart(totalItems);
+      }
+    };
+
+    fetchCartItems();
+
+    const cartChannel = supabase
+      .channel('cart_updates')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'Cart' }, (payload) => {
+        console.log('Insert Change received!', payload);
+        // Assuming payload.new.products is an array of the inserted products
+        const productsCount = payload.new.products ? payload.new.products.length : 0;
+        setItemsInCart((prevCount) => prevCount + productsCount);
+      })
+      .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'Cart' }, (payload) => {
+        console.log('Delete Change received!', payload);
+        // Assuming payload.old.products is an array of the deleted products
+        const productsCount = payload.old.products ? payload.old.products.length : 0;
+        setItemsInCart((prevCount) => Math.max(0, prevCount - productsCount));
+      })
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Cart' }, (payload) => {
+        console.log('Update Change received!', payload);
+        // Fetch the latest cart items on update to ensure consistency
+        fetchCartItems();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(cartChannel);
+    };
+  }, [userName]);
+
 
   const toastNotification = (message: string) => {
     toast(message, {
@@ -48,6 +100,7 @@ function Navbar() {
   const handleToggleMenu = () => {
     setShowMenu((prev) => !prev);
   };
+
   const handleCloseMenu = () => {
     setShowMenu(false);
   };
@@ -65,7 +118,10 @@ function Navbar() {
           </Link>
         </div>
 
-        <div className="flex justify-center z-[100]">{Floatingnav()}</div>
+
+        <div className="flex justify-center z-[100]">
+          {Floatingnav()}
+        </div>
 
         <div className="flex-none gap-6 md:mr-16 mr-2">
           <div className="dropdown dropdown-end">
@@ -76,7 +132,7 @@ function Navbar() {
             >
               <div className="indicator">
                 <MdOutlineShoppingCart className="h-5 w-5" />
-                <span className="badge badge-sm indicator-item ">
+                <span className="badge badge-sm indicator-item">
                   {itemsInCart}
                 </span>
               </div>

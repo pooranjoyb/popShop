@@ -16,6 +16,7 @@ export interface Data {
     image: string;
     price: number;
     desc: string;
+    qauntity: number;
 }
 
 interface RatingItem {
@@ -78,7 +79,7 @@ function ProductDetail() {
                 image: data.image,
                 price: data.price,
                 desc: data.desc,
-                quantity: 1,
+                quantity: data.qauntity,
                 ratings: 5,
             };
     
@@ -214,7 +215,7 @@ function ProductDetail() {
                                 </div>
                                 <div className="w-32 mb-8 ">
                                     <label htmlFor="" className="w-full text-xl font-semibold text-gray-700 dark:text-gray-400">Quantity</label>
-                                    <QuantityButton />
+                                    <QuantityButton initialQuantity={1} onUpdate={() => console.log("update")} />
                                 </div>
                                 <div className="flex flex-wrap items-center gap-10 ">
                                     <Button text="Add to Cart" color="mygreen" hover="myred" onClick={addToCart} />
