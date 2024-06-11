@@ -15,9 +15,10 @@ import { RootState } from '../../utils/features/store';
 export interface ITEM {
   id: string;
   desc: string;
-  price: string;
+  price: number;
   name: string;
   image: string;
+  quantity: number;
 }
 
 const Cart: React.FC = () => {
@@ -91,8 +92,34 @@ const Cart: React.FC = () => {
     }
   };
 
+  // quantity handle here
 
+  const handleQuantityChange = async (itemName: string, newQuantity: number) => {
+    try {
+      const updatedProducts = cartItems.map(item => {
+        if (item.name === itemName) {
+          return {
+            ...item,
+            quantity: newQuantity
+          };
+        }
+        return item;
+      });
 
+      const { error } = await supabase
+        .from('Cart')
+        .update({ products: updatedProducts })
+        .eq('username', userName);
+
+      if (error) {
+        throw error;
+      }
+
+      setCartItems(updatedProducts);
+    } catch (error) {
+      console.error('Error updating quantity in cart:', error);
+    }
+  };
 
   return (
     <>
@@ -163,7 +190,7 @@ const Cart: React.FC = () => {
                       Start adding items to your cart from the shop.
                     </p>
                   </div> : cartItems.map((item: ITEM) => (
-                    <div key={item.id} className="flex flex-wrap items-center mb-6 -mx-4 md:mb-8">
+                    <div key={item.name} className="flex flex-wrap items-center mb-6 -mx-4 md:mb-8">
                       <div className="w-full px-4 mb-6 md:w-4/6 lg:w-6/12 md:mb-0">
                         <div className="flex flex-wrap items-center -mx-4">
                           <div className="w-full px-4 mb-3 md:w-1/3">
@@ -191,11 +218,11 @@ const Cart: React.FC = () => {
                         </p>
                       </div>
                       <div className="w-auto px-4 md:w-1/6 lg:w-2/12 ">
-                        <QuantityButton />
+                        <QuantityButton initialQuantity={item.quantity ? item.quantity : 1} onUpdate={(newQuantity) => handleQuantityChange(item.name, newQuantity)} />
                       </div>
                       <div className="w-auto px-4 text-right md:w-1/6 lg:w-2/12 flex items-center justify-between">
                         <p className="text-lg font-bold text-blue-500 dark:text-gray-400">
-                          ${item.price}
+                          ${item.quantity ? item.quantity * item.price : item.price}
                         </p>
                         <button onClick={() => handleRemoveItem(item.name)} className="text-red-600 hover:text-red-800">
                           <MdDelete size={24} />
