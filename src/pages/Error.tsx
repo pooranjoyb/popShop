@@ -1,25 +1,15 @@
 //components
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import Head from "../components/Head";
+import { Link } from "react-router-dom";
 
 function Error() {
   return (
     <>
-      <Navbar />
-
-      {/* Hero  */}
-      <div className=" mx-auto max-w-screen-xl px-4 py-12 flex justify-between items-center">
-        <div className="max-w-xl ">
-          <div className="text-mynavy">
-            <Head h1="404 Not Found" h2="Error! :(" />
-          </div>
-        </div>
-        <img className="w-1/3" src="/images/hero.png" alt="" />
+      <div className="flex flex-col justify-center items-center h-screen">
+        <img className="md:w-1/3 w-1/2" src="/logo.png" alt="" />
+        <Head h1="404" h2="Not Found :(" />
+        <span className="md:text-xl md:my-6 italic">Found some issues? Contribute to <Link target="_blank" className=" underline" to='https://github.com/pooranjoyb/popShop/'>Github</Link>.</span>
       </div>
-
-      {/* Footer  */}
-      <Footer />
     </>
   );
 }

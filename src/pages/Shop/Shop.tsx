@@ -129,9 +129,9 @@ function Shop() {
 
   return (
     <>
-      <div className=" mx-auto max-w-screen-xl px-4 py-12 flex justify-between items-center">
+      <div className=" mx-auto max-w-screen-xl px-4 pt-12 pb-8 flex justify-between items-center flex-wrap">        
         <Head h1="Our" h2="Store" />
-        <div className="flex gap-6">
+        <div className="flex gap-6 mt-8 justify-end w-full">
           {/* The button to open modal */}
           <label
             htmlFor="my_modal_6"
@@ -197,7 +197,7 @@ function Shop() {
           <label className="input input-bordered input-success flex items-center gap-2">
             <input
               type="text"
-              className="grow"
+              className="grow w-36"
               placeholder="Search"
               onChange={handlesearch}
             />

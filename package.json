@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.3.3",
     "@hookform/resolvers": "^3.3.4",
     "@reduxjs/toolkit": "^2.2.4",
     "@supabase/supabase-js": "^2.39.8",
