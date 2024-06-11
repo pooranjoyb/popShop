@@ -11,6 +11,7 @@ import Head from '../../components/Head';
 import Button from '../../components/Button';
 import QuantityButton from './QuantityButton';
 import { RootState } from '../../utils/features/store';
+import { toast } from 'react-toastify';
 
 export interface ITEM {
   id: string;
@@ -84,7 +85,7 @@ const Cart: React.FC = () => {
         if (updateError) {
           throw updateError;
         }
-
+        toast.success("item removed success");
         setCartItems(updatedProducts);
       }
     } catch (error) {
