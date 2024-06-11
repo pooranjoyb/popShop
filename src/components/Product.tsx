@@ -8,7 +8,6 @@ interface Data {
   name: string;
   image: string;
   price: number;
-  desc: string;
 }
 
 function Product({ name, image, price}: Data) {

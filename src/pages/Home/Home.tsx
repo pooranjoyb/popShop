@@ -12,7 +12,7 @@ import '../../index.css'; // Import the custom CSS file
 interface ProductType {
   id: number;
   created_at: string;
-  Image_link: string;
+  Image_Link: string;
   Price: number;
   Name: string;
 }
