@@ -113,7 +113,7 @@ function Checkout() {
                         {cartItems.map((item) => (
                             <div className="product pe-4 my-5 w-full" key={item.id}>
                                 <div className="flex justify-between">
-                                    <p className="font-medium">{item.name}</p>
+                                    <p className="font-medium min-w-[70%]">{item.name}</p>
                                     <p className="w-full text-end font-medium py-1">${item.price}</p>
                                 </div>
                                 <div className="w-full justify-between flex">
