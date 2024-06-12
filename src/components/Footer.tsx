@@ -2,7 +2,7 @@ import { FaFacebook, FaGithub } from "react-icons/fa6"
 import { IoLogoInstagram } from "react-icons/io5"
 import { RiTwitterXFill } from "react-icons/ri"
 import { Link } from "react-router-dom"
-
+import Button from "./Button"
 const Socials = () => {
   return (
     <ul className="flex gap-x-6">
@@ -127,6 +127,17 @@ const ServicesList = () => {
 
 export default function NewFooter() {
   return (
+    <>
+      <div className="md:h-40 md:flex md:justify-center md:items-center flex flex-col justify-between items-center p-4">
+          <div className="w-1/2 flex flex-col justify-center items-center">
+            <h1 className="text-3xl font-bold">Subscribe to our newsletter</h1>
+            <p className="text-lg">Stay up to date with our latest news, exclusive offers, and promotions.</p>
+          </div>
+          <div className="md:flex gap-4 w-1/2 justify-center items-center flex flex-col md:flex-row mt-4">
+            <input type="text" placeholder="Enter your email" className="input input-bordered w-full max-w-xs" required />
+            <Button text="Subscribe" color="mygreen" hover="myred" />
+          </div>
+      </div>
     <footer id="Footer" className="text-mynavy mx-auto max-w-screen-xl px-4 my-12 flex flex-wrap items-center gap-8 lg:grid lg:grid-cols-5 max-sm:flex-col">
       <div className="lg:col-span-2 h-full w-full p-2 sm:p-0">
         <img
@@ -171,5 +182,6 @@ export default function NewFooter() {
         </div>
       </div>
     </footer>
+    </>
   )
 }

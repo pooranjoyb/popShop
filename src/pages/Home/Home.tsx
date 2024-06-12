@@ -4,7 +4,7 @@ import { useInView } from "react-intersection-observer";
 import Product from "../../components/Product";
 import Head from "../../components/Head";
 import Button from "../../components/Button";
-import Subscribe from "../../components/Subscribe/Subscribe";
+// import Subscribe from "../../components/Subscribe/Subscribe";
 import "../../index.css"; // Import the custom CSS file
 
 function Home() {
@@ -243,7 +243,7 @@ function Home() {
           </Link>
         </div>
       </motion.div>
-      <Subscribe /> 
+      {/* <Subscribe />  */}
     </>
   );
 }
