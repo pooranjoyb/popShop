@@ -117,7 +117,7 @@ function Checkout() {
                                 <p className="w-full text-end font-medium py-1">${item.price}</p>
                                 <div className="w-full justify-between flex">
                                     <span>Qty</span>
-                                    <span>{item.quantity}</span>
+                                    <span>{item.quantity || 1}</span>
                                 </div>
                                 <div className="w-full justify-between flex">
                                     <span>Ratings</span>
@@ -125,7 +125,7 @@ function Checkout() {
                                 </div>
                                 <div className="w-full justify-between flex">
                                     <span>Sub-total</span>
-                                    <span>${(item.price || 0) * item.quantity}</span>
+                                    <span>${(item.price || 0) * (item.quantity || 1)}</span>
                                 </div>
                             </div>
                         ))}
