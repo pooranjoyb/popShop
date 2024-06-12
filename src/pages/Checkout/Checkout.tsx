@@ -35,26 +35,33 @@ function Checkout() {
                     .from('Cart')
                     .select('*')
                     .eq('username', userName);
-
+        
                 console.log("recived", data)
-
+        
                 if (error) {
                     console.error('Error fetching cart items:', error);
                 } else {
-                    const products = data.map(item => item.products).flat(); // Use flat() to flatten the array of arrays
+                    const products = data.flatMap(item => item.products); // Use flatMap to flatten the array of arrays
                     setCartItems(products);
                     calculateTotal(products);
                 }
             }
         };
+        
+
 
         fetchCartItems();
     }, [userName]);
 
     const calculateTotal = (items: CartItem[]) => {
-        const totalAmount = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        const totalAmount = items.reduce((acc, item) => {
+            const price = typeof item.price === 'number' ? item.price : 0;
+            const quantity = typeof item.quantity === 'number' ? item.quantity : 0;
+            return acc + price * quantity;
+        }, 0);
         setTotal(totalAmount);
     };
+
 
     return (
         <>
@@ -126,7 +133,7 @@ function Checkout() {
                     <div className="w-full border-t border-[#c4c4c4] py-4">
                         <div className="w-full justify-between flex">
                             <span>Tax(5%)</span>
-                            <span>${(total * 0.05)}</span>
+                            <span>${(total * 0.05).toFixed(2)}</span>
                         </div>
                         <div className="w-full justify-between py-3 flex">
                             <span className="text-xl font-medium">Total</span>
