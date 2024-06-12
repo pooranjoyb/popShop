@@ -113,7 +113,6 @@ function Checkout() {
                         {cartItems.map((item) => (
                             <div className="product pe-4 my-5 w-full" key={item.id}>
                                 <p className="font-medium">{item.name}</p>
-                                <img src={item.image} alt={item.name} className="w-full h-auto mb-2" />
                                 <p className="w-full text-end font-medium py-1">${item.price}</p>
                                 <div className="w-full justify-between flex">
                                     <span>Qty</span>
