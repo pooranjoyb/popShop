@@ -75,7 +75,7 @@ function Checkout() {
                     </h2>
                     <h3 className="font-bold text-slate-500 opacity-75 py-5">Select your preferred payment method. Kindly note that paid licenses are not refundable.</h3>
                     <div className="w-full flex flex-col gap-5">
-                        <div className={`w-full flex ps-4 py-2 border-2 border-solid ${paymentOption === 'credit-card' ? " border-[#0000FF] bg-[#0000FF06]" : " border-[#C4C4C4]"} rounded-xl`}>
+                        <div className={`w-full flex ps-4 py-2 border-2 border-solid ${paymentOption === 'credit-card' ? " border-mygreen bg-[#0000FF06]" : " border-[#C4C4C4]"} rounded-xl`}>
                             <input id="credit-card-radio" name="payment-option" type="radio" value="credit-card" className="my-5 radio radio-primary" checked={paymentOption === "credit-card"} onChange={(e) => setPaymentOption(e.target.value)} />
                             <label htmlFor="credit-card-radio" className="w-full py-4 ms-4">
                                 <h2 className="w-full font-bold dark:text-gray-400">Pay with Credit Card</h2>
