@@ -35,9 +35,9 @@ function Checkout() {
                     .from('Cart')
                     .select('*')
                     .eq('username', userName);
-        
+
                 console.log("recived", data)
-        
+
                 if (error) {
                     console.error('Error fetching cart items:', error);
                 } else {
@@ -47,7 +47,7 @@ function Checkout() {
                 }
             }
         };
-        
+
 
 
         fetchCartItems();
@@ -112,15 +112,13 @@ function Checkout() {
                     <div className="w-full">
                         {cartItems.map((item) => (
                             <div className="product pe-4 my-5 w-full" key={item.id}>
-                                <p className="font-medium">{item.name}</p>
-                                <p className="w-full text-end font-medium py-1">${item.price}</p>
+                                <div className="flex justify-between">
+                                    <p className="font-medium">{item.name}</p>
+                                    <p className="w-full text-end font-medium py-1">${item.price}</p>
+                                </div>
                                 <div className="w-full justify-between flex">
                                     <span>Qty</span>
                                     <span>{item.quantity || 1}</span>
-                                </div>
-                                <div className="w-full justify-between flex">
-                                    <span>Ratings</span>
-                                    <span>{item.ratings}</span>
                                 </div>
                                 <div className="w-full justify-between flex">
                                     <span>Sub-total</span>
@@ -130,10 +128,6 @@ function Checkout() {
                         ))}
                     </div>
                     <div className="w-full border-t border-[#c4c4c4] py-4">
-                        <div className="w-full justify-between flex">
-                            <span>Tax(5%)</span>
-                            <span>${(total * 0.05).toFixed(2)}</span>
-                        </div>
                         <div className="w-full justify-between py-3 flex">
                             <span className="text-xl font-medium">Total</span>
                             <span className="text-xl font-bold">${(total * 1.05)}</span>
