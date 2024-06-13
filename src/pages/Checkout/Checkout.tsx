@@ -172,7 +172,7 @@ function Checkout() {
                         <p>Order ID: {orderId}</p>
                         <div className="modal-action">
                             <Link to={'/home/shop'}>
-                                <button className="btn bg-mygreen" onClick={() => { setIsModalOpen(false) }}>Continue Shopping</button>
+                                <button className="btn bg-mygreen hover:bg-mygreen" onClick={() => { setIsModalOpen(false) }}>Continue Shopping</button>
                             </Link>
                         </div>
                     </div>
