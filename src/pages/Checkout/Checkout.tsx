@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Head from "../../components/Head";
 import Button from "../../components/Button";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RiVisaLine } from "react-icons/ri";
 import { FaCcMastercard, FaPaypal } from "react-icons/fa6";
 import { SiAmericanexpress } from "react-icons/si";
@@ -54,7 +54,7 @@ function Checkout() {
         console.log('Items for total calculation:', items); // Debugging line
         const totalAmount = items.reduce((acc, item) => {
             const price = typeof item.price === 'number' ? item.price : 0;
-            const quantity = typeof item.quantity === 'number' ? item.quantity : 1; 
+            const quantity = typeof item.quantity === 'number' ? item.quantity : 1;
             return acc + price * quantity;
         }, 0);
         setTotal(totalAmount);
@@ -171,7 +171,9 @@ function Checkout() {
                         <p className="py-4">Your order has been placed successfully.</p>
                         <p>Order ID: {orderId}</p>
                         <div className="modal-action">
-                            <button className="btn" onClick={() => setIsModalOpen(false)}>Close</button>
+                            <Link to={'/home/shop'}>
+                                <button className="btn bg-mygreen" onClick={() => { setIsModalOpen(false) }}>Continue Shopping</button>
+                            </Link>
                         </div>
                     </div>
                 </div>
