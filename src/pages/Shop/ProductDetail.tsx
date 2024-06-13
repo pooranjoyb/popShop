@@ -213,10 +213,6 @@ function ProductDetail() {
                                     <span className="ml-2">{`${filledStars} out of 5 `}
                                     </span>
                                 </div>
-                                <div className="w-32 mb-8 ">
-                                    <label htmlFor="" className="w-full text-xl font-semibold text-gray-700 dark:text-gray-400">Quantity</label>
-                                    <QuantityButton initialQuantity={1} onUpdate={() => console.log("update")} />
-                                </div>
                                 <div className="flex flex-wrap items-center gap-10 ">
                                     <Button text="Add to Cart" color="mygreen" hover="myred" onClick={addToCart} />
                                     <Button text="Buy Now" color="myyellow" hover="myred" />
