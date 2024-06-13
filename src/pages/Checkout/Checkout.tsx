@@ -51,9 +51,10 @@ function Checkout() {
     }, [userName]);
 
     const calculateTotal = (items: CartItem[]) => {
+        console.log('Items for total calculation:', items); // Debugging line
         const totalAmount = items.reduce((acc, item) => {
             const price = typeof item.price === 'number' ? item.price : 0;
-            const quantity = typeof item.quantity === 'number' ? item.quantity : 0;
+            const quantity = typeof item.quantity === 'number' ? item.quantity : 1; 
             return acc + price * quantity;
         }, 0);
         setTotal(totalAmount);
