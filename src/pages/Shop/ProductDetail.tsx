@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 // components
 import Head from "../../components/Head";
 import Button from "../../components/Button";
-import QuantityButton from "../Cart/QuantityButton";
 import { addItem } from "../../utils/features/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../../utils/client";
