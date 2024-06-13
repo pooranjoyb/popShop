@@ -130,7 +130,7 @@ function Checkout() {
                     <div className="w-full border-t border-[#c4c4c4] py-4">
                         <div className="w-full justify-between py-3 flex">
                             <span className="text-xl font-medium">Total</span>
-                            <span className="text-xl font-bold">${(total * 1.05)}</span>
+                            <span className="text-xl font-bold">${(total * 1.00)}</span>
                         </div>
                     </div>
                 </div>
