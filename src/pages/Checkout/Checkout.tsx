@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "../../components/Head";
 import Button from "../../components/Button";
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +28,6 @@ function Checkout() {
     const [orderId, setOrderId] = useState<string>("");
     const navigate = useNavigate();
     const userName = useSelector((state: RootState) => state.auth.user.username);
-    const userPhone = useSelector((state: RootState) => state.auth.user.phone);
 
     useEffect(() => {
         const fetchCartItems = async () => {
