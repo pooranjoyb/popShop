@@ -45,7 +45,7 @@ const MyOrders = () => {
         <table className="table w-full">
           {/* Table header */}
           <thead>
-            <tr className="bg-gray-200">
+            <tr className="text-neutral">
               <th>Order No.</th>
               <th>Product Name</th>
               <th>Price</th>
