@@ -1,17 +1,16 @@
-
-<h1 align="center">🌟 PopShop 🌟 </h1>
+<h1 align="center">🌟 PopShop 🌟</h1>
 
 <div align="center"> 
   
-<img style="width: 500px" alt="GSSoC" src="https://raw.githubusercontent.com/GirlScriptSummerOfCode/MentorshipProgram/master/GSsoc%20Type%20Logo%20Black.png#gh-light-mode-only">
-<img style="width: 500px" alt="GSSoC" src="https://user-images.githubusercontent.com/63473496/213306279-338f7ce9-9a9f-4427-8c2a-3e344874498f.png#gh-dark-mode-only"/>
+<img style="width: 300px" alt="GSSoC" src="https://raw.githubusercontent.com/GirlScriptSummerOfCode/MentorshipProgram/master/GSsoc%20Type%20Logo%20Black.png#gh-light-mode-only">
+<img style="width: 300px" alt="GSSoC" src="https://user-images.githubusercontent.com/63473496/213306279-338f7ce9-9a9f-4427-8c2a-3e344874498f.png#gh-dark-mode-only"/>
 
+![PopShop](https://github.com/harini-1597/popShop/blob/readme/public/images/readme.png)
+
+<i>PopShop is an eCommerce Website based on React TypeScript and Daisy UI, integrating Supabase for Backend and Database.
+The main aim of this project is to foster a collaborative community of creative individuals, where ideas grow and innovation flourishes. Whether you're a developer, designer, or simply someone passionate about projects, this repository provides an ideal platform to display your work and connect with others who share similar interests.
+</i>
 </div>
-
-![PopShop](https://github.com/pooranjoyb/popShop/assets/90945182/c98bf68c-5531-4036-9dcd-ee0c2cf5efff)
-
-
-
 <br>
 
 <div id="top">
@@ -35,10 +34,22 @@
  </div>
  <br>
 
-## Description 🔖
-PopShop is an eCommerce Website based on React TypeScript and Daisy UI, integrating Supabase for Backend and Database. 
+<div align="center">
+  
+## Tech Stack💻
+![React](https://img.shields.io/badge/React-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![daisyUI](https://img.shields.io/badge/daisyUI-%232D3748?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 
-The main aim of this project is to foster a collaborative community of creative individuals, where ideas grow and innovation flourishes. Whether you're a developer, designer, or simply someone passionate about projects, this repository provides an ideal platform to display your work and connect with others who share similar interests.
+</div>
+<br>
+
+## Demo🎬
 
 _**Sneak Peak of the project : [Youtube](https://www.youtube.com/watch?v=2R2ZEdpUx8Q&t=28s)**_
 
@@ -48,22 +59,14 @@ _*[Click here to view the development deployment](https://github.com/pooranjoyb/
 
 ## Key Features 📌
 
-- eCommerce Shoping Website
+- eCommerce Shopping Website
 - User Authentication
 - Seamless User Interface
 - Open Source Community
 
-## Tech Stacks used 💻:
-- React TS
-- TypeSCript
-- Supabase (A Firebase Alternative)
-- Daisy UI (A component library for Tailwind CSS)
-- Tailwind CSS
-- HTML, CSS, JS
-
 ## Getting Started 🚀
 
-Follow the guidelines below to contribute to BeatBridge.
+Follow the guidelines below to contribute to PopShop:
 
 ### Guidelines for Contributions
 
@@ -82,15 +85,11 @@ Please review our **[CODE OF CONDUCT](CODE_OF_CONDUCT.md)** before contributing.
 
 This project is licensed under the **[MIT License](LICENSE)**
 
-## 😍 Our Valuable Contributors
+## Our Valuable Contributors 😍
 
 Thanks to these wonderful people ✨
 
 <a href="https://github.com/pooranjoyb/popShop/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=pooranjoyb/popShop" />
 </a>
-
 💙 Happy Contributions !! 💙
-
-
-  
