@@ -31,7 +31,6 @@ const orders = [
     date: '21 Jan 2022',
     status: 'Paid',
   },
-  // Add more order data here...
 ];
 
 const MyOrders = () => {
