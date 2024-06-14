@@ -6,9 +6,11 @@ import { RiVisaLine } from "react-icons/ri";
 import { FaCcMastercard, FaPaypal } from "react-icons/fa6";
 import { SiAmericanexpress } from "react-icons/si";
 import { supabase } from "../../utils/client";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
 import { v4 as uuidv4 } from 'uuid';
+import { ITEM } from "../Cart/Cart";
+import { clearCart } from "../../utils/features/cart/cartSlice";
 
 interface CartItem {
     id: string;
@@ -22,33 +24,17 @@ interface CartItem {
 
 function Checkout() {
     const [paymentOption, setPaymentOption] = useState<string>("");
-    const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [total, setTotal] = useState<number>(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [orderId, setOrderId] = useState<string>("");
     const navigate = useNavigate();
     const userName = useSelector((state: RootState) => state.auth.user.username);
 
+    const cartItems = useSelector((state: RootState) => state.cart.items);
+
     useEffect(() => {
-        const fetchCartItems = async () => {
-            if (userName) {
-                const { data, error } = await supabase
-                    .from('Cart')
-                    .select('*')
-                    .eq('username', userName);
-
-                if (error) {
-                    console.error('Error fetching cart items:', error);
-                } else {
-                    const products = data.flatMap(item => item.products); // Use flatMap to flatten the array of arrays
-                    setCartItems(products);
-                    calculateTotal(products);
-                }
-            }
-        };
-
-        fetchCartItems();
-    }, [userName]);
+        calculateTotal(cartItems);
+    }, [cartItems]);
 
     const calculateTotal = (items: CartItem[]) => {
         console.log('Items for total calculation:', items); // Debugging line
@@ -60,9 +46,10 @@ function Checkout() {
         setTotal(totalAmount);
     };
 
-    const placeOrder = async () => {
+    const dispatch = useDispatch();
 
-        console.log("placeOrder")
+    const placeOrder = async () => {
+        console.log("placeOrder");
 
         if (!userName || cartItems.length === 0) {
             return;
@@ -78,17 +65,29 @@ function Checkout() {
             status: 'Pending'
         };
 
-        const { error } = await supabase
+        const { error: orderError } = await supabase
             .from('orders')
             .insert([orderData]);
 
-        if (error) {
-            console.error('Error placing order:', error);
-        } else {
-            setIsModalOpen(true);
-            setCartItems([]);
-            setOrderId(orderId);
+        if (orderError) {
+            console.error('Error placing order:', orderError);
+            return;
         }
+
+        const { error: cartError } = await supabase
+            .from('Cart')
+            .update({ products: cartItems })
+            .eq('username', userName);
+
+        if (cartError) {
+            console.error('Error updating cart:', cartError);
+            return;
+        }
+
+        dispatch(clearCart());
+
+        setIsModalOpen(true);
+        setOrderId(orderId);
     };
 
     return (
@@ -138,7 +137,7 @@ function Checkout() {
                         ORDER SUMMARY
                     </h2>
                     <div className="w-full">
-                        {cartItems.map((item) => (
+                        {cartItems.map((item: ITEM) => (
                             <div className="product pe-4 my-5 w-full" key={item.name}>
                                 <div className="flex justify-between">
                                     <p className="font-medium min-w-[70%]">{item.name}</p>

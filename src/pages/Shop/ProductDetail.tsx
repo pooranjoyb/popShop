@@ -78,36 +78,38 @@ function ProductDetail() {
                 image: data.image,
                 price: data.price,
                 desc: data.desc,
-                quantity: data.qauntity,
+                quantity: data.qauntity || 1,
                 ratings: 5,
             };
-    
+
             // Attempt to fetch the user's cart
             const { data: userCart, error: fetchError } = await supabase
                 .from('Cart')
                 .select('*')
                 .eq('username', userName)
                 .single();
-    
+
             if (fetchError && fetchError.code !== 'PGRST116') { // Ignore "No such record" error
                 console.error("Fetch error:", fetchError);
                 throw fetchError;
             }
-    
+
+            console.log("Product added", product);
+
             if (userCart) {
                 // If the cart exists, update it
                 const updatedProducts = [...userCart.products, product];
-    
+
                 const { error: updateError } = await supabase
                     .from('Cart')
                     .update({ products: updatedProducts })
                     .eq('username', userName);
-    
+
                 if (updateError) {
                     console.error("Update error:", updateError);
                     throw updateError;
                 }
-    
+
                 console.log("Product added to cart:", product);
                 dispatch(addItem({ item: product }));
                 toast.success('Product added to cart');
@@ -121,12 +123,12 @@ function ProductDetail() {
                             products: [product],
                         },
                     ]);
-    
+
                 if (insertError) {
                     console.error("Insert error:", insertError);
                     throw insertError;
                 }
-    
+
                 console.log("Product added to cart:", product);
                 dispatch(addItem({ item: product }));
                 toast.success('Product added to cart');
@@ -136,7 +138,7 @@ function ProductDetail() {
             toast.error('Error adding product to cart');
         }
     };
-    
+
     return (
         <>
             <div className=" mx-auto max-w-screen-xl px-4 py-12 flex justify-between items-center">
