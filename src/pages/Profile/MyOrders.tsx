@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Head from '../../components/Head';
+import Button from '../../components/Button';
 
 // Static data for orders (replace with real data from the database later)
 const orders = [
@@ -51,11 +52,10 @@ const MyOrders = () => {
               <th>Price</th>
               <th>Date</th>
               <th>Status</th>
-              <th></th>
+              <th className="pl-12">Action</th>
             </tr>
           </thead>
           <tbody>
-            {/* Render order rows */}
             {orders.map((order, index) => (
               <tr key={index} className={index % 2 === 0 ? 'bg-base-200' : 'bg-base-100'}>
                 <td>{order.orderNo}</td>
@@ -76,8 +76,8 @@ const MyOrders = () => {
                   </span>
                 </td>
                 <td>
-                  <Link to="#" className="btn btn-sm btn-ghost">
-                    View
+                  <Link to="#">
+                  <Button text="View" color="mygreen" hover="myred" />
                   </Link>
                 </td>
               </tr>
