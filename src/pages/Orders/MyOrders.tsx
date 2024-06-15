@@ -77,7 +77,7 @@ const MyOrders = () => {
                 </td>
                 <td>
                   <Link to="#">
-                  <Button text="View" color="mygreen" hover="myred" />
+                  <Button text="View" color="mygreen" hover="myyellow" />
                   </Link>
                 </td>
               </tr>

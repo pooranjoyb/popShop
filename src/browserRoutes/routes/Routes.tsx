@@ -14,7 +14,7 @@ import { RootState } from "../../utils/features/store";
 import Profile from "../../pages/Profile/Profile";
 import TopButton from "../../components/TopButton/TopButton";
 import TermsandConditions from "../../pages/T&C/TermsCond";
-import MyOrders from "../../pages/Profile/MyOrders";
+import MyOrders from "../../pages/Orders/MyOrders";
 
 const Routes = () => {
   const isAuthenticated = useSelector(

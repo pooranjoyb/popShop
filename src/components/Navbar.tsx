@@ -170,13 +170,13 @@ function Navbar() {
                   </Link>
                 </li>
                 <li onClick={handleCloseMenu}>
-                 <Link to="/home/my-orders">{<p>My Orders</p>}</Link>
-                </li>
-                <li onClick={handleCloseMenu}>
                   <Link to={"/home/shop"}>{<p>Shop</p>}</Link>
                 </li>
                 <li onClick={handleCloseMenu}>
                   <Link to={"/home/shop/cart"}>{<p>Cart</p>}</Link>
+                </li>
+                <li onClick={handleCloseMenu}>
+                 <Link to="/home/my-orders">{<p>Orders</p>}</Link>
                 </li>
                 <li onClick={handleCloseMenu}>
                   <Link
