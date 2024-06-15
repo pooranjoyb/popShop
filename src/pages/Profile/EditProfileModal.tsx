@@ -22,7 +22,11 @@ function EditProfileModal({ userData, onUpdate }: Props) {
     const handleUpdate = async () => {
         const { error } = await supabase
             .from("users")
-            .update({ ...updatedData })
+            .update({
+                firstname: updatedData.firstname,
+                lastname: updatedData.lastname,
+                phone: updatedData.phone
+            })
             .eq("username", updatedData.username);
 
         if (error) {
