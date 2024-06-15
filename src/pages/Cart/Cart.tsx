@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../utils/client'; // Ensure supabase client is properly configured
 import Skeleton from 'react-loading-skeleton';
@@ -12,7 +12,6 @@ import Button from '../../components/Button';
 import QuantityButton from './QuantityButton';
 import { RootState } from '../../utils/features/store';
 import { toast } from 'react-toastify';
-import { updateQuantity } from '../../utils/features/cart/cartSlice';
 
 export interface ITEM {
   id: string;
@@ -96,24 +95,32 @@ const Cart: React.FC = () => {
 
   // quantity handle here
 
-  const dispatch = useDispatch();
+  const handleQuantityChange = async (itemName: string, newQuantity: number) => {
+    try {
+      const updatedProducts = cartItems.map(item => {
+        if (item.name === itemName) {
+          return {
+            ...item,
+            quantity: newQuantity
+          };
+        }
+        return item;
+      });
 
-  const handleQuantityChange = (itemName: string, newQuantity: number) => {
-    const updatedProducts = cartItems.map((item: ITEM) => {
-      if (item.name === itemName) {
-        dispatch(updateQuantity({ id: item.id, quantity: newQuantity }));
-        return {
-          ...item,
-          quantity: newQuantity,
-        };
+      const { error } = await supabase
+        .from('Cart')
+        .update({ products: updatedProducts })
+        .eq('username', userName);
+
+      if (error) {
+        throw error;
       }
-      return item;
-    });
 
-
-    setCartItems(updatedProducts);
+      setCartItems(updatedProducts);
+    } catch (error) {
+      console.error('Error updating quantity in cart:', error);
+    }
   };
-
 
   return (
     <>
