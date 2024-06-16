@@ -38,10 +38,10 @@ function Home() {
         className="mx-auto max-w-screen-xl px-4 pt-8 gap-6 sm:gap-0 sm:py-12 flex flex-col sm:flex-row justify-between items-center mt-8"
       >
         <div className="max-w-xl">
-          <div className="text-mynavy">
-            <Head h1="Make Your Look more" h2="Perfect" />
-            <p className="mt-4 max-w-lg">Look your best on your best day</p>
-            <div className="mt-8 w-full flex flex-wrap gap-4 text-center">
+          <div className="text-mynavy text-center">
+            <Head  h1="Make Your Look more" h2="Perfect"   />
+            <p className="mt-4 max-w-lg text-center">Look your best on your best day</p>
+            <div className="mt-8 w-full flex flex-wrap gap-4 text-center justify-center">
               <a
                 href="#about"
                 className="btn w-1/2 bg-myred hover:bg-myyellow text-white"
@@ -159,7 +159,7 @@ function Home() {
           <div className="text-mynavy">
             <Head h1="New" h2="Collections" />
           </div>
-          <p className="mx-auto mt-4 max-w-md text-gray-1000">
+          <p className="mx-auto mt-4 max-w-md text-gray-1000 ">
             Explore our New Collections
           </p>
         </header>

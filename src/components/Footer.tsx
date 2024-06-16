@@ -63,9 +63,9 @@ const Socials = () => {
 const ServicesList = () => {
   return (
     <>
-      <p className="font-medium text-gray-900">Services</p>
+      <p className="font-medium text-gray-900 text-center">Services</p>
 
-      <ul className="mt-6 space-y-4 text-sm">
+      <ul className="mt-6 space-y-4 text-sm text-center">
         <li>
           <Link
             to="/home/profile"
@@ -127,7 +127,7 @@ const ServicesList = () => {
 
 export default function NewFooter() {
   return (
-    <footer id="Footer" className="text-mynavy mx-auto max-w-screen-xl px-4 my-12 flex flex-wrap items-center gap-8 lg:grid lg:grid-cols-5 max-sm:flex-col">
+    <footer id="Footer" className="text-mynavy lg:me-20 mx-auto max-w-screen-xl px-4 my-12  flex flex-wrap items-center gap-12 lg:grid lg:grid-cols-5 max-sm:flex-col ">
       <div className="lg:col-span-2 h-full w-full p-2 sm:p-0">
         <img
           src="/images/footer.jpg"
@@ -137,7 +137,7 @@ export default function NewFooter() {
       </div>
       <div className="grid grid-rows-4 w-full lg:col-span-3 max-sm:px-4">
         <div className="row-span-3 flex justify-stretch gap-8 h-full w-full max-sm:flex-col max-sm:items-center">
-          <div className="space-y-8 grow w-full">
+          <div className="space-y-8 grow w-full flex justify-center items-center flex-col">
             <p className="text-4xl font-extrabold">
               <span>Call Us</span><br />
               <span
