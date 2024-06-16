@@ -166,7 +166,7 @@ export default function NewFooter() {
             <Link to="/home/terms-and-conditions">Terms & Conditions</Link>
           </div>
           <p className="text-xs text-gray-500">
-            &copy; 2024. PopShop.com. All rights reserved.
+            &copy; 2024. PopShop.com. All rights reserved
           </p>
         </div>
       </div>
