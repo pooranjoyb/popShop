@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 // components
 import Head from "../../components/Head";
 import Button from "../../components/Button";
-import QuantityButton from "../Cart/QuantityButton";
 import { addItem } from "../../utils/features/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../../utils/client";
@@ -79,36 +78,38 @@ function ProductDetail() {
                 image: data.image,
                 price: data.price,
                 desc: data.desc,
-                quantity: data.qauntity,
+                quantity: data.qauntity || 1,
                 ratings: 5,
             };
-    
+
             // Attempt to fetch the user's cart
             const { data: userCart, error: fetchError } = await supabase
                 .from('Cart')
                 .select('*')
                 .eq('username', userName)
                 .single();
-    
+
             if (fetchError && fetchError.code !== 'PGRST116') { // Ignore "No such record" error
                 console.error("Fetch error:", fetchError);
                 throw fetchError;
             }
-    
+
+            console.log("Product added", product);
+
             if (userCart) {
                 // If the cart exists, update it
                 const updatedProducts = [...userCart.products, product];
-    
+
                 const { error: updateError } = await supabase
                     .from('Cart')
                     .update({ products: updatedProducts })
                     .eq('username', userName);
-    
+
                 if (updateError) {
                     console.error("Update error:", updateError);
                     throw updateError;
                 }
-    
+
                 console.log("Product added to cart:", product);
                 dispatch(addItem({ item: product }));
                 toast.success('Product added to cart');
@@ -122,12 +123,12 @@ function ProductDetail() {
                             products: [product],
                         },
                     ]);
-    
+
                 if (insertError) {
                     console.error("Insert error:", insertError);
                     throw insertError;
                 }
-    
+
                 console.log("Product added to cart:", product);
                 dispatch(addItem({ item: product }));
                 toast.success('Product added to cart');
@@ -137,7 +138,7 @@ function ProductDetail() {
             toast.error('Error adding product to cart');
         }
     };
-    
+
     return (
         <>
             <div className=" mx-auto max-w-screen-xl px-4 py-12 flex justify-between items-center">
@@ -212,10 +213,6 @@ function ProductDetail() {
                                     ))}
                                     <span className="ml-2">{`${filledStars} out of 5 `}
                                     </span>
-                                </div>
-                                <div className="w-32 mb-8 ">
-                                    <label htmlFor="" className="w-full text-xl font-semibold text-gray-700 dark:text-gray-400">Quantity</label>
-                                    <QuantityButton initialQuantity={1} onUpdate={() => console.log("update")} />
                                 </div>
                                 <div className="flex flex-wrap items-center gap-10 ">
                                     <Button text="Add to Cart" color="mygreen" hover="myred" onClick={addToCart} />

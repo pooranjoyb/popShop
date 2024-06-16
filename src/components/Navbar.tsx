@@ -176,6 +176,9 @@ function Navbar() {
                   <Link to={"/home/shop/cart"}>{<p>Cart</p>}</Link>
                 </li>
                 <li onClick={handleCloseMenu}>
+                 <Link to="/home/my-orders">{<p>Orders</p>}</Link>
+                </li>
+                <li onClick={handleCloseMenu}>
                   <Link
                     to="/"
                     onClick={() => {

@@ -49,7 +49,7 @@ function Profile() {
 
   useEffect(() => {
     fetchData();
-  }, [userData]);
+  }, []);
 
   const handleUpdate = () => {
     fetchData();
