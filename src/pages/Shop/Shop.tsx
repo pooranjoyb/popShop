@@ -1,34 +1,47 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 // components
 import Head from "../../components/Head";
 import Product from "../../components/Product";
 import { IoFilterCircleOutline } from "react-icons/io5";
 import { supabase } from "../../utils/client";
-
+import SkeletonWithContent from "../../components/Skeleton/Content";
 
 function Shop() {
-
   const [products, setproducts] = useState<any[]>([]);
+  const [skeleton, setSkeleton] = useState<boolean>(true); //skeleton-state
 
   const getProducts = async () => {
-    const { data } = await supabase.from('Product_table').select()
-    console.log(data)
-    if(data){
-      setproducts(data)
+    const { data } = await supabase.from("Product_table").select();
+    console.log(data);
+    if (data) {
+      setproducts(data);
     }
-  }
+  };
 
   useEffect(() => {
-    getProducts()
+    getProducts();
     window.scrollTo(0, 0);
   }, []);
 
-  const handlesearch = async (e: any) => {
-    const { data } = await supabase.from('Product_table').select()
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (products) {
+      timer = setTimeout(() => {
+        setSkeleton(false);
+      }, 2000);
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [products]);
+
+  const handlesearch = async (e: ChangeEvent<HTMLInputElement>) => {
+    const { data } = await supabase.from("Product_table").select();
     const value = e.target.value;
     console.log(value, "hello");
-    if(data){
+    if (data) {
       const filtereddata = data.filter((elem) => {
         if (elem.name.toLowerCase().includes(value.toLowerCase())) return true;
         else return;
@@ -56,7 +69,7 @@ function Shop() {
 
   return (
     <>
-      <div className=" mx-auto max-w-screen-xl px-4 pt-12 pb-8 flex justify-center md:justify-between items-center flex-wrap">        
+      <div className=" mx-auto max-w-screen-xl px-4 pt-12 pb-8 flex justify-center md:justify-between items-center flex-wrap">
         <Head h1="Our" h2="Store" />
         <div className="flex gap-6 mt-8 justify-center md:justify-end w-full">
           {/* The button to open modal */}
@@ -64,7 +77,7 @@ function Shop() {
             htmlFor="my_modal_6"
             className="btn bg-mygreen hover:bg-myyellow"
           >
-            <IoFilterCircleOutline className="text-3xl"/>
+            <IoFilterCircleOutline className="text-3xl" />
           </label>
           {/* Modal Body*/}
           <input
@@ -110,12 +123,12 @@ function Shop() {
                 >
                   Apply
                 </label>
-             
+
                 <label
-                 htmlFor="my_modal_6"
-                className="btn hover:bg-myred bg-myred"
+                  htmlFor="my_modal_6"
+                  className="btn hover:bg-myred bg-myred"
                 >
-                 Cancel
+                  Cancel
                 </label>
               </div>
             </div>
@@ -145,17 +158,21 @@ function Shop() {
       </div>
       <div className="mx-auto max-w-2xl px-4 py-8 lg:max-w-7xl lg:px-8">
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {products.map((elem, idx) => {
-            return (
-              <Product
-                key={idx}
-                desc={elem.Desc}
-                image={elem.Image_link}
-                price={elem.Price}
-                name={elem.Name}
-              />
-            );
-          })}
+          {skeleton
+            ? Array(4)
+                .fill(0)
+                .map((_, idx) => <SkeletonWithContent key={idx} />)
+            : products.map((elem, idx) => {
+                return (
+                  <Product
+                    key={idx}
+                    desc={elem.Desc}
+                    image={elem.Image_link}
+                    price={elem.Price}
+                    name={elem.Name}
+                  />
+                );
+              })}
         </div>
       </div>
     </>
