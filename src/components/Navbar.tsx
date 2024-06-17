@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { Slide, toast } from "react-toastify";
-import { supabase } from '../utils/client'; // Ensure the correct path to your Supabase client
+import { supabase } from "../utils/client"; // Ensure the correct path to your Supabase client
 import { RootState } from "../utils/features/store";
 import { logout } from "../utils/features/Auth/authSlice";
 import Glassnav from "./Floating_Nav";
@@ -43,17 +43,20 @@ function Navbar() {
     // Fetch initial cart items count
     const fetchCartItems = async () => {
       const { data, error } = await supabase
-        .from('Cart')
-        .select('products')
-        .eq('username', userName);
+        .from("Cart")
+        .select("products")
+        .eq("username", userName);
 
       console.log("items in cart:  ", data);
 
       if (error) {
-        console.error('Error fetching cart items:', error);
+        console.error("Error fetching cart items:", error);
       } else {
         // Assuming products is an array within each row in the Cart table
-        const totalItems = data.reduce((acc, item) => acc + item.products.length, 0);
+        const totalItems = data.reduce(
+          (acc, item) => acc + item.products.length,
+          0
+        );
         setItemsInCart(totalItems);
       }
     };
@@ -61,31 +64,46 @@ function Navbar() {
     fetchCartItems();
 
     const cartChannel = supabase
-      .channel('cart_updates')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'Cart' }, (payload) => {
-        console.log('Insert Change received!', payload);
-        // Assuming payload.new.products is an array of the inserted products
-        const productsCount = payload.new.products ? payload.new.products.length : 0;
-        setItemsInCart((prevCount) => prevCount + productsCount);
-      })
-      .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'Cart' }, (payload) => {
-        console.log('Delete Change received!', payload);
-        // Assuming payload.old.products is an array of the deleted products
-        const productsCount = payload.old.products ? payload.old.products.length : 0;
-        setItemsInCart((prevCount) => Math.max(0, prevCount - productsCount));
-      })
-      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Cart' }, (payload) => {
-        console.log('Update Change received!', payload);
-        // Fetch the latest cart items on update to ensure consistency
-        fetchCartItems();
-      })
+      .channel("cart_updates")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "Cart" },
+        (payload) => {
+          console.log("Insert Change received!", payload);
+          // Assuming payload.new.products is an array of the inserted products
+          const productsCount = payload.new.products
+            ? payload.new.products.length
+            : 0;
+          setItemsInCart((prevCount) => prevCount + productsCount);
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "DELETE", schema: "public", table: "Cart" },
+        (payload) => {
+          console.log("Delete Change received!", payload);
+          // Assuming payload.old.products is an array of the deleted products
+          const productsCount = payload.old.products
+            ? payload.old.products.length
+            : 0;
+          setItemsInCart((prevCount) => Math.max(0, prevCount - productsCount));
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "Cart" },
+        (payload) => {
+          console.log("Update Change received!", payload);
+          // Fetch the latest cart items on update to ensure consistency
+          fetchCartItems();
+        }
+      )
       .subscribe();
 
     return () => {
       supabase.removeChannel(cartChannel);
     };
   }, [userName]);
-
 
   const toastNotification = (message: string) => {
     toast(message, {
@@ -118,10 +136,7 @@ function Navbar() {
           </Link>
         </div>
 
-
-        <div className="flex justify-center z-[100]">
-          {Floatingnav()}
-        </div>
+        <div className="flex justify-center z-[100]">{Floatingnav()}</div>
 
         <div className="flex-none gap-6 md:mr-16 mr-2">
           <div className="dropdown dropdown-end">
@@ -181,7 +196,7 @@ function Navbar() {
                   <Link to={"/shop/cart"}>{<p>Cart</p>}</Link>
                 </li>
                 <li onClick={handleCloseMenu}>
-                 <Link to="/home/my-orders">{<p>Orders</p>}</Link>
+                  <Link to="/my-orders">{<p>Orders</p>}</Link>
                 </li>
                 <li onClick={handleCloseMenu}>
                   <Link

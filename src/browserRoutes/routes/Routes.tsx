@@ -8,7 +8,7 @@ import ProductDetail from "../../pages/Shop/ProductDetail";
 import Cart from "../../pages/Cart/Cart";
 
 import Checkout from "../../pages/Checkout/Checkout";
-import {  createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "../../pages/Auth/ProtectedRoute";
 import Profile from "../../pages/Profile/Profile";
 import TopButton from "../../components/TopButton/TopButton";
@@ -62,9 +62,9 @@ const Routes = () => {
               element: <Cart />,
             },
             {
-              path:"checkout",
-              element:<Checkout/>
-            }
+              path: "checkout",
+              element: <Checkout />,
+            },
           ],
         },
         {
@@ -76,7 +76,7 @@ const Routes = () => {
           element: <TermsandConditions />,
         },
         {
-          path: 'my-orders',
+          path: "my-orders",
           element: <MyOrders />,
         },
       ],
