@@ -9,6 +9,15 @@ import { logout } from "../utils/features/Auth/authSlice";
 import Glassnav from "./Floating_Nav";
 import Button from "./Button";
 
+interface Product {
+  name: string;
+  image: string;
+  price: number;
+  ratings: number;
+  quantity: number;
+}
+
+
 function Screensize() {
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth });
 
@@ -56,7 +65,7 @@ function Navbar() {
         const totalItems = data.reduce((acc, item) => acc + item.products.length, 0);
         setItemsInCart(totalItems);
         const subtotalAmount = data.reduce((acc, item) => {
-          return acc + item.products.reduce((itemAcc, product) => {
+          return acc + item.products.reduce((itemAcc: number, product: Product) => {
             const price = product.price;
             const quantity = product.quantity;
             console.log(price,quantity)
