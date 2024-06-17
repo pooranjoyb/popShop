@@ -17,7 +17,8 @@ function Shop() {
   const [products, setProducts] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>([]);
-  const [filtersApplied, setFiltersApplied] = useState<boolean>(false); // New state to track if filters are applied
+  const [tempSelectedPriceRanges, setTempSelectedPriceRanges] = useState<string[]>([]); // Temporary state for filter selections
+  const [filtersApplied, setFiltersApplied] = useState<boolean>(false); // State to track if filters are applied
 
   useEffect(() => {
     getProducts();
@@ -25,7 +26,7 @@ function Shop() {
   }, []);
 
   const getProducts = async () => {
-    const { data } = await supabase.from('Product_table').select();
+    const { data } = await supabase.from("Product_table").select();
     console.log(data);
     if (data) {
       setProducts(data);
@@ -40,27 +41,32 @@ function Shop() {
   const handlePriceRangeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (e.target.checked) {
-      setSelectedPriceRanges([...selectedPriceRanges, value]);
+      setTempSelectedPriceRanges((prev) => [...prev, value]);
     } else {
-      setSelectedPriceRanges(selectedPriceRanges.filter(range => range !== value));
+      setTempSelectedPriceRanges((prev) =>
+        prev.filter((range) => range !== value)
+      );
     }
   };
 
   const filterByPrice = (product: any) => {
-    if (!filtersApplied) {
-      return true; // No filters applied
+    if (selectedPriceRanges.length === 0) {
+      return true; // No filters applied, show all products
     }
 
-    return selectedPriceRanges.some(range => {
+    return selectedPriceRanges.some((range) => {
       const priceRange = priceRanges[range];
       if (priceRange) {
-        return product.Price >= priceRange.min && product.Price <= priceRange.max;
+        return (
+          product.Price >= priceRange.min && product.Price <= priceRange.max
+        );
       }
       return false;
     });
   };
 
   const applyFilters = () => {
+    setSelectedPriceRanges(tempSelectedPriceRanges);
     setFiltersApplied(true);
   };
 
@@ -69,7 +75,7 @@ function Shop() {
     "₹1000-₹2000": { min: 1000, max: 2000 },
     "₹2000-₹4000": { min: 2000, max: 4000 },
     "₹4000-₹8000": { min: 4000, max: 8000 },
-    "₹8000-and above": { min: 8000, max: Infinity }
+    "₹8000-and above": { min: 8000, max: Infinity },
   };
 
   const filter = [
@@ -86,7 +92,7 @@ function Shop() {
   ];
 
   const filteredProducts = products
-    .filter(product => product.Name.toLowerCase().includes(searchTerm))
+    .filter((product) => product.Name.toLowerCase().includes(searchTerm))
     .filter(filterByPrice);
 
   return (
@@ -122,6 +128,7 @@ function Shop() {
                           value={range}
                           className="w-4 h-4 checkbox"
                           onChange={handlePriceRangeChange}
+                          checked={tempSelectedPriceRanges.includes(range)} // Maintain checked state in modal
                         />
                         <label
                           htmlFor={`default-checkbox${idx}${index}`}
