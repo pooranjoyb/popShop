@@ -163,25 +163,30 @@ function Navbar() {
                   {itemsInCart} Items.
                 </span>
                 {items &&
-                  items[0]?.products?.slice(0, 3).map((_, index) => (
-                    <div key={`${_.name}-${index}`} className="flex gap-3 mt-4">
-                      <div className="w-20 h-16">
-                        <img
-                          src={_.image}
-                          alt="product-image"
-                          className="object-cover w-full h-full rounded"
-                        />
+                  items[0]?.products
+                    ?.slice(0, 3)
+                    .map((_: any, index: number) => (
+                      <div
+                        key={`${_.name}-${index}`}
+                        className="flex gap-3 mt-4"
+                      >
+                        <div className="w-20 h-16">
+                          <img
+                            src={_.image}
+                            alt="product-image"
+                            className="object-cover w-full h-full rounded"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="font-bold dark:text-gray-400">
+                            {_.name}
+                          </h4>
+                          <p className="font-medium dark:text-gray-400">
+                            Price: ${_.price}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <h4 className="font-bold dark:text-gray-400">
-                          {_.name}
-                        </h4>
-                        <p className="font-medium dark:text-gray-400">
-                          Price: ${_.price}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
 
                 <Link
                   to="/home/shop/cart"
