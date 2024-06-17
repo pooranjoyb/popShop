@@ -479,7 +479,6 @@ function Auth() {
                     </label>
                     <input
                       required
-                      type="password"
                       id="pass"
                       type={showPassword || isTyping  ? "text" : "password"}
                       name="pass"
