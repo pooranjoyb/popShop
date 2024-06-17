@@ -6,9 +6,19 @@ import Product from "../../components/Product";
 import { IoFilterCircleOutline } from "react-icons/io5";
 import { supabase } from "../../utils/client";
 
+type PriceRange = {
+  min: number;
+  max: number;
+};
+
+type PriceRanges = {
+  [key: string]: PriceRange;
+};
+
 function Shop() {
   const [products, setProducts] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>([]);
 
   const getProducts = async () => {
     const { data } = await supabase.from('Product_table').select();
@@ -28,15 +38,42 @@ function Shop() {
     setSearchTerm(value.toLowerCase());
   };
 
-  const filteredProducts = products.filter((product) =>
-    product.Name.toLowerCase().includes(searchTerm)
-  );
+  const handlePriceRangeChange = (e: any) => {
+    const value = e.target.value;
+    if (e.target.checked) {
+      setSelectedPriceRanges([...selectedPriceRanges, value]);
+    } else {
+      setSelectedPriceRanges(selectedPriceRanges.filter(range => range !== value));
+    }
+  };
+
+  const priceRanges: PriceRanges = {
+    "below-₹1000": { min: 0, max: 999 },
+    "₹1000-₹2000": { min: 1000, max: 2000 },
+    "₹2000-₹4000": { min: 2000, max: 4000 },
+    "₹4000-₹8000": { min: 4000, max: 8000 },
+    "₹8000-and above": { min: 8000, max: Infinity }
+  };
+
+  const filterByPrice = (product: any) => {
+    if (selectedPriceRanges.length === 0) {
+      return true; // No price filter applied
+    }
+
+    return selectedPriceRanges.some(range => {
+      const priceRange = priceRanges[range];
+      if (priceRange) {
+        return product.Price >= priceRange.min && product.Price <= priceRange.max;
+      }
+      return false;
+    });
+  };
+
+  const filteredProducts = products
+    .filter(product => product.Name.toLowerCase().includes(searchTerm))
+    .filter(filterByPrice);
 
   const filter = [
-    {
-      filterOption: "Size",
-      checkbox: ["XS", "S", "M", "L", "XL"],
-    },
     {
       filterOption: "Price Range",
       checkbox: [
@@ -76,19 +113,20 @@ function Shop() {
                 {filter.map((fil, idx) => (
                   <div key={idx}>
                     <h2 className="mb-3">{fil.filterOption}</h2>
-                    {fil.checkbox.map((size, index) => (
+                    {fil.checkbox.map((range, index) => (
                       <div key={index} className="flex items-center mb-2">
                         <input
                           id={`default-checkbox${idx}${index}`}
                           type="checkbox"
-                          value=""
+                          value={range}
                           className="w-4 h-4 checkbox"
+                          onChange={handlePriceRangeChange}
                         />
                         <label
                           htmlFor={`default-checkbox${idx}${index}`}
                           className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                         >
-                          {size}
+                          {range}
                         </label>
                       </div>
                     ))}
