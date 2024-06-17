@@ -6,32 +6,28 @@ import Contact from "../../pages/Contact/Contact";
 import Shop from "../../pages/Shop/Shop";
 import ProductDetail from "../../pages/Shop/ProductDetail";
 import Cart from "../../pages/Cart/Cart";
-import { Navigate, createBrowserRouter } from "react-router-dom";
+
+import Checkout from "../../pages/Checkout/Checkout";
+import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "../../pages/Auth/ProtectedRoute";
-import { useSelector } from "react-redux";
-import { RootState } from "../../utils/features/store";
 import Profile from "../../pages/Profile/Profile";
 import TopButton from "../../components/TopButton/TopButton";
 import TermsandConditions from "../../pages/T&C/TermsCond";
+import MyOrders from "../../pages/Orders/MyOrders";
 
 const Routes = () => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state?.auth?.isAuthenticated
-  );
+  // const isAuthenticated = useSelector(
+  //   (state: RootState) => state?.auth?.isAuthenticated
+  // );
 
   return createBrowserRouter([
     {
       path: "/",
-      element: isAuthenticated ? <Navigate to="/home" /> : <Auth />,
-      errorElement: <Error />,
-    },
-    {
-      path: "/home",
       element: (
-        <ProtectedRoute>
+        <>
           <Layout />
           <TopButton />
-        </ProtectedRoute>
+        </>
       ),
       children: [
         {
@@ -39,8 +35,16 @@ const Routes = () => {
           element: <Home />,
         },
         {
+          path: "login",
+          element: <Auth />,
+        },
+        {
           path: "profile",
-          element: <Profile />,
+          element: (
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "shop",
@@ -57,6 +61,10 @@ const Routes = () => {
               path: "cart",
               element: <Cart />,
             },
+            {
+              path: "checkout",
+              element: <Checkout />,
+            },
           ],
         },
         {
@@ -67,9 +75,14 @@ const Routes = () => {
           path: "terms-and-conditions",
           element: <TermsandConditions />,
         },
+        {
+          path: "my-orders",
+          element: <MyOrders />,
+        },
       ],
       errorElement: <Error />,
     },
+
     {
       path: "*",
       element: <Error />,

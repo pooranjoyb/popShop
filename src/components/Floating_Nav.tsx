@@ -25,17 +25,17 @@ function Floatingnav() {
         className="navbar rounded-3xl fixed top-4 w-auto flex justify-center backdrop-filter backdrop-blur-md shadow-2xl max-w-screen-xl"
       >
         <ul className="flex justify-between px-12">
-          <a href="/home">
+          <a href="/">
             <li className="hover:scale-105 duration-75 text-sm hover:font-semibold px-4 rounded-full">
               Home
             </li>
           </a>
-          <a href="/home#Collections">
+          <a href="/#Collections">
             <li className="hover:scale-105 duration-75 text-sm hover:font-semibold px-4 rounded-full">
               Collections
             </li>
           </a>
-          <a href="/home#Products">
+          <a href="/#Products">
             <li className="hover:scale-105 duration-75 text-sm hover:font-semibold px-4 rounded-full">
               Products
             </li>

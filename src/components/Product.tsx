@@ -1,7 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import Button from "./Button";
-import { toast } from 'react-toastify';
-import { MdOutlineShoppingCart } from "react-icons/md";
 
 interface Data {
   name: string;
@@ -12,12 +9,10 @@ interface Data {
 
 function Product({ name, image, price, desc }: Data) {
   const navigate = useNavigate();
-  const addToCart = () => {
-    // logic for adding in cart
-    toast.success('Added to Cart', { autoClose: 2000 });
-  };
+
+
   const handleNavigate = () => {
-    navigate("/home/shop/product", { state: { name, image, price, desc } });
+    navigate("/shop/product", { state: { name, image, price, desc } });
   };
   return (
     <>
@@ -33,14 +28,8 @@ function Product({ name, image, price, desc }: Data) {
           <h3 className="mt-4 text-sm text-gray-700">{name}</h3>
           <p className="mt-1 text-lg font-medium text-gray-900">${price}</p>
         </button>
-        <div className="flex flex-auto justify-between px-4 pb-4 space-x-24">
 
-          <MdOutlineShoppingCart className="flex m-2 h-10 w-10" onClick={addToCart} />
-          
-          <Button text="Buy Now" color="myyellow" hover="myred" />
-        </div>
       </div>
-      
     </>
   );
 }

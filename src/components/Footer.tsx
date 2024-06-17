@@ -2,7 +2,7 @@ import { FaFacebook, FaGithub } from "react-icons/fa6"
 import { IoLogoInstagram } from "react-icons/io5"
 import { RiTwitterXFill } from "react-icons/ri"
 import { Link } from "react-router-dom"
-
+import Button from "./Button"
 const Socials = () => {
   return (
     <ul className="flex gap-x-6">
@@ -55,10 +55,9 @@ const Socials = () => {
           <FaGithub className="w-6 h-6" />
         </a>
       </li>
-
     </ul>
-  )
-}
+  );
+};
 
 const ServicesList = () => {
   return (
@@ -68,7 +67,7 @@ const ServicesList = () => {
       <ul className="mt-6 space-y-4 text-sm">
         <li>
           <Link
-            to="/home/profile"
+            to="/profile"
             className="text-gray-700 transition hover:opacity-75"
           >
             {" "}
@@ -77,7 +76,7 @@ const ServicesList = () => {
         </li>
         <li>
           <Link
-            to="/home/shop/cart"
+            to="/shop/cart"
             className="text-gray-700 transition hover:opacity-75"
           >
             {" "}
@@ -86,7 +85,7 @@ const ServicesList = () => {
         </li>
         <li>
           <Link
-            to="/home/shop"
+            to="/shop"
             className="text-gray-700 transition hover:opacity-75"
           >
             {" "}
@@ -94,8 +93,9 @@ const ServicesList = () => {
           </Link>
         </li>
         <li>
+
           <Link
-            to="/home/contact"
+            to="/contact"
             className="text-gray-700 transition hover:opacity-75"
           >
             {" "}
@@ -122,11 +122,22 @@ const ServicesList = () => {
         
       </ul>
     </>
-  )
-}
+  );
+};
 
 export default function NewFooter() {
   return (
+    <>
+      <div className="md:h-40 md:flex md:justify-center md:items-center flex flex-col justify-between items-center p-4">
+          <div className="md:w-1/2 flex flex-col justify-center items-center text-center">
+            <p className="md:text-3xl text-2xl font-bold">Subscribe to our newsletter</p>
+            <p className="md:text-lg">Stay up to date with our latest news, exclusive offers, and promotions.</p>
+          </div>
+          <div className="md:flex gap-4 md:w-1/2 justify-center items-center flex flex-col md:flex-row mt-4">
+            <input type="text" placeholder="Enter your email" className="input input-bordered w-full max-w-xs" required />
+            <Button text="Subscribe" color="mygreen" hover="myred" />
+          </div>
+      </div>
     <footer id="Footer" className="text-mynavy mx-auto max-w-screen-xl px-4 my-12 flex flex-wrap items-center gap-8 lg:grid lg:grid-cols-5 max-sm:flex-col">
       <div className="lg:col-span-2 h-full w-full p-2 sm:p-0">
         <img
@@ -139,7 +150,8 @@ export default function NewFooter() {
         <div className="row-span-3 flex justify-stretch gap-8 h-full w-full max-sm:flex-col max-sm:items-center">
           <div className="space-y-8 grow w-full">
             <p className="text-4xl font-extrabold">
-              <span>Call Us</span><br />
+              <span>Call Us</span>
+              <br />
               <span
                 style={{
                   textShadow:
@@ -152,7 +164,8 @@ export default function NewFooter() {
               </span>
             </p>
             <p>
-              <span>Monday to Friday: 10am - 5pm</span><br />
+              <span>Monday to Friday: 10am - 5pm</span>
+              <br />
               <span>Weekend: 10am - 3pm</span>
             </p>
             <Socials />
@@ -163,9 +176,7 @@ export default function NewFooter() {
         </div>
         <div className="mt-12 border-t border-gray-100 flex flex-wrap max-sm:text-left items-center justify-between pt-8 space-8 gap-x-8">
         <div className="text-xs flex gap-x-4">
-            <Link to="/home/terms-and-conditions#terms">Terms & Conditions</Link>
-            <Link to="/home/terms-and-conditions#">Privacy Policy</Link>
-            <Link to="/home/terms-and-conditions#cookies">Cookies</Link>
+            <Link to="/home/terms-and-conditions">Terms & Conditions</Link>
           </div>
           <p className="text-xs text-gray-500">
             &copy; 2024. PopShop.com. All rights reserved.
@@ -173,5 +184,7 @@ export default function NewFooter() {
         </div>
       </div>
     </footer>
+
+    </>
   )
 }

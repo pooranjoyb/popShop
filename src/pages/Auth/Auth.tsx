@@ -86,6 +86,7 @@ function Auth() {
 
       const hashedPassword = await bcrypt.hash(validateData.password, 10);
 
+
       const { error } = await supabase.from("users").insert([
         {
           username: validateData.username,
@@ -193,7 +194,7 @@ function Auth() {
 
       toastNotification("User LoggedIn !!", "success");
       dispatch(login({ username: validateData.username }));
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       if (err instanceof z.ZodError) {
         const newErrors = err.flatten().fieldErrors;

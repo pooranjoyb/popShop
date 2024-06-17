@@ -4,111 +4,33 @@ import { useEffect, useState } from "react";
 import Head from "../../components/Head";
 import Product from "../../components/Product";
 import { IoFilterCircleOutline } from "react-icons/io5";
-
-const data = [
-  {
-    desc: "",
-    image:
-      "https://images.unsplash.com/photo-1578996953841-b187dbe4bc8a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzl8fGJsYXplcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 20,
-    name: "Diamond Blue Suit",
-  },
-  {
-    desc: "",
-    image:
-      "https://img.freepik.com/free-photo/model-suit-posing-studio_1303-12436.jpg?w=360&t=st=1708162653~exp=1708163253~hmac=04c46ae61b01bae7e68c3a3a52e084371b7529e79d0266419944786f5726b30b",
-    price: 99,
-    name: "Nomad Outfit",
-  },
-  {
-    desc: "",
-    image:
-      "https://img.freepik.com/free-photo/full-shot-woman-posing-with-green-outfit_23-2150728960.jpg?w=360&t=st=1708162804~exp=1708163404~hmac=b8eed76bcc3e16b01902ab4b5993eacc511b701a7c8a21690277d73429c02907",
-    price: 56,
-    name: "Leaf Green Outfit",
-  },
-  {
-    desc: "",
-    image:
-      "https://img.freepik.com/free-photo/full-shot-beautiful-lady_23-2148440576.jpg?w=360&t=st=1708162622~exp=1708163222~hmac=a0eb19d754c23e36840605ecb684ece75e8b20e74ba329c1d0958a10dec2824f",
-    price: 99,
-    name: "Red Casual Wear",
-  },
-  {
-    desc: "",
-    image:
-      "https://images.unsplash.com/photo-1578996953841-b187dbe4bc8a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzl8fGJsYXplcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 20,
-    name: "Diamond Blue Suit",
-  },
-  {
-    desc: "",
-    image:
-      "https://img.freepik.com/free-photo/model-suit-posing-studio_1303-12436.jpg?w=360&t=st=1708162653~exp=1708163253~hmac=04c46ae61b01bae7e68c3a3a52e084371b7529e79d0266419944786f5726b30b",
-    price: 99,
-    name: "Nomad Outfit",
-  },
-  {
-    desc: "",
-    image:
-      "https://img.freepik.com/free-photo/full-shot-woman-posing-with-green-outfit_23-2150728960.jpg?w=360&t=st=1708162804~exp=1708163404~hmac=b8eed76bcc3e16b01902ab4b5993eacc511b701a7c8a21690277d73429c02907",
-    price: 56,
-    name: "Leaf Green Outfit",
-  },
-  {
-    desc: "",
-    image:
-      "https://img.freepik.com/free-photo/full-shot-beautiful-lady_23-2148440576.jpg?w=360&t=st=1708162622~exp=1708163222~hmac=a0eb19d754c23e36840605ecb684ece75e8b20e74ba329c1d0958a10dec2824f",
-    price: 99,
-    name: "Red Casual Wear",
-  },
-  {
-    desc: "",
-    image:
-      "https://images.unsplash.com/photo-1578996953841-b187dbe4bc8a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzl8fGJsYXplcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 20,
-    name: "Diamond Blue Suit",
-  },
-  {
-    desc: "",
-    image:
-      "https://img.freepik.com/free-photo/model-suit-posing-studio_1303-12436.jpg?w=360&t=st=1708162653~exp=1708163253~hmac=04c46ae61b01bae7e68c3a3a52e084371b7529e79d0266419944786f5726b30b",
-    price: 99,
-    name: "Nomad Outfit",
-  },
-  {
-    desc: "",
-    image:
-      "https://img.freepik.com/free-photo/full-shot-woman-posing-with-green-outfit_23-2150728960.jpg?w=360&t=st=1708162804~exp=1708163404~hmac=b8eed76bcc3e16b01902ab4b5993eacc511b701a7c8a21690277d73429c02907",
-    price: 56,
-    name: "Leaf Green Outfit",
-  },
-  {
-    desc: "",
-    image:
-      "https://img.freepik.com/free-photo/full-shot-beautiful-lady_23-2148440576.jpg?w=360&t=st=1708162622~exp=1708163222~hmac=a0eb19d754c23e36840605ecb684ece75e8b20e74ba329c1d0958a10dec2824f",
-    price: 99,
-    name: "Red Casual Wear",
-  },
-];
+import { supabase } from "../../utils/client";
 
 function Shop() {
+  const [products, setProducts] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const [products, setproducts] = useState(data);
+  const getProducts = async () => {
+    const { data } = await supabase.from('Product_table').select();
+    console.log(data);
+    if (data) {
+      setProducts(data);
+    }
+  };
 
   useEffect(() => {
+    getProducts();
     window.scrollTo(0, 0);
   }, []);
 
-  const handlesearch = (e: any) => {
+  const handleSearch = (e: any) => {
     const value = e.target.value;
-    console.log(value, "hello");
-    const filtereddata = data.filter((elem) => {
-      if (elem.name.toLowerCase().includes(value.toLowerCase())) return true;
-      else return;
-    });
-    setproducts(filtereddata);
+    setSearchTerm(value.toLowerCase());
   };
+
+  const filteredProducts = products.filter((product) =>
+    product.Name.toLowerCase().includes(searchTerm)
+  );
 
   const filter = [
     {
@@ -129,24 +51,24 @@ function Shop() {
 
   return (
     <>
-      <div className=" mx-auto max-w-screen-xl px-4 pt-12 pb-8 flex justify-between items-center flex-wrap">        
+      <div className="mx-auto max-w-screen-xl px-4 pt-12 pb-8 flex justify-center md:justify-between items-center flex-wrap">
         <Head h1="Our" h2="Store" />
-        <div className="flex gap-6 mt-8 justify-end w-full">
+        <div className="flex gap-6 mt-8 justify-center md:justify-end w-full">
           {/* The button to open modal */}
           <label
             htmlFor="my_modal_6"
             className="btn bg-mygreen hover:bg-myyellow"
           >
-            <IoFilterCircleOutline className="text-3xl"/>
+            <IoFilterCircleOutline className="text-3xl" />
           </label>
-          {/* Modal Body*/}
+          {/* Modal Body */}
           <input
             type="checkbox"
             id="my_modal_6"
             className="modal-toggle w-5xl"
           />
           <div className="modal" role="dialog">
-            <div className="modal-box w-[30rem]">
+            <div className="modal-box w-[18rem] md:w-[30rem]">
               <h3 className="font-bold text-center text-lg">
                 Apply your filters
               </h3>
@@ -154,24 +76,22 @@ function Shop() {
                 {filter.map((fil, idx) => (
                   <div key={idx}>
                     <h2 className="mb-3">{fil.filterOption}</h2>
-                    {fil.checkbox.map((size, index) => {
-                      return (
-                        <div key={index} className="flex items-center mb-2">
-                          <input
-                            id={`default-checkbox${idx}${index}`}
-                            type="checkbox"
-                            value=""
-                            className="w-4 h-4 checkbox"
-                          />
-                          <label
-                            htmlFor={`default-checkbox${idx}${index}`}
-                            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                          >
-                            {size}
-                          </label>
-                        </div>
-                      );
-                    })}
+                    {fil.checkbox.map((size, index) => (
+                      <div key={index} className="flex items-center mb-2">
+                        <input
+                          id={`default-checkbox${idx}${index}`}
+                          type="checkbox"
+                          value=""
+                          className="w-4 h-4 checkbox"
+                        />
+                        <label
+                          htmlFor={`default-checkbox${idx}${index}`}
+                          className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >
+                          {size}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>
@@ -183,12 +103,12 @@ function Shop() {
                 >
                   Apply
                 </label>
-             
+
                 <label
-                 htmlFor="my_modal_6"
-                className="btn hover:bg-myred bg-myred"
+                  htmlFor="my_modal_6"
+                  className="btn hover:bg-myred bg-myred"
                 >
-                 Cancel
+                  Cancel
                 </label>
               </div>
             </div>
@@ -199,7 +119,7 @@ function Shop() {
               type="text"
               className="grow w-36"
               placeholder="Search"
-              onChange={handlesearch}
+              onChange={handleSearch}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -218,17 +138,15 @@ function Shop() {
       </div>
       <div className="mx-auto max-w-2xl px-4 py-8 lg:max-w-7xl lg:px-8">
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {products.map((elem, idx) => {
-            return (
-              <Product
-                key={idx}
-                desc={elem.desc}
-                image={elem.image}
-                price={elem.price}
-                name={elem.name}
-              />
-            );
-          })}
+          {filteredProducts.map((elem, idx) => (
+            <Product
+              key={idx}
+              desc={elem.Desc}
+              image={elem.Image_link}
+              price={elem.Price}
+              name={elem.Name}
+            />
+          ))}
         </div>
       </div>
     </>
