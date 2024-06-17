@@ -18,7 +18,6 @@ function Shop() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>([]);
   const [tempSelectedPriceRanges, setTempSelectedPriceRanges] = useState<string[]>([]); // Temporary state for filter selections
-  const [filtersApplied, setFiltersApplied] = useState<boolean>(false); // State to track if filters are applied
 
   useEffect(() => {
     getProducts();
@@ -67,7 +66,6 @@ function Shop() {
 
   const applyFilters = () => {
     setSelectedPriceRanges(tempSelectedPriceRanges);
-    setFiltersApplied(true);
   };
 
   const priceRanges: PriceRanges = {
