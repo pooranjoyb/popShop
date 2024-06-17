@@ -34,6 +34,7 @@ function Navbar() {
   const userName = useSelector((state: RootState) => state.auth.user?.username);
   const dispatch = useDispatch();
   const [itemsInCart, setItemsInCart] = useState(0);
+  const [total, setTotal]= useState(0);
   const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
@@ -54,6 +55,15 @@ function Navbar() {
         // Assuming products is an array within each row in the Cart table
         const totalItems = data.reduce((acc, item) => acc + item.products.length, 0);
         setItemsInCart(totalItems);
+        const subtotalAmount = data.reduce((acc, item) => {
+          return acc + item.products.reduce((itemAcc, product) => {
+            const price = product.price;
+            const quantity = product.quantity;
+            console.log(price,quantity)
+            return itemAcc + (price * quantity);
+          }, 0);
+        }, 0);
+        setTotal(subtotalAmount);
       }
     };
 
@@ -141,7 +151,7 @@ function Navbar() {
             >
               <div className="card-body">
                 <span className="font-bold text-lg text-mynavy">{itemsInCart} Items</span>
-                <span className="text-mynavy">Subtotal: $$999</span>
+                <span className="text-mynavy">Subtotal: ${total}</span>
                 <Link to="/home/shop/cart" className="card-actions w-full">
                   <Button text="View cart" color="myyellow" hover="mygreen" />
                 </Link>
