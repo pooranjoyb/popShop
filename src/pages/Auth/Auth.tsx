@@ -11,6 +11,8 @@ import {
 import { useDispatch } from "react-redux";
 import { login } from "../../utils/features/Auth/authSlice";
 import { Slide, toast, TypeOptions } from "react-toastify";
+import { LuEye, LuEyeOff } from "react-icons/lu";
+
 
 interface USER {
   username: string;
@@ -40,7 +42,9 @@ function Auth() {
     createdAt: new Date().toISOString(),
   });
   const [errors, setErrors] = useState<Record<string, string[]>>({});
-  const [autoFillData, setAutoFillData] = useState<USER | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isTyping, setIsTyping] = useState(true);
+  const [autoFillData, setAutoFillData] = useState<USER | null>(null);  // State to store signup data for auto-fill
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -51,7 +55,7 @@ function Auth() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: [] }));
+    setErrors((prev) => ({ ...prev, [name]: [] }));  // Clear the error for the specific field
   };
 
   type ToastType = TypeOptions;
@@ -204,6 +208,14 @@ function Auth() {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleBlur = () => {
+    setIsTyping(false); 
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isForgotPassword) {
@@ -220,7 +232,7 @@ function Auth() {
       setUserData(autoFillData);
     }
   }, [autoFillData]);
-
+    
   return (
     <>
       <div className="text-mynavy flex md:flex-row-reverse flex-col my-12">
@@ -463,21 +475,32 @@ function Auth() {
                     </>
                   )}
                   <div>
-                    <label
-                      htmlFor="pass"
-                      className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
-                    >
+                     <label htmlFor="pass" className="block text-sm font-medium text-gray-700">
                       Password
                     </label>
                     <input
+                      required
                       type="password"
                       id="pass"
+                      type={showPassword || isTyping  ? "text" : "password"}
                       name="pass"
                       placeholder="Enter password"
                       className="mt-2 p-2 w-full placeholder:text-sm border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                       value={userData.pass}
                       onChange={handleInputChange}
+                      onBlur={handleBlur}
                     />
+                    <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 px-3 flex items-center"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? (
+                      <LuEyeOff className="h-6 w-6 text-gray-700" />
+                    ) : (
+                      <LuEye className="h-6 w-6 text-gray-700" />
+                    )}
+                  </button>
                     {errors.password && (
                       <ul
                         className="px-2 text-xs mt-1"
