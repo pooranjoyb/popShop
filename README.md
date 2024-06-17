@@ -1,11 +1,7 @@
 <h1 align="center">🌟 PopShop 🌟</h1>
-
 <div align="center"> 
-  
-<img style="width: 300px" alt="GSSoC" src="https://raw.githubusercontent.com/GirlScriptSummerOfCode/MentorshipProgram/master/GSsoc%20Type%20Logo%20Black.png#gh-light-mode-only">
-<img style="width: 300px" alt="GSSoC" src="https://user-images.githubusercontent.com/63473496/213306279-338f7ce9-9a9f-4427-8c2a-3e344874498f.png#gh-dark-mode-only"/>
 
-![PopShop](https://github.com/harini-1597/popShop/blob/readme/public/images/readme.png)
+![readme](https://github.com/Mahitej28/Test-readme/assets/98276915/f43adb7f-d3b5-4221-9413-9684e78face7)
 
 <i>PopShop is an eCommerce Website based on React TypeScript and Daisy UI, integrating Supabase for Backend and Database.
 The main aim of this project is to foster a collaborative community of creative individuals, where ideas grow and innovation flourishes. Whether you're a developer, designer, or simply someone passionate about projects, this repository provides an ideal platform to display your work and connect with others who share similar interests.
