@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-
-// components
+import React, { useEffect, useState } from "react";
 import Head from "../../components/Head";
 import Product from "../../components/Product";
 import { IoFilterCircleOutline } from "react-icons/io5";
@@ -19,6 +17,12 @@ function Shop() {
   const [products, setProducts] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>([]);
+  const [filtersApplied, setFiltersApplied] = useState<boolean>(false); // New state to track if filters are applied
+
+  useEffect(() => {
+    getProducts();
+    window.scrollTo(0, 0);
+  }, []);
 
   const getProducts = async () => {
     const { data } = await supabase.from('Product_table').select();
@@ -28,17 +32,12 @@ function Shop() {
     }
   };
 
-  useEffect(() => {
-    getProducts();
-    window.scrollTo(0, 0);
-  }, []);
-
-  const handleSearch = (e: any) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value.toLowerCase());
   };
 
-  const handlePriceRangeChange = (e: any) => {
+  const handlePriceRangeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (e.target.checked) {
       setSelectedPriceRanges([...selectedPriceRanges, value]);
@@ -47,17 +46,9 @@ function Shop() {
     }
   };
 
-  const priceRanges: PriceRanges = {
-    "below-₹1000": { min: 0, max: 999 },
-    "₹1000-₹2000": { min: 1000, max: 2000 },
-    "₹2000-₹4000": { min: 2000, max: 4000 },
-    "₹4000-₹8000": { min: 4000, max: 8000 },
-    "₹8000-and above": { min: 8000, max: Infinity }
-  };
-
   const filterByPrice = (product: any) => {
-    if (selectedPriceRanges.length === 0) {
-      return true; // No price filter applied
+    if (!filtersApplied) {
+      return true; // No filters applied
     }
 
     return selectedPriceRanges.some(range => {
@@ -69,9 +60,17 @@ function Shop() {
     });
   };
 
-  const filteredProducts = products
-    .filter(product => product.Name.toLowerCase().includes(searchTerm))
-    .filter(filterByPrice);
+  const applyFilters = () => {
+    setFiltersApplied(true);
+  };
+
+  const priceRanges: PriceRanges = {
+    "below-₹1000": { min: 0, max: 999 },
+    "₹1000-₹2000": { min: 1000, max: 2000 },
+    "₹2000-₹4000": { min: 2000, max: 4000 },
+    "₹4000-₹8000": { min: 4000, max: 8000 },
+    "₹8000-and above": { min: 8000, max: Infinity }
+  };
 
   const filter = [
     {
@@ -86,19 +85,21 @@ function Shop() {
     },
   ];
 
+  const filteredProducts = products
+    .filter(product => product.Name.toLowerCase().includes(searchTerm))
+    .filter(filterByPrice);
+
   return (
     <>
       <div className="mx-auto max-w-screen-xl px-4 pt-12 pb-8 flex justify-center md:justify-between items-center flex-wrap">
         <Head h1="Our" h2="Store" />
         <div className="flex gap-6 mt-8 justify-center md:justify-end w-full">
-          {/* The button to open modal */}
           <label
             htmlFor="my_modal_6"
             className="btn bg-mygreen hover:bg-myyellow"
           >
             <IoFilterCircleOutline className="text-3xl" />
           </label>
-          {/* Modal Body */}
           <input
             type="checkbox"
             id="my_modal_6"
@@ -134,10 +135,11 @@ function Shop() {
                 ))}
               </div>
 
-              <div className="modal-action  pe-5">
+              <div className="modal-action pe-5">
                 <label
                   htmlFor="my_modal_6"
                   className="btn hover:bg-mygreen bg-myyellow"
+                  onClick={applyFilters} // Apply button click handler
                 >
                   Apply
                 </label>
