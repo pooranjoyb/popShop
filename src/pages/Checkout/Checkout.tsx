@@ -1,15 +1,14 @@
-"use client"
-
 import { useEffect, useState } from "react";
 import Head from "../../components/Head";
 import Button from "../../components/Button";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RiVisaLine } from "react-icons/ri";
 import { FaCcMastercard, FaPaypal } from "react-icons/fa6";
 import { SiAmericanexpress } from "react-icons/si";
 import { supabase } from "../../utils/client";
 import { useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
+import { v4 as uuidv4 } from 'uuid';
 
 interface CartItem {
     id: string;
@@ -25,6 +24,8 @@ function Checkout() {
     const [paymentOption, setPaymentOption] = useState<string>("");
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [total, setTotal] = useState<number>(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [orderId, setOrderId] = useState<string>("");
     const navigate = useNavigate();
     const userName = useSelector((state: RootState) => state.auth.user.username);
 
@@ -36,8 +37,6 @@ function Checkout() {
                     .select('*')
                     .eq('username', userName);
 
-                console.log("recived", data)
-
                 if (error) {
                     console.error('Error fetching cart items:', error);
                 } else {
@@ -48,20 +47,49 @@ function Checkout() {
             }
         };
 
-
-
         fetchCartItems();
     }, [userName]);
 
     const calculateTotal = (items: CartItem[]) => {
+        console.log('Items for total calculation:', items); // Debugging line
         const totalAmount = items.reduce((acc, item) => {
             const price = typeof item.price === 'number' ? item.price : 0;
-            const quantity = typeof item.quantity === 'number' ? item.quantity : 0;
+            const quantity = typeof item.quantity === 'number' ? item.quantity : 1;
             return acc + price * quantity;
         }, 0);
         setTotal(totalAmount);
     };
 
+    const placeOrder = async () => {
+
+        console.log("placeOrder")
+
+        if (!userName || cartItems.length === 0) {
+            return;
+        }
+
+        const orderId = uuidv4();
+        const orderData = {
+            orderId: orderId,
+            username: userName,
+            phone: `1234567890`,
+            price: total,
+            date: new Date().toISOString(),
+            status: 'Pending'
+        };
+
+        const { error } = await supabase
+            .from('orders')
+            .insert([orderData]);
+
+        if (error) {
+            console.error('Error placing order:', error);
+        } else {
+            setIsModalOpen(true);
+            setCartItems([]);
+            setOrderId(orderId);
+        }
+    };
 
     return (
         <>
@@ -102,7 +130,7 @@ function Checkout() {
                     </div>
                     <div className="w-full mt-8 flex justify-end gap-4">
                         <Button text="Back" color="myred" hover="myred" onClick={() => navigate('/home/shop/cart')} />
-                        <Button text="Place Order" color="myyellow" hover="mygreen" />
+                        <Button text="Place Order" color="myyellow" hover="mygreen" onClick={placeOrder} />
                     </div>
                 </div>
                 <div className="w-full md:border-s-2 lg:border-s-2 border-[#c4c4c4] sm:w-full md:w-4/12 lg:w-1/4 ps-0 md:ps-8 lg:ps-8 mt-8 md:mt-0 lg:md-0">
@@ -111,7 +139,7 @@ function Checkout() {
                     </h2>
                     <div className="w-full">
                         {cartItems.map((item) => (
-                            <div className="product pe-4 my-5 w-full" key={item.id}>
+                            <div className="product pe-4 my-5 w-full" key={item.name}>
                                 <div className="flex justify-between">
                                     <p className="font-medium min-w-[70%]">{item.name}</p>
                                     <p className="w-full text-end font-medium py-1">${item.price}</p>
@@ -135,6 +163,21 @@ function Checkout() {
                     </div>
                 </div>
             </div>
+
+            {isModalOpen && (
+                <div className="modal modal-open">
+                    <div className="modal-box">
+                        <h3 className="font-bold text-lg">Congratulations!</h3>
+                        <p className="py-4">Your order has been placed successfully.</p>
+                        <p>Order ID: {orderId}</p>
+                        <div className="modal-action">
+                            <Link to={'/home/shop'}>
+                                <button className="btn bg-mygreen hover:bg-mygreen" onClick={() => { setIsModalOpen(false) }}>Continue Shopping</button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
