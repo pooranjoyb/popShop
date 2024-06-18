@@ -1,7 +1,7 @@
 <h1 align="center">🌟 PopShop 🌟</h1>
 <div align="center"> 
 
-![readme](https://github.com/harini-1597/popShop/public/images/readme.gif)
+![readme](https://github.com/harini-1597/popShop/blob/readme/public/images/readme.gif?raw=true)
 
 <i>PopShop is an eCommerce Website based on React TypeScript and Daisy UI, integrating Supabase for Backend and Database.
 The main aim of this project is to foster a collaborative community of creative individuals, where ideas grow and innovation flourishes. Whether you're a developer, designer, or simply someone passionate about projects, this repository provides an ideal platform to display your work and connect with others who share similar interests.
