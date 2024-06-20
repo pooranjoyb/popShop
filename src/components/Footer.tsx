@@ -2,7 +2,7 @@ import { FaFacebook, FaGithub } from "react-icons/fa6"
 import { IoLogoInstagram } from "react-icons/io5"
 import { RiTwitterXFill } from "react-icons/ri"
 import { Link } from "react-router-dom"
-import Button from "./Button"
+// import Button from "./Button"
 const Socials = () => {
   return (
     <ul className="flex gap-x-6">
@@ -127,7 +127,7 @@ const ServicesList = () => {
 
 export default function NewFooter() {
   return (
-
+     <footer>
       <div className="lg:col-span-2 h-full w-full p-2 sm:p-0">
         <img
           src="/images/footer.jpg"
@@ -171,6 +171,6 @@ export default function NewFooter() {
         </div>
       </div>
     </footer>
-    </>
+    
   )
 }
