@@ -63,7 +63,7 @@ const Socials = () => {
 const ServicesList = () => {
   return (
     <>
-      <p className="font-medium text-gray-900 text-center mt-10">Services</p>
+      <p className="font-medium text-gray-900 text-center mt-8">Services</p>
 
       <ul className="mt-6 space-y-4 text-sm text-center">
         <li>
