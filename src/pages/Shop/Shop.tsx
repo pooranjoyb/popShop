@@ -1,47 +1,82 @@
-import { useEffect, useState } from "react";
-
-// components
+import React, { useEffect, useState } from "react";
 import Head from "../../components/Head";
 import Product from "../../components/Product";
 import { IoFilterCircleOutline } from "react-icons/io5";
 import { supabase } from "../../utils/client";
 
+type PriceRange = {
+  min: number;
+  max: number;
+};
+
+type PriceRanges = {
+  [key: string]: PriceRange;
+};
 
 function Shop() {
-
-  const [products, setproducts] = useState<any[]>([]);
-
-  const getProducts = async () => {
-    const { data } = await supabase.from('Product_table').select()
-    console.log(data)
-    if(data){
-      setproducts(data)
-    }
-  }
+  const [products, setProducts] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>([]);
+  const [tempSelectedPriceRanges, setTempSelectedPriceRanges] = useState<string[]>([]); // Temporary state for filter selections
 
   useEffect(() => {
-    getProducts()
+    getProducts();
     window.scrollTo(0, 0);
   }, []);
 
-  const handlesearch = async (e: any) => {
-    const { data } = await supabase.from('Product_table').select()
-    const value = e.target.value;
-    console.log(value, "hello");
-    if(data){
-      const filtereddata = data.filter((elem) => {
-        if (elem.name.toLowerCase().includes(value.toLowerCase())) return true;
-        else return;
-      });
-      setproducts(filtereddata);
+  const getProducts = async () => {
+    const { data } = await supabase.from("Product_table").select();
+    console.log(data);
+    if (data) {
+      setProducts(data);
     }
   };
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value.toLowerCase());
+  };
+
+  const handlePriceRangeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (e.target.checked) {
+      setTempSelectedPriceRanges((prev) => [...prev, value]);
+    } else {
+      setTempSelectedPriceRanges((prev) =>
+        prev.filter((range) => range !== value)
+      );
+    }
+  };
+
+  const filterByPrice = (product: any) => {
+    if (selectedPriceRanges.length === 0) {
+      return true; // No filters applied, show all products
+    }
+
+    return selectedPriceRanges.some((range) => {
+      const priceRange = priceRanges[range];
+      if (priceRange) {
+        return (
+          product.Price >= priceRange.min && product.Price <= priceRange.max
+        );
+      }
+      return false;
+    });
+  };
+
+  const applyFilters = () => {
+    setSelectedPriceRanges(tempSelectedPriceRanges);
+  };
+
+  const priceRanges: PriceRanges = {
+    "below-₹1000": { min: 0, max: 999 },
+    "₹1000-₹2000": { min: 1000, max: 2000 },
+    "₹2000-₹4000": { min: 2000, max: 4000 },
+    "₹4000-₹8000": { min: 4000, max: 8000 },
+    "₹8000-and above": { min: 8000, max: Infinity },
+  };
+
   const filter = [
-    {
-      filterOption: "Size",
-      checkbox: ["XS", "S", "M", "L", "XL"],
-    },
     {
       filterOption: "Price Range",
       checkbox: [
@@ -54,19 +89,21 @@ function Shop() {
     },
   ];
 
+  const filteredProducts = products
+    .filter((product) => product.Name.toLowerCase().includes(searchTerm))
+    .filter(filterByPrice);
+
   return (
     <>
-      <div className=" mx-auto max-w-screen-xl px-4 pt-12 pb-8 flex justify-center md:justify-between items-center flex-wrap">        
+      <div className="mx-auto max-w-screen-xl px-4 pt-12 pb-8 flex justify-center md:justify-between items-center flex-wrap">
         <Head h1="Our" h2="Store" />
         <div className="flex gap-6 mt-8 justify-center md:justify-end w-full">
-          {/* The button to open modal */}
           <label
             htmlFor="my_modal_6"
             className="btn bg-mygreen hover:bg-myyellow"
           >
-            <IoFilterCircleOutline className="text-3xl"/>
+            <IoFilterCircleOutline className="text-3xl" />
           </label>
-          {/* Modal Body*/}
           <input
             type="checkbox"
             id="my_modal_6"
@@ -81,41 +118,42 @@ function Shop() {
                 {filter.map((fil, idx) => (
                   <div key={idx}>
                     <h2 className="mb-3">{fil.filterOption}</h2>
-                    {fil.checkbox.map((size, index) => {
-                      return (
-                        <div key={index} className="flex items-center mb-2">
-                          <input
-                            id={`default-checkbox${idx}${index}`}
-                            type="checkbox"
-                            value=""
-                            className="w-4 h-4 checkbox"
-                          />
-                          <label
-                            htmlFor={`default-checkbox${idx}${index}`}
-                            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                          >
-                            {size}
-                          </label>
-                        </div>
-                      );
-                    })}
+                    {fil.checkbox.map((range, index) => (
+                      <div key={index} className="flex items-center mb-2">
+                        <input
+                          id={`default-checkbox${idx}${index}`}
+                          type="checkbox"
+                          value={range}
+                          className="w-4 h-4 checkbox"
+                          onChange={handlePriceRangeChange}
+                          checked={tempSelectedPriceRanges.includes(range)} // Maintain checked state in modal
+                        />
+                        <label
+                          htmlFor={`default-checkbox${idx}${index}`}
+                          className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >
+                          {range}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>
 
-              <div className="modal-action  pe-5">
+              <div className="modal-action pe-5">
                 <label
                   htmlFor="my_modal_6"
                   className="btn hover:bg-mygreen bg-myyellow"
+                  onClick={applyFilters} // Apply button click handler
                 >
                   Apply
                 </label>
-             
+
                 <label
-                 htmlFor="my_modal_6"
-                className="btn hover:bg-myred bg-myred"
+                  htmlFor="my_modal_6"
+                  className="btn hover:bg-myred bg-myred"
                 >
-                 Cancel
+                  Cancel
                 </label>
               </div>
             </div>
@@ -126,7 +164,7 @@ function Shop() {
               type="text"
               className="grow w-36"
               placeholder="Search"
-              onChange={handlesearch}
+              onChange={handleSearch}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -145,17 +183,15 @@ function Shop() {
       </div>
       <div className="mx-auto max-w-2xl px-4 py-8 lg:max-w-7xl lg:px-8">
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {products.map((elem, idx) => {
-            return (
-              <Product
-                key={idx}
-                desc={elem.Desc}
-                image={elem.Image_link}
-                price={elem.Price}
-                name={elem.Name}
-              />
-            );
-          })}
+          {filteredProducts.map((elem, idx) => (
+            <Product
+              key={idx}
+              desc={elem.Desc}
+              image={elem.Image_link}
+              price={elem.Price}
+              name={elem.Name}
+            />
+          ))}
         </div>
       </div>
     </>
