@@ -36,3 +36,8 @@ img:hover {
     transform: scale(1.05);
     opacity: 0.9;
 }
+
+footer{
+    /* display: flex;
+    margin: 0 15rem; */
+}

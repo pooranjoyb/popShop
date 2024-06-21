@@ -127,15 +127,15 @@ const ServicesList = () => {
 
 export default function NewFooter() {
   return (
-     <footer>
-      <div className="lg:col-span-2 h-full w-full p-2 sm:p-0">
+     <footer className="md:flex lg:mx-56 ">
+      <div className="lg:col-span-2 h-full w-full p-2 sm:p-0 ">
         <img
           src="/images/footer.jpg"
           alt="footer image"
           className=" h-full w-full object-cover"
         />
       </div>
-      <div className="grid grid-rows-4 w-full lg:col-span-3 max-sm:px-4">
+      <div className="grid grid-rows-4 w-full lg:col-span-3 max-sm:px-4 lg:mt-4">
         <div className="row-span-3 flex justify-stretch gap-8 h-full w-full max-sm:flex-col max-sm:items-center">
           <div className="space-y-8 grow w-full flex justify-center items-center flex-col">
             <p className="text-4xl font-extrabold">
