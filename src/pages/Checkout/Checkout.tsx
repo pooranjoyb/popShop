@@ -75,7 +75,8 @@ function Checkout() {
             phone: `1234567890`,
             price: total,
             date: new Date().toISOString(),
-            status: 'Pending'
+            status: 'Pending',
+            product: cartItems
         };
 
         const { error } = await supabase
