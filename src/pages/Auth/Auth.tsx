@@ -11,6 +11,9 @@ import {
 import { useDispatch } from "react-redux";
 import { login } from "../../utils/features/Auth/authSlice";
 import { Slide, toast, TypeOptions } from "react-toastify";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 
 interface USER {
   username: string;
@@ -28,6 +31,10 @@ function Auth() {
   const dispatch = useDispatch();
   const [isLogin, setLogin] = useState(true);
   const [isForgotPassword, setForgotPassword] = useState(false);
+  const [isPasswordVisible, setPasswordVisible] = useState(false);
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!isPasswordVisible);
+  };  
   const [email, setEmail] = useState("");
   const [userData, setUserData] = useState<USER>({
     username: "admin",
@@ -461,22 +468,36 @@ function Auth() {
                       </div>
                     </>
                   )}
-                  <div>
-                    <label
-                      htmlFor="pass"
-                      className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
-                    >
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      id="pass"
-                      name="pass"
-                      placeholder="Enter password"
-                      className="mt-2 p-2 w-full placeholder:text-sm border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                      value={userData.pass}
-                      onChange={handleInputChange}
-                    />
+                  <div className="relative">
+                  <label
+                    htmlFor="pass"
+                    className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
+                  >
+                    Password
+                  </label>
+                  <input
+                    type={isPasswordVisible ? "text" : "password"}
+                    id="pass"
+                    name="pass"
+                    placeholder="Enter password"
+                    className="mt-2 p-2 w-full placeholder:text-sm border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                    value={userData.pass}
+                    onChange={handleInputChange}
+                  />
+                  <FontAwesomeIcon
+                    icon={isPasswordVisible ? faEyeSlash : faEye}
+                    onClick={togglePasswordVisibility}
+                    className="absolute right-3 top-10 cursor-pointer"
+                  />
+                  {errors.password && (
+                    <ul className="px-2 text-xs mt-1" style={{ color: "red" }}>
+                      {errors.password.map((error, index) => (
+                        <li key={index}>{error}</li>
+                      ))}
+                    </ul>
+                  )}
+
+
                     {errors.password && (
                       <ul
                         className="px-2 text-xs mt-1"
