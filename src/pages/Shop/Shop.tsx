@@ -5,7 +5,6 @@ import Head from "../../components/Head";
 import Product from "../../components/Product";
 import { IoFilterCircleOutline } from "react-icons/io5";
 import { supabase } from "../../utils/client";
-import SkeletonWithContent from "../../components/Skeleton/Content";
 
 function Shop() {
   const [products, setproducts] = useState<any[]>([]);
