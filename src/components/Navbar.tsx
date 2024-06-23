@@ -9,6 +9,15 @@ import { logout } from "../utils/features/Auth/authSlice";
 import Glassnav from "./Floating_Nav";
 import Button from "./Button";
 
+interface Product {
+  name: string;
+  image: string;
+  price: number;
+  ratings: number;
+  quantity: number;
+}
+
+
 function Screensize() {
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth });
 
@@ -35,6 +44,7 @@ function Navbar() {
   const dispatch = useDispatch();
   const [items, setItems] = useState<any>();
   const [itemsInCart, setItemsInCart] = useState(0);
+  const [total, setTotal]= useState(0);
   const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
