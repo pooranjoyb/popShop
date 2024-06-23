@@ -161,7 +161,13 @@ function Shop() {
           {skeleton
             ? Array(4)
                 .fill(0)
-                .map((_, idx) => <SkeletonWithContent key={idx} />)
+                .map((_, idx) => (
+                  <div key={idx} className="flex flex-col gap-5">
+                    <div className="skeleton w-full h-[50vh] overflow-hidden rounded-lg bg-gray-200 aspect-h-8 aspect-w-7"></div>
+                    <div className="skeleton h-4 w-36 m-auto"></div>
+                    <div className="skeleton h-4 w-20 m-auto"></div>
+                  </div>
+                ))
             : products.map((elem, idx) => {
                 return (
                   <Product
