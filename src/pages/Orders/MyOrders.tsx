@@ -1,6 +1,8 @@
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Head from '../../components/Head';
 import Button from '../../components/Button';
+import Popup from './Popup'; 
 
 // Static data for orders (replace with real data from the database later)
 const orders = [
@@ -35,57 +37,71 @@ const orders = [
 ];
 
 const MyOrders = () => {
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
+  const handleViewClick = (order) => {
+    setSelectedOrder(order);
+  };
+
+  const handleClosePopup = () => {
+    setSelectedOrder(null);
+  };
+
   return (
     <>
-    <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
+      <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
         <Head h1="My" h2="Orders" />
       </div>
 
-    <div className="w-2/3 mx-auto mb-32 mt-12">
-      <div className="overflow-x-auto rounded-lg border border-base-300">
-        <table className="table w-full">
-          {/* Table header */}
-          <thead>
-            <tr className="text-neutral">
-              <th>Order No.</th>
-              <th>Product Name</th>
-              <th>Price</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th className="pl-12">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order, index) => (
-              <tr key={index} className={index % 2 === 0 ? 'bg-base-200' : 'bg-base-100'}>
-                <td>{order.orderNo}</td>
-                <td>{order.productName}</td>
-                <td>${order.price}</td>
-                <td>{order.date}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      order.status === 'Paid'
-                        ? 'badge-success badge-outline'
-                        : order.status === 'Cancelled'
-                        ? 'badge-error badge-outline'
-                        : 'badge-warning badge-outline'
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-                </td>
-                <td>
-                  <Link to="#">
-                  <Button text="View" color="mygreen" hover="myyellow" />
-                  </Link>
-                </td>
+      <div className="w-2/3 mx-auto mb-32 mt-12">
+        <div className="overflow-x-auto rounded-lg border border-base-300">
+          <table className="table w-full">
+            {/* Table header */}
+            <thead>
+              <tr className="text-neutral">
+                <th>Order No.</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th className="pl-12">Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {orders.map((order, index) => (
+                <tr key={index} className={index % 2 === 0 ? 'bg-base-200' : 'bg-base-100'}>
+                  <td>{order.orderNo}</td>
+                  <td>{order.productName}</td>
+                  <td>${order.price}</td>
+                  <td>{order.date}</td>
+                  <td>
+                    <span
+                      className={`badge ${
+                        order.status === 'Paid'
+                          ? 'badge-success badge-outline'
+                          : order.status === 'Cancelled'
+                          ? 'badge-error badge-outline'
+                          : 'badge-warning badge-outline'
+                      }`}
+                    >
+                      {order.status}
+                    </span>
+                  </td>
+                  <td>
+                    <Link to="#">
+                      <Button text="View" color="mygreen" hover="myyellow" onClick={() => handleViewClick(order)} />
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+
+      {selectedOrder && (
+        <Popup order={selectedOrder} onClose={handleClosePopup} />
+      )}
     </>
   );
 };
