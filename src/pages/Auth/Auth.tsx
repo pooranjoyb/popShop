@@ -135,7 +135,6 @@ function Auth() {
 
   const handleGoogleSignIn = async () => {
     try {
-      console.log(window.location.href)
       await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {

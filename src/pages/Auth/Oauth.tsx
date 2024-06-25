@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { Slide, toast, TypeOptions } from "react-toastify";
 import { jwtDecode } from 'jwt-decode'
 import Loader from '../../components/Loader/Loader';
+import bcrypt from "bcryptjs";
+import { supabase } from "../../utils/client";
  
 function Oauth() {
   const navigate = useNavigate()
@@ -42,6 +44,35 @@ function Oauth() {
         toastNotification("Token not decoded!", "error")
         return
       }
+
+      const hashedPassword = await bcrypt.hash(credential.user_metadata.email.split('@')[0], 10);
+
+      const { data } = await supabase
+        .from("users")
+        .select("*")
+        .eq("username", credential.user_metadata.email.split('@')[0]);
+
+      if(data?.length === 0){
+        const { error } = await supabase.from("users").insert([
+          {
+            username: credential.user_metadata.email.split('@')[0],
+            email: credential.user_metadata.email,
+            password: hashedPassword,
+            firstname: credential.user_metadata.full_name.split(' ')[0],
+            lastname: credential.user_metadata.full_name.split(' ')[1],
+            gender: "",
+            phone: 0,
+            createdAt: new Date().toISOString(),
+          },
+        ]);
+  
+        if (error) {
+          navigate('/')
+          toastNotification("User Already Exists !", "error");
+          return;
+        }
+      }
+
       
       dispatch(login({ username: credential.user_metadata.email.split('@')[0] }))
       navigate('/home')
