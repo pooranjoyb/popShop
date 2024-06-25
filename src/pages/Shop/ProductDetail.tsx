@@ -72,6 +72,10 @@ function ProductDetail() {
     const userName = useSelector((state: RootState) => state.auth.user.username);
 
     const addToCart = async () => {
+        if (!size) { //added check for size
+            toast.error('Please select a size');
+            return;
+        }
         try {
             const product = {
                 name: data.name,
@@ -80,6 +84,7 @@ function ProductDetail() {
                 desc: data.desc,
                 quantity: data.qauntity || 1,
                 ratings: 5,
+                size, //Include size
             };
 
             // Attempt to fetch the user's cart
