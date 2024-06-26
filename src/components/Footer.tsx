@@ -125,6 +125,7 @@ const ServicesList = () => {
   )
 }
 
+
 export default function NewFooter() {
   return (
      <footer className="md:flex lg:mx-56 ">
