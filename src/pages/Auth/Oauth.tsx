@@ -60,7 +60,7 @@ function Oauth() {
             password: hashedPassword,
             firstname: credential.user_metadata.full_name.split(' ')[0],
             lastname: credential.user_metadata.full_name.split(' ')[1],
-            gender: "",
+            gender: "not-found",
             phone: 0,
             createdAt: new Date().toISOString(),
           },
