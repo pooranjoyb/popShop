@@ -86,9 +86,19 @@ function Checkout() {
         if (error) {
             console.error('Error placing order:', error);
         } else {
+            // Clear cart items from the database after placing the order
+            const { error: deleteError } = await supabase
+                .from('Cart')
+                .delete()
+                .eq('username', userName);
+
+            if (deleteError) {
+                console.error('Error deleting cart items:', deleteError);
+            }else {
             setIsModalOpen(true);
             setCartItems([]);
             setOrderId(orderId);
+            }
         }
     };
 
