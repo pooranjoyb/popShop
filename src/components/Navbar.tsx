@@ -55,26 +55,30 @@ function Navbar() {
         .from('Cart')
         .select('products')
         .eq('username', userName);
-
+    
       console.log("items in cart:  ", data);
-
+    
       if (error) {
         console.error('Error fetching cart items:', error);
       } else {
         // Assuming products is an array within each row in the Cart table
         const totalItems = data.reduce((acc, item) => acc + item.products.length, 0);
         setItemsInCart(totalItems);
+    
         const subtotalAmount = data.reduce((acc, item) => {
           return acc + item.products.reduce((itemAcc: number, product: Product) => {
-            const price = product.price;
-            const quantity = product.quantity;
-            console.log(price,quantity)
+            const price = typeof product.price === 'number' ? product.price : 0;
+            const quantity = typeof product.quantity === 'number' ? product.quantity : 0;
+            console.log(price, quantity);
             return itemAcc + (price * quantity);
           }, 0);
         }, 0);
+        
         setTotal(subtotalAmount);
       }
     };
+    
+    
 
     fetchCartItems();
 
