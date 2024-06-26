@@ -48,6 +48,7 @@ function Navbar() {
         .eq('username', userName);
 
       console.log("items in cart:  ", data);
+      setItems(data);
 
       if (error) {
         console.error('Error fetching cart items:', error);
@@ -136,7 +137,6 @@ function Navbar() {
     setShowMenu(false);
   };
 
-  console.log(items);
   return (
     <>
       <div className="navbar flex justify-between">
@@ -200,7 +200,7 @@ function Navbar() {
                       </div>
                     ))}
 
-                <span className="text-mynavy">
+                <span className="text-mynavy mt-3">
                   subtotal ${total}
                 </span>
 
