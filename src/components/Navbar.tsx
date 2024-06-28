@@ -36,29 +36,42 @@ function Navbar() {
   const [items, setItems] = useState<any>();
   const [itemsInCart, setItemsInCart] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     if (!userName) return;
 
-    // Fetch initial cart items count
     const fetchCartItems = async () => {
       const { data, error } = await supabase
-        .from("Cart")
-        .select("products")
-        .eq("username", userName);
+        .from('Cart')
+        .select('products')
+        .eq('username', userName);
 
       console.log("items in cart:  ", data);
+      setItems(data);
 
       if (error) {
-        console.error("Error fetching cart items:", error);
+        console.error('Error fetching cart items:', error);
       } else {
         // Assuming products is an array within each row in the Cart table
-        const totalItems = data.reduce(
-          (acc, item) => acc + item.products.length,
-          0
-        );
+        const totalItems = data.reduce((acc, item) => acc + item.products.length, 0);
         setItemsInCart(totalItems);
-        setItems(data);
+
+        type Product = {
+          price: number;
+          quantity: number;
+        };
+        
+        const subtotalAmount = data.reduce((acc, item) => {
+          return acc + item.products.reduce((itemAcc: number, product: Product) => {
+            const price = typeof product.price === 'number' ? product.price : 0;
+            const quantity = typeof product.quantity === 'number' ? product.quantity : 0;
+            console.log(price, quantity);
+            return itemAcc + (price * quantity);
+          }, 0);
+        }, 0);
+
+        setTotal(subtotalAmount);
       }
     };
 
@@ -124,7 +137,6 @@ function Navbar() {
     setShowMenu(false);
   };
 
-  console.log(items);
   return (
     <>
       <div className="navbar flex justify-between">
@@ -187,6 +199,10 @@ function Navbar() {
                         </div>
                       </div>
                     ))}
+
+                <span className="text-mynavy mt-3">
+                  subtotal ${total}
+                </span>
 
                 <Link
                   to="/home/shop/cart"
