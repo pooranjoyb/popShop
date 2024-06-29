@@ -116,6 +116,7 @@ dist
 # DynamoDB Local files
 .dynamodb/
 .vercel
+dist
 
 # TernJS port file
 .tern-port
