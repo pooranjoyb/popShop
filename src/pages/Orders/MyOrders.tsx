@@ -1,3 +1,4 @@
+import Popup from './Popup'; 
 import { Link } from "react-router-dom";
 import Head from "../../components/Head";
 import Button from "../../components/Button";
@@ -16,9 +17,18 @@ export interface ORDER {
 }
 
 const MyOrders = () => {
+  const [selectedOrder, setSelectedOrder] = useState(null);
   const [orders, setOrders] = useState<ORDER[]>([]);
   const userName = useSelector((state: RootState) => state.auth.user.username);
 
+  const handleViewClick = (order) => {
+    setSelectedOrder(order);
+  };
+
+  const handleClosePopup = () => {
+    setSelectedOrder(null);
+  };
+    
   useEffect(() => {
     const fetchOrdersData = async () => {
       try {
@@ -61,47 +71,39 @@ const MyOrders = () => {
               </tr>
             </thead>
             <tbody>
-              {orders
-                ? orders.map((order, index) => (
-                    <tr
-                      key={index}
-                      className={
-                        index % 2 === 0 ? "bg-base-200" : "bg-base-100"
-                      }
+              {orders.map((order, index) => (
+                <tr key={index} className={index % 2 === 0 ? 'bg-base-200' : 'bg-base-100'}>
+                  <td>{order.orderNo}</td>
+                  <td>{order.productName}</td>
+                  <td>${order.price}</td>
+                  <td>{order.date}</td>
+                  <td>
+                    <span
+                      className={`badge ${
+                        order.status === 'Paid'
+                          ? 'badge-success badge-outline'
+                          : order.status === 'Cancelled'
+                          ? 'badge-error badge-outline'
+                          : 'badge-warning badge-outline'
+                      }`}
                     >
-                      <td>{order.orderId}</td>
-                      <td>{}</td>
-                      <td>${order.price}</td>
-                      <td>{order.date}</td>
-                      <td>
-                        <span
-                          className={`badge ${
-                            order.status === "Paid"
-                              ? "badge-success badge-outline"
-                              : order.status === "Cancelled"
-                              ? "badge-error badge-outline"
-                              : "badge-warning badge-outline"
-                          }`}
-                        >
-                          {order.status}
-                        </span>
-                      </td>
-                      <td>
-                        <Link to="#">
-                          <Button
-                            text="View"
-                            color="mygreen"
-                            hover="myyellow"
-                          />
-                        </Link>
-                      </td>
-                    </tr>
-                  ))
-                : ""}
+                      {order.status}
+                    </span>
+                  </td>
+                  <td>
+                    <Link to="#">
+                      <Button text="View" color="mygreen" hover="myyellow" onClick={() => handleViewClick(order)} />
+                    </Link>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </div>
+      {selectedOrder && (
+        <Popup order={selectedOrder} onClose={handleClosePopup} />
+      )}
     </>
   );
 };
