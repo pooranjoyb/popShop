@@ -22,12 +22,12 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 
 **_Test B Describe here (if Requred)_**
 
-# Screenshorts and Vedios:
+# Screenshots and Videos:
 
-give screenshorts and vedio of the changes you made
+Give screenshots and video of the changes you made
 
 # Checklist:
-give a X on it which is applicable
+Give a X on, which is applicable
 
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my code

@@ -1,43 +1,25 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Head from '../../components/Head';
-import Button from '../../components/Button';
 import Popup from './Popup'; 
+import { Link } from "react-router-dom";
+import Head from "../../components/Head";
+import Button from "../../components/Button";
+import { useEffect, useState } from "react";
+import { supabase } from "../../utils/client";
+import { useSelector } from "react-redux";
+import { RootState } from "../../utils/features/store";
 
-// Static data for orders (replace with real data from the database later)
-const orders = [
-  {
-    orderNo: '0001',
-    productName: 'Diamond Blue Suit',
-    price: 20,
-    date: '5 Jun 2023',
-    status: 'Paid',
-  },
-  {
-    orderNo: '0002',
-    productName: 'Leaf Green Outfit',
-    price: 99,
-    date: '8 Jun 2023',
-    status: 'Cancelled',
-  },
-  {
-    orderNo: '0003',
-    productName: 'Red Casual Wear',
-    price: 56,
-    date: '8 Aug 2023',
-    status: 'Pending',
-  },
-  {
-    orderNo: '0004',
-    productName: 'Diamond Blue Suit',
-    price: 20,
-    date: '21 Jan 2022',
-    status: 'Paid',
-  },
-];
+export interface ORDER {
+  username: string;
+  orderId: string;
+  date: string;
+  phone: number;
+  status: string;
+  price: string;
+}
 
 const MyOrders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [orders, setOrders] = useState<ORDER[]>([]);
+  const userName = useSelector((state: RootState) => state.auth.user.username);
 
   const handleViewClick = (order) => {
     setSelectedOrder(order);
@@ -46,6 +28,27 @@ const MyOrders = () => {
   const handleClosePopup = () => {
     setSelectedOrder(null);
   };
+    
+  useEffect(() => {
+    const fetchOrdersData = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("orders")
+          .select("*")
+          .eq("username", userName);
+
+        if (error) throw error;
+
+        console.log(data);
+        if (data) setOrders(data);
+        else setOrders([]);
+      } catch (err) {
+        console.log("Error fetching orders: ", err);
+      }
+    };
+
+    if (userName) fetchOrdersData();
+  }, [userName]);
 
   return (
     <>
@@ -98,7 +101,6 @@ const MyOrders = () => {
           </table>
         </div>
       </div>
-
       {selectedOrder && (
         <Popup order={selectedOrder} onClose={handleClosePopup} />
       )}
