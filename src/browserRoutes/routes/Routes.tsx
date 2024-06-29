@@ -1,4 +1,5 @@
 import Auth from "../../pages/Auth/Auth";
+import Oauth from "../../pages/Auth/Oauth";
 import Error from "../../pages/Error";
 import Layout from "../../pages/Layout";
 import Home from "../../pages/Home/Home";
@@ -25,6 +26,11 @@ const Routes = () => {
     {
       path: "/",
       element: isAuthenticated ? <Navigate to="/home" /> : <Auth />,
+      errorElement: <Error />,
+    },
+    {
+      path: "/oauth",
+      element: <Oauth />,
       errorElement: <Error />,
     },
     {

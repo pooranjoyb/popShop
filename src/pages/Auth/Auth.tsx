@@ -133,6 +133,28 @@ function Auth() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.href}oauth`,
+        },
+      })
+    } catch (err) {
+      console.log(err)
+      if (err instanceof z.ZodError) {
+        const newErrors = err.flatten().fieldErrors;
+        setErrors(
+          Object.keys(newErrors).reduce((acc, key) => {
+            acc[key] = newErrors[key] ?? [];
+            return acc;
+          }, {} as Record<string, string[]>)
+        );
+      }
+    }
+  };
+
   const handleResetPassword = async () => {
     try {
       const validateData = ForgotPasswordSchema.parse({ email });
@@ -532,6 +554,7 @@ function Auth() {
                       <div className="w-full lg:w-full mb-2 lg:mb-0">
                         <button
                           type="button"
+                          onClick={()=>{handleGoogleSignIn()}}
                           className="w-full flex justify-center items-center gap-2 bg-white text-md text-gray-600 py-3 rounded-[1rem] hover:bg-gray-50 border border-[#b8b8b8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-colors duration-300 shadow tracking-wide"
                         >
                           <svg
