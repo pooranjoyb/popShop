@@ -25,7 +25,8 @@ function EditProfileModal({ userData, onUpdate }: Props) {
             .update({
                 firstname: updatedData.firstname,
                 lastname: updatedData.lastname,
-                phone: updatedData.phone
+                phone: updatedData.phone,
+                gender: updatedData.gender
             })
             .eq("username", updatedData.username);
 
@@ -117,7 +118,17 @@ function EditProfileModal({ userData, onUpdate }: Props) {
                                 >
                                     Gender
                                 </label>
-                                <p className="ml-1">{userData.gender.charAt(0).toUpperCase() + userData.gender.slice(1)}</p>
+                                <input
+                                    type="text"
+                                    id="gender"
+                                    name="gender"
+                                    placeholder="Male"
+                                    className="mt-2 p-2 w-full placeholder:text-sm  border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                                    value={updatedData.gender}
+                                    onChange={(e) =>
+                                        setUpdatedData((prevData) => ({ ...prevData, gender: e.target.value }))
+                                    }
+                                />
                             </div>
                             <div className="w-full sm:p-4 p-1">
                                 <label
