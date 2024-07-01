@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Head from "../../components/Head";
 import Button from "../../components/Button";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { RiVisaLine } from "react-icons/ri";
 import { FaCcMastercard, FaPaypal } from "react-icons/fa6";
 import { SiAmericanexpress } from "react-icons/si";
@@ -20,7 +20,91 @@ interface CartItem {
     ratings: number;
 }
 
+// function Checkout() {
+//     const [paymentOption, setPaymentOption] = useState<string>("");
+//     const [cartItems, setCartItems] = useState<CartItem[]>([]);
+//     const [total, setTotal] = useState<number>(0);
+//     const [isModalOpen, setIsModalOpen] = useState(false);
+//     const [orderId, setOrderId] = useState<string>("");
+//     const navigate = useNavigate();
+//     const userName = useSelector((state: RootState) => state.auth.user.username);
+
+//     useEffect(() => {
+//         const fetchCartItems = async () => {
+//             if (userName) {
+//                 const { data, error } = await supabase
+//                     .from('Cart')
+//                     .select('*')
+//                     .eq('username', userName);
+
+//                 if (error) {
+//                     console.error('Error fetching cart items:', error);
+//                 } else {
+//                     const products = data.flatMap(item => item.products); // Use flatMap to flatten the array of arrays
+//                     setCartItems(products);
+//                     calculateTotal(products);
+//                 }
+//             }
+//         };
+
+//         fetchCartItems();
+//     }, [userName]);
+
+//     const calculateTotal = (items: CartItem[]) => {
+//         console.log('Items for total calculation:', items); // Debugging line
+//         const totalAmount = items.reduce((acc, item) => {
+//             const price = typeof item.price === 'number' ? item.price : 0;
+//             const quantity = typeof item.quantity === 'number' ? item.quantity : 1;
+//             return acc + price * quantity;
+//         }, 0);
+//         setTotal(totalAmount);
+//     };
+
+//     const placeOrder = async () => {
+
+//         console.log("placeOrder")
+
+//         if (!userName || cartItems.length === 0) {
+//             return;
+//         }
+
+//         const orderId = uuidv4();
+//         const orderData = {
+//             orderId: orderId,
+//             username: userName,
+//             phone: `1234567890`,
+//             price: total,
+//             date: new Date().toISOString(),
+//             status: 'Pending',
+//             product: cartItems
+//         };
+
+//         const { error } = await supabase
+//             .from('orders')
+//             .insert([orderData]);
+
+//         if (error) {
+//             console.error('Error placing order:', error);
+//         } else {
+//             // Clear cart items from the database after placing the order
+//             const { error: deleteError } = await supabase
+//                 .from('Cart')
+//                 .delete()
+//                 .eq('username', userName);
+
+//             if (deleteError) {
+//                 console.error('Error deleting cart items:', deleteError);
+//             }else {
+//             setIsModalOpen(true);
+//             setCartItems([]);
+//             setOrderId(orderId);
+//             }
+//         }
+//     };
 function Checkout() {
+    const { state } = useLocation();
+    const directPurchase = state?.directPurchase;
+
     const [paymentOption, setPaymentOption] = useState<string>("");
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [total, setTotal] = useState<number>(0);
@@ -47,8 +131,15 @@ function Checkout() {
             }
         };
 
-        fetchCartItems();
-    }, [userName]);
+        if (directPurchase) {
+            // Direct purchase scenario
+            setCartItems([directPurchase]);
+            calculateTotal([directPurchase]);
+        } else {
+            // Fetch cart items as usual
+            fetchCartItems();
+        }
+    }, [userName, directPurchase]);
 
     const calculateTotal = (items: CartItem[]) => {
         console.log('Items for total calculation:', items); // Debugging line
@@ -61,8 +152,7 @@ function Checkout() {
     };
 
     const placeOrder = async () => {
-
-        console.log("placeOrder")
+        console.log("placeOrder");
 
         if (!userName || cartItems.length === 0) {
             return;
@@ -86,22 +176,23 @@ function Checkout() {
         if (error) {
             console.error('Error placing order:', error);
         } else {
-            // Clear cart items from the database after placing the order
-            const { error: deleteError } = await supabase
-                .from('Cart')
-                .delete()
-                .eq('username', userName);
+            if (!directPurchase) {
+                // Clear cart items from the database after placing the order
+                const { error: deleteError } = await supabase
+                    .from('Cart')
+                    .delete()
+                    .eq('username', userName);
 
-            if (deleteError) {
-                console.error('Error deleting cart items:', deleteError);
-            }else {
+                if (deleteError) {
+                    console.error('Error deleting cart items:', deleteError);
+                }
+            }
+
             setIsModalOpen(true);
             setCartItems([]);
             setOrderId(orderId);
-            }
         }
     };
-
     return (
         <>
             <div className="mx-auto max-w-screen-xl px-4 pt-8 sm:py-12 flex justify-between items-center mt-6">

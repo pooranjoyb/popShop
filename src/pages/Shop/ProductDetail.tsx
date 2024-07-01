@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 // components
 import Head from "../../components/Head";
@@ -52,6 +53,7 @@ function ProductDetail() {
     const [filledStars, setFilledStars] = useState(0);
     const availableSizes = ["XS", "S", "M", "L", "XL"];
     const [size, setSize] = useState("");
+    const navigate = useNavigate();
 
     const handleRatingChange = (index: number) => {
         setFilledStars(index / 2 + 0.5);
@@ -70,7 +72,15 @@ function ProductDetail() {
 
     const dispatch = useDispatch();
     const userName = useSelector((state: RootState) => state.auth.user.username);
-
+    const product = {
+        name: data.name,
+        image: data.image,
+        price: data.price,
+        desc: data.desc,
+        quantity: data.qauntity || 1,
+        ratings: 5,
+        size, //Include size
+    };
     const addToCart = async () => {
         if (!size) { //added check for size
             toast.error('Please select a size');
@@ -221,7 +231,13 @@ function ProductDetail() {
                                 </div>
                                 <div className="flex flex-wrap items-center gap-10 ">
                                     <Button text="Add to Cart" color="mygreen" hover="myred" onClick={addToCart} />
-                                    <Button text="Buy Now" color="myyellow" hover="myred" />
+                                    <Button
+                                        text="Buy Now"
+                                        color="myyellow"
+                                        hover="myred"
+                                        onClick={() => navigate("/home/shop/checkout", { state: { directPurchase: product } })}
+                                    />
+
                                 </div>
                             </div>
                         </div>
