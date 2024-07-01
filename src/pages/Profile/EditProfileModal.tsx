@@ -118,17 +118,18 @@ function EditProfileModal({ userData, onUpdate }: Props) {
                                 >
                                     Gender
                                 </label>
-                                <input
-                                    type="text"
-                                    id="gender"
+                                <select
                                     name="gender"
-                                    placeholder="Male"
-                                    className="mt-2 p-2 w-full placeholder:text-sm  border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                                    id="gender"
+                                    className="mt-2 p-2 w-full placeholder:text-sm border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                                     value={updatedData.gender}
                                     onChange={(e) =>
-                                        setUpdatedData((prevData) => ({ ...prevData, gender: e.target.value }))
-                                    }
-                                />
+                                        setUpdatedData((prevData) => ({ ...prevData, gender: e.target.value }))}
+                                >
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Prefer not to say">Prefer not to say</option>
+                                </select>
                             </div>
                             <div className="w-full sm:p-4 p-1">
                                 <label
