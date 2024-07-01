@@ -25,9 +25,16 @@ export interface ITEM {
 const Cart: React.FC = () => {
   const [cartItems, setCartItems] = useState<ITEM[]>([]);
   const [loading, setLoading] = useState(true);
+  const [coupon, setCoupon] = useState("");
+  const [discount, setDiscount] = useState(0);
   const navigate = useNavigate();
   const userName = useSelector((state: RootState) => state.auth.user.username);
 
+  const staticCoupon = {
+    name: "DISCOUNT10",
+    discount: 10,
+  };
+  
   useEffect(() => {
     const fetchCartData = async () => {
       try {
@@ -125,6 +132,21 @@ const Cart: React.FC = () => {
     } catch (error) {
       console.error("Error updating quantity in cart:", error);
     }
+  };
+
+  const handleApplyCoupon = () => {
+    if (coupon.toUpperCase() === staticCoupon.name) {
+      setDiscount(staticCoupon.discount);
+      toast.success("Coupon applied successfully!");
+    } else {
+      setDiscount(0);
+      toast.error("Invalid coupon code");
+    }
+  };
+
+  const calculateTotal = () => {
+    const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    return total - (total * discount) / 100;
   };
 
   return (
@@ -277,9 +299,11 @@ const Cart: React.FC = () => {
                   <input
                     type="text"
                     className="flex-1 px-8 py-4 font-normal placeholder-gray-300 border dark:border-gray-700 dark:placeholder-gray-500 md:flex-none md:mr-6 dark:text-gray-400 dark:bg-gray-800 "
-                    placeholder="x304k45"
+                    placeholder="Enter coupon code"
+                    value={coupon}
+                    onChange={(e) => setCoupon(e.target.value)}
                   />
-                  <Button text="Apply" color="mygreen" hover="myyellow" />
+                  <Button text="Apply" color="mygreen" hover="myyellow" onClick={handleApplyCoupon} />
                   <Button
                     text="Checkout"
                     color="myyellow"
@@ -288,6 +312,7 @@ const Cart: React.FC = () => {
                       navigate("/home/shop/checkout");
                     }}
                   />
+                  <h2 className="text-xl font-bold">Total: ${calculateTotal().toFixed(2)}</h2>
                 </div>
               )}
             </div>
