@@ -15,7 +15,7 @@ const QuantityButton: React.FC<QuantityButtonProps> = ({ initialQuantity, onUpda
   };
 
   const setDecrease = () => {
-    if (quantity > 0) {
+    if (quantity > 1) {
       const updatedQuantity = quantity - 1;
       setQuantity(updatedQuantity);
       onUpdate(updatedQuantity);
