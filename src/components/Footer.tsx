@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { FaFacebook, FaGithub } from "react-icons/fa6";
 import { IoLogoInstagram } from "react-icons/io5";
 import { RiTwitterXFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import axios from 'axios';
 import Button from "./Button";
+import { supabase } from '../utils/client';
 
 const Socials = () => {
   return (
@@ -15,11 +18,9 @@ const Socials = () => {
           className="text-gray-700 transition hover:opacity-75"
         >
           <span className="sr-only">Facebook</span>
-
           <FaFacebook className="w-6 h-6" />
         </a>
       </li>
-
       <li>
         <a
           href="#"
@@ -31,7 +32,6 @@ const Socials = () => {
           <IoLogoInstagram className="w-6 h-6" />
         </a>
       </li>
-
       <li>
         <a
           href="#"
@@ -40,11 +40,9 @@ const Socials = () => {
           className="text-gray-700 transition hover:opacity-75"
         >
           <span className="sr-only">Twitter</span>
-
           <RiTwitterXFill className="w-6 h-6" />
         </a>
       </li>
-
       <li>
         <a
           href="https://github.com/pooranjoyb/popShop"
@@ -64,49 +62,21 @@ const ServicesList = () => {
   return (
     <>
       <p className="font-medium text-gray-900">Services</p>
-
       <ul className="mt-6 space-y-4 text-sm">
         <li>
-          <Link
-            to="/home/profile"
-            className="text-gray-700 transition hover:opacity-75"
-          >
-            {" "}
-            Profile{" "}
-          </Link>
+          <Link to="/home/profile" className="text-gray-700 transition hover:opacity-75">Profile</Link>
         </li>
         <li>
-          <Link
-            to="/home/shop/cart"
-            className="text-gray-700 transition hover:opacity-75"
-          >
-            {" "}
-            View Cart{" "}
-          </Link>
+          <Link to="/home/shop/cart" className="text-gray-700 transition hover:opacity-75">View Cart</Link>
         </li>
         <li>
-          <Link
-            to="/home/shop"
-            className="text-gray-700 transition hover:opacity-75"
-          >
-            {" "}
-            Order Now
-          </Link>
-        </li>
-
-        <li>
-          <Link to="#" className="text-gray-700 transition hover:opacity-75">
-            {" "}
-            Join Us{" "}
-          </Link>
+          <Link to="/home/shop" className="text-gray-700 transition hover:opacity-75">Order Now</Link>
         </li>
         <li>
-          <Link
-            to="/#about"
-            className="text-gray-700 transition hover:opacity-75"
-          >
-            About
-          </Link>
+          <Link to="#" className="text-gray-700 transition hover:opacity-75">Join Us</Link>
+        </li>
+        <li>
+          <Link to="/#about" className="text-gray-700 transition hover:opacity-75">About</Link>
         </li>
       </ul>
     </>
@@ -114,6 +84,43 @@ const ServicesList = () => {
 };
 
 export default function NewFooter() {
+  const [email, setEmail] = useState('');
+
+  const handleSubscribe = async () => {
+    if (!email) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    console.log("Email send to", email);
+
+    const emailData = {
+      service_id: 'your_service_id',
+      template_id: 'your_template_id',
+      user_id: 'your_user_id',
+      template_params: { user_email: email }
+    };
+
+    try {
+      // Save subscriber information in Supabase
+      const { data, error } = await supabase
+        .from('subscribers')
+        .insert([{ email }]);
+
+      if (error) {
+        throw error;
+      }
+
+      // Send confirmation email using EmailJS
+      const response = await axios.post('https://api.emailjs.com/api/v1.0/email/send', emailData);
+      console.log('Email sent successfully:', response.data);
+      alert('Subscription email sent');
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to send subscription email');
+    }
+  };
+
   return (
     <>
       <div className="md:h-40 md:flex md:justify-center md:items-center flex flex-col justify-between items-center p-4">
@@ -122,18 +129,19 @@ export default function NewFooter() {
             Subscribe to our newsletter
           </p>
           <p className="md:text-lg">
-            Stay up to date with our latest news, exclusive offers, and
-            promotions.
+            Stay up to date with our latest news, exclusive offers, and promotions.
           </p>
         </div>
         <div className="md:flex gap-4 md:w-1/2 justify-center items-center flex flex-col md:flex-row mt-4">
           <input
-            type="text"
+            type="email"
             placeholder="Enter your email"
             className="input input-bordered w-full max-w-xs"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <Button text="Subscribe" color="mygreen" hover="myred" />
+          <Button text='Subscribe' color='mygreen' hover='myred' onClick={handleSubscribe} />
         </div>
       </div>
       <footer
@@ -144,7 +152,7 @@ export default function NewFooter() {
           <img
             src="/images/footer.jpg"
             alt="footer image"
-            className=" h-full w-full object-cover"
+            className="h-full w-full object-cover"
           />
         </div>
         <div className="grid grid-rows-4 w-full lg:col-span-3 max-sm:px-4">
@@ -160,8 +168,7 @@ export default function NewFooter() {
                     color: "#fff",
                   }}
                 >
-                  {" "}
-                  123456789{" "}
+                  123456789
                 </span>
               </p>
               <p>
