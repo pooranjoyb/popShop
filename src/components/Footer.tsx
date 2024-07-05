@@ -103,7 +103,7 @@ export default function NewFooter() {
 
     try {
       // Save subscriber information in Supabase
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('subscribers')
         .insert([{ email }]);
 
