@@ -17,6 +17,13 @@ import TopButton from "../../components/TopButton/TopButton";
 import TermsandConditions from "../../pages/T&C/TermsCond";
 import MyOrders from "../../pages/Orders/MyOrders";
 
+// Admin Routes
+import AdminLayout from "../../admin/AdminLayout/AdminLayout";
+import Dashboard from "../../admin/Dashboard";
+import Orders from "../../admin/Orders";
+import Transactions from "../../admin/Transactions";
+import AddProduct from "../../admin/AddProduct";
+
 const Routes = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state?.auth?.isAuthenticated
@@ -32,6 +39,28 @@ const Routes = () => {
       path: "/oauth",
       element: <Oauth />,
       errorElement: <Error />,
+    },
+    {
+      path: "/admin",
+      element: <AdminLayout />,
+      children: [
+        {
+          index: true,
+          element: <Dashboard />,
+        },
+        {
+          path: "order",
+          element: <Orders />,
+        },
+        {
+          path: "transaction",
+          element: <Transactions />,
+        },
+        {
+          path: "add-product",
+          element: <AddProduct />,
+        },
+      ]
     },
     {
       path: "/home",
@@ -66,9 +95,9 @@ const Routes = () => {
               element: <Cart />,
             },
             {
-              path:"checkout",
-              element:<Checkout/>
-            }
+              path: "checkout",
+              element: <Checkout />,
+            },
           ],
         },
         {
@@ -80,11 +109,10 @@ const Routes = () => {
           element: <TermsandConditions />,
         },
         {
-          path: 'my-orders',
+          path: "my-orders",
           element: <MyOrders />,
         },
-      ],
-      errorElement: <Error />,
+      ]
     },
     {
       path: "*",

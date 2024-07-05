@@ -14,8 +14,8 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated === false) {
-      navigate('/');
+    if (isAuthenticated === false && window.location.pathname !== '/admin') {
+      navigate('/');    
     }
   }, [isAuthenticated, navigate]);
 
