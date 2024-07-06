@@ -1,4 +1,5 @@
 import Popup from "./Popup";
+import ReturnExchangePopup from "./ReturnExchangePopup";
 import { Link } from "react-router-dom";
 import Head from "../../components/Head";
 import Button from "../../components/Button";
@@ -30,6 +31,7 @@ export interface ORDER {
 
 const MyOrders = () => {
   const [selectedOrder, setSelectedOrder] = useState<ORDER | null>(null);
+  const [returnExchangeOrder, setReturnExchangeOrder] = useState<ORDER | null>(null);
   const [orders, setOrders] = useState<ORDER[]>([]);
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const userName = useSelector((state: RootState) => state.auth.user.username);
@@ -44,13 +46,23 @@ const MyOrders = () => {
   };
 
   const handleReturnClick = (order: ORDER) => {
-    // Handle Return/Exchange action here
-    console.log("Return/Exchange action clicked", order);
+    setReturnExchangeOrder(order);
     setOpenDropdown(null);
   };
 
   const handleClosePopup = () => {
     setSelectedOrder(null);
+  };
+
+  const handleCloseReturnExchangePopup = () => {
+    setReturnExchangeOrder(null);
+  };
+
+  const handleReturnExchangeSubmit = (type: "return" | "exchange", details: string) => {
+    // Handle the submission logic here, e.g., updating the order status in the database
+    console.log(`${type} action submitted for order ${returnExchangeOrder?.orderId}: ${details}`);
+    // Show confirmation message
+    alert(`${type.charAt(0).toUpperCase() + type.slice(1)} placed successfully.`);
   };
 
   useEffect(() => {
@@ -138,7 +150,7 @@ const MyOrders = () => {
                           />
                           {openDropdown === index && (
                             <ul
-                              className="dropdown-menu absolute right-0 mt-2 py-1 w-48 bg-white border rounded shadow-md z-10"
+                              className="dropdown-menu absolute right-0 mt-2 py-1 w-48 bg-mywhite border rounded shadow-md z-10"
                               aria-labelledby="dropdownMenuButton"
                             >
                               <li>
@@ -173,6 +185,13 @@ const MyOrders = () => {
           </div>
           {selectedOrder && (
             <Popup order={selectedOrder} onClose={handleClosePopup} />
+          )}
+          {returnExchangeOrder && (
+            <ReturnExchangePopup
+              order={returnExchangeOrder}
+              onClose={handleCloseReturnExchangePopup}
+              onSubmit={handleReturnExchangeSubmit}
+            />
           )}
         </>
       ) : (
