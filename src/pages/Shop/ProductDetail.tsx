@@ -82,7 +82,7 @@ function ProductDetail() {
         size, //Include size
     };
     const addToCart = async () => {
-        if (!size) { //added check for size
+        if (!size) { // added check for size
             toast.error('Please select a size');
             return;
         }
@@ -92,40 +92,52 @@ function ProductDetail() {
                 image: data.image,
                 price: data.price,
                 desc: data.desc,
-                quantity: data.qauntity || 1,
+                quantity: data.quantity || 1,
                 ratings: 5,
-                size, //Include size
+                size, // Include size
             };
-
+    
             // Attempt to fetch the user's cart
             const { data: userCart, error: fetchError } = await supabase
                 .from('Cart')
                 .select('*')
                 .eq('username', userName)
                 .single();
-
+    
             if (fetchError && fetchError.code !== 'PGRST116') { // Ignore "No such record" error
                 console.error("Fetch error:", fetchError);
                 throw fetchError;
             }
-
-            console.log("Product added", product);
-
+    
+            console.log("Product to be added", product);
+    
             if (userCart) {
-                // If the cart exists, update it
-                const updatedProducts = [...userCart.products, product];
-
+                // Check if the product already exists in the cart
+                const existingProductIndex = userCart.products.findIndex(
+                    (item) => item.name === product.name && item.size === product.size
+                );
+    
+                let updatedProducts;
+                if (existingProductIndex !== -1) {
+                    // If the product exists, increase its quantity
+                    updatedProducts = [...userCart.products];
+                    updatedProducts[existingProductIndex].quantity += product.quantity;
+                } else {
+                    // If the product does not exist, add it to the cart
+                    updatedProducts = [...userCart.products, product];
+                }
+    
                 const { error: updateError } = await supabase
                     .from('Cart')
                     .update({ products: updatedProducts })
                     .eq('username', userName);
-
+    
                 if (updateError) {
                     console.error("Update error:", updateError);
                     throw updateError;
                 }
-
-                console.log("Product added to cart:", product);
+    
+                console.log("Product added/updated in cart:", product);
                 dispatch(addItem({ item: product }));
                 toast.success('Product added to cart');
             } else {
@@ -138,21 +150,26 @@ function ProductDetail() {
                             products: [product],
                         },
                     ]);
-
+    
                 if (insertError) {
                     console.error("Insert error:", insertError);
                     throw insertError;
                 }
-
+    
                 console.log("Product added to cart:", product);
                 dispatch(addItem({ item: product }));
                 toast.success('Product added to cart');
             }
+    
+            // Navigate the user to the cart
+            navigate('/home/shop/cart');
         } catch (error) {
             console.error("Error adding product to cart:", error);
             toast.error('Error adding product to cart');
         }
     };
+    
+    
 
     return (
         <>

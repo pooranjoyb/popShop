@@ -20,6 +20,7 @@ export interface ITEM {
   name: string;
   image: string;
   quantity: number;
+  size: string; 
 }
 
 const Cart: React.FC = () => {
@@ -34,7 +35,7 @@ const Cart: React.FC = () => {
     name: "DISCOUNT10",
     discount: 10,
   };
-  
+
   useEffect(() => {
     const fetchCartData = async () => {
       try {
@@ -69,7 +70,7 @@ const Cart: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleRemoveItem = async (itemName: string) => {
+  const handleRemoveItem = async (itemName: string, itemSize: string) => {
     try {
       const { data, error } = await supabase
         .from("Cart")
@@ -83,7 +84,7 @@ const Cart: React.FC = () => {
 
       if (data && data.products) {
         const updatedProducts = data.products.filter(
-          (item: ITEM) => item.name !== itemName
+          (item: ITEM) => !(item.name === itemName && item.size === itemSize)
         );
 
         const { error: updateError } = await supabase
@@ -94,15 +95,13 @@ const Cart: React.FC = () => {
         if (updateError) {
           throw updateError;
         }
-        toast.success("item removed success");
+        toast.success("Item removed successfully");
         setCartItems(updatedProducts);
       }
     } catch (error) {
       console.error("Error removing item from cart:", error);
     }
   };
-
-  // quantity handle here
 
   const handleQuantityChange = async (
     itemName: string,
@@ -160,7 +159,7 @@ const Cart: React.FC = () => {
         <div className="p-8 bg-gray-50 dark:bg-gray-800">
           <div className="flex flex-wrap -mx-4">
             <div className="w-full px-4 mb-8 xl:mb-0">
-              {cartItems.length == 0 ? (
+              {cartItems.length === 0 ? (
                 ""
               ) : (
                 <div className="flex flex-wrap items-center mb-6 -mx-4 md:mb-8">
@@ -174,12 +173,12 @@ const Cart: React.FC = () => {
                       Price
                     </h2>
                   </div>
-                  <div className="hidden md:block px-4 md:w-1/6 lg:w-2/12 ">
+                  <div className="hidden md:block px-4 md:w-1/6 lg:w-2/12">
                     <h2 className="font-bold text-gray-500 dark:text-gray-400">
                       Quantity
                     </h2>
                   </div>
-                  <div className="hidden md:block px-4 text-right md:w-1/6 lg:w-2/12 ">
+                  <div className="hidden md:block px-4 text-right md:w-1/6 lg:w-2/12">
                     <h2 className="font-bold text-gray-500 dark:text-gray-400 mr-36">
                       Subtotal
                     </h2>
@@ -210,10 +209,10 @@ const Cart: React.FC = () => {
                         <div className="hidden px-4 lg:block lg:w-2/12">
                           <Skeleton height={24} width={`50%`} />
                         </div>
-                        <div className="w-auto px-4 md:w-1/6 lg:w-2/12 ">
+                        <div className="w-auto px-4 md:w-1/6 lg:w-2/12">
                           <Skeleton height={32} width={64} />
                         </div>
-                        <div className="w-auto px-4 text-right md:w-1/6 lg:w-2/12 ">
+                        <div className="w-auto px-4 text-right md:w-1/6 lg:w-2/12">
                           <Skeleton height={24} width={`50%`} />
                         </div>
                       </div>
@@ -236,7 +235,7 @@ const Cart: React.FC = () => {
                 ) : (
                   cartItems.map((item: ITEM) => (
                     <div
-                      key={item.name}
+                      key={item.name + item.size} // Ensure unique key by combining name and size
                       className="flex flex-wrap items-center mb-6 -mx-4 md:mb-8"
                     >
                       <div className="w-full px-4 mb-6 md:w-4/6 lg:w-6/12 md:mb-0">
@@ -252,7 +251,7 @@ const Cart: React.FC = () => {
                           </div>
                           <div className="w-2/3 px-4">
                             <h2 className="mb-2 text-xl font-bold dark:text-gray-400">
-                              {item.name}
+                              {item.name} <span className="text-gray-500">({item.size})</span> {/* Display size */}
                             </h2>
                             <p className="text-gray-500 dark:text-gray-400 ">
                               {item.desc}
@@ -262,10 +261,10 @@ const Cart: React.FC = () => {
                       </div>
                       <div className="hidden px-4 lg:block lg:w-2/12">
                         <p className="text-lg font-bold text-blue-500 dark:text-gray-400">
-                        ₹{item.price}
+                          ₹{item.price}
                         </p>
                       </div>
-                      <div className="w-auto px-4 md:w-1/6 lg:w-2/12 ">
+                      <div className="w-auto px-4 md:w-1/6 lg:w-2/12">
                         <QuantityButton
                           initialQuantity={item.quantity ? item.quantity : 1}
                           onUpdate={(newQuantity) =>
@@ -275,13 +274,10 @@ const Cart: React.FC = () => {
                       </div>
                       <div className="w-auto px-4 text-right md:w-1/6 lg:w-2/12 flex items-center justify-between">
                         <p className="text-lg font-bold text-blue-500 dark:text-gray-400">
-                        ₹
-                          {item.quantity
-                            ? item.quantity * item.price
-                            : item.price}
+                          ₹{item.quantity ? item.quantity * item.price : item.price}
                         </p>
                         <button
-                          onClick={() => handleRemoveItem(item.name)}
+                          onClick={() => handleRemoveItem(item.name, item.size)} // Pass size to handleRemoveItem
                           className="text-red-600 hover:text-red-800"
                         >
                           <MdDelete size={24} />
@@ -291,14 +287,14 @@ const Cart: React.FC = () => {
                   ))
                 )}
               </div>
-              {cartItems.length == 0 ? (
+              {cartItems.length === 0 ? (
                 ""
               ) : (
                 <div className="flex flex-wrap items-center gap-4">
                   <span>Apply Coupon</span>
                   <input
                     type="text"
-                    className="flex-1 px-8 py-4 font-normal placeholder-gray-300 border dark:border-gray-700 dark:placeholder-gray-500 md:flex-none md:mr-6 dark:text-gray-400 dark:bg-gray-800 "
+                    className="flex-1 px-8 py-4 font-normal placeholder-gray-300 border dark:border-gray-700 dark:placeholder-gray-500 md:flex-none md:mr-6 dark:text-gray-400 dark:bg-gray-800"
                     placeholder="Enter coupon code"
                     value={coupon}
                     onChange={(e) => setCoupon(e.target.value)}
