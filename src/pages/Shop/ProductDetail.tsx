@@ -182,9 +182,9 @@ function ProductDetail() {
                                         {data.desc}
                                     </p>
                                     <p className="inline-block mb-8 text-4xl font-bold text-gray-700 dark:text-gray-400 ">
-                                        <span>${data.price}</span>
+                                        <span>₹{data.price}</span>
                                         <span
-                                            className="text-base font-normal text-gray-500 line-through dark:text-gray-400 ml-2">${data.price + 89}</span>
+                                            className="text-base font-normal text-gray-500 line-through dark:text-gray-400 ml-2">₹{data.price + 89}</span>
                                     </p>
                                     <p className="text-green-600 dark:text-green-300 ">7 in stock</p>
                                 </div>
