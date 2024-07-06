@@ -31,10 +31,22 @@ export interface ORDER {
 const MyOrders = () => {
   const [selectedOrder, setSelectedOrder] = useState<ORDER | null>(null);
   const [orders, setOrders] = useState<ORDER[]>([]);
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const userName = useSelector((state: RootState) => state.auth.user.username);
 
-  const handleViewClick = (order: ORDER) => {
+  const handleViewClick = (index: number) => {
+    setOpenDropdown(index === openDropdown ? null : index);
+  };
+
+  const handleInvoiceClick = (order: ORDER) => {
     setSelectedOrder(order);
+    setOpenDropdown(null);
+  };
+
+  const handleReturnClick = (order: ORDER) => {
+    // Handle Return/Exchange action here
+    console.log("Return/Exchange action clicked", order);
+    setOpenDropdown(null);
   };
 
   const handleClosePopup = () => {
@@ -113,14 +125,45 @@ const MyOrders = () => {
                         </span>
                       </td>
                       <td>
-                        <Link to="#">
+                      <div className="relative">
                           <Button
+                            className="btn btn-secondary dropdown-toggle"
+                            type="button"
+                            id="dropdownMenuButton"
+                            aria-expanded="false"
                             text="View"
                             color="mygreen"
                             hover="myyellow"
-                            onClick={() => handleViewClick(order)}
+                            onClick={() => handleViewClick(index)}
                           />
-                        </Link>
+                          {openDropdown === index && (
+                            <ul
+                              className="dropdown-menu absolute right-0 mt-2 py-1 w-48 bg-white border rounded shadow-md z-10"
+                              aria-labelledby="dropdownMenuButton"
+                            >
+                              <li>
+                                <Link to="#">
+                                  <button
+                                    className="dropdown-item w-full text-left px-4 py-2"
+                                    onClick={() => handleInvoiceClick(order)}
+                                  >
+                                    Invoice
+                                  </button>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link to="#">
+                                  <button
+                                    className="dropdown-item w-full text-left px-4 py-2"
+                                    onClick={() => handleReturnClick(order)}
+                                  >
+                                    Return/Exchange
+                                  </button>
+                                </Link>
+                              </li>
+                            </ul>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}
