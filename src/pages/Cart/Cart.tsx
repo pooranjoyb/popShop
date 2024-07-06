@@ -262,7 +262,7 @@ const Cart: React.FC = () => {
                       </div>
                       <div className="hidden px-4 lg:block lg:w-2/12">
                         <p className="text-lg font-bold text-blue-500 dark:text-gray-400">
-                          ${item.price}
+                          ₹{item.price}
                         </p>
                       </div>
                       <div className="w-auto px-4 md:w-1/6 lg:w-2/12 ">
@@ -275,7 +275,7 @@ const Cart: React.FC = () => {
                       </div>
                       <div className="w-auto px-4 text-right md:w-1/6 lg:w-2/12 flex items-center justify-between">
                         <p className="text-lg font-bold text-blue-500 dark:text-gray-400">
-                          $
+                        ₹
                           {item.quantity
                             ? item.quantity * item.price
                             : item.price}
