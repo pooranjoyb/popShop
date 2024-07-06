@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import Button from "../../components/Button"
+import Button from "../../components/Button";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface ReturnExchangePopupProps {
   order: ORDER;
@@ -12,7 +14,14 @@ const ReturnExchangePopup: React.FC<ReturnExchangePopupProps> = ({ order, onClos
   const [details, setDetails] = useState("");
 
   const handleSubmit = () => {
+    if (!details.trim()) {
+      toast.error("Please provide details.");
+      return;
+    }
+
     onSubmit(type, details);
+    const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
+    toast.success(`${capitalizedType} request submitted successfully!`);
     onClose();
   };
 

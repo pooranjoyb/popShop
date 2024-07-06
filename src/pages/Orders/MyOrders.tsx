@@ -61,8 +61,6 @@ const MyOrders = () => {
   const handleReturnExchangeSubmit = (type: "return" | "exchange", details: string) => {
     // Handle the submission logic here, e.g., updating the order status in the database
     console.log(`${type} action submitted for order ${returnExchangeOrder?.orderId}: ${details}`);
-    // Show confirmation message
-    alert(`${type.charAt(0).toUpperCase() + type.slice(1)} placed successfully.`);
   };
 
   useEffect(() => {
