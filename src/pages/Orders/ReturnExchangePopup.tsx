@@ -3,13 +3,33 @@ import Button from "../../components/Button";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+export interface Product {
+  desc: string | null;
+  image: string;
+  name: string;
+  price: number;
+  quantity: number;
+  ratings: number;
+  size: string;
+}
+
+export interface ORDER {
+  username: string;
+  orderId: string;
+  product: Product[];
+  date: string;
+  phone: number;
+  status: string;
+  price: string;
+}
+
 interface ReturnExchangePopupProps {
   order: ORDER;
   onClose: () => void;
   onSubmit: (type: "return" | "exchange", details: string) => void;
 }
 
-const ReturnExchangePopup: React.FC<ReturnExchangePopupProps> = ({ order, onClose, onSubmit }) => {
+const ReturnExchangePopup: React.FC<ReturnExchangePopupProps> = ({ onClose, onSubmit }) => {
   const [type, setType] = useState<"return" | "exchange">("return");
   const [details, setDetails] = useState("");
 
@@ -87,8 +107,6 @@ const ReturnExchangePopup: React.FC<ReturnExchangePopupProps> = ({ order, onClos
         )}
         <div className="flex justify-center">
           <Button
-            className="btn btn-primary bg-mygreen text-black"
-            type="button"
             text="Submit"
             color="mygreen"
             hover="myyellow"
