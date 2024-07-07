@@ -2,7 +2,7 @@ import Popup from "./Popup";
 import ReturnExchangePopup from "./ReturnExchangePopup";
 import { Link } from "react-router-dom";
 import Head from "../../components/Head";
-import Button from "../../components/Button";
+import { Button as BootstrapButton } from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import { supabase } from "../../utils/client";
 import { useSelector } from "react-redux";
@@ -136,16 +136,14 @@ const MyOrders = () => {
                       </td>
                       <td>
                       <div className="relative">
-                          <Button
-                            className="btn btn-secondary dropdown-toggle"
+                          <BootstrapButton
+                            className="btn btn-secondary dropdown-toggle bg-mygreen hover-myyellow"
                             type="button"
                             id="dropdownMenuButton"
                             aria-expanded="false"
-                            text="View"
-                            color="mygreen"
-                            hover="myyellow"
+                            style={{borderColor: '#ffffff'}}
                             onClick={() => handleViewClick(index)}
-                          />
+                          >View</BootstrapButton>
                           {openDropdown === index && (
                             <ul
                               className="dropdown-menu absolute right-0 mt-2 py-1 w-48 bg-mywhite border rounded shadow-md z-10"
