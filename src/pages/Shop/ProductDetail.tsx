@@ -24,6 +24,13 @@ interface RatingItem {
     checked?: boolean;
 }
 
+interface CartItem {
+    name: string;
+    size: string;
+    quantity: number;
+  }
+  
+
 export interface UserState {
     user: {
         username: string;
@@ -92,7 +99,7 @@ function ProductDetail() {
                 image: data.image,
                 price: data.price,
                 desc: data.desc,
-                quantity: data.quantity || 1,
+                quantity: data.qauntity || 1,
                 ratings: 5,
                 size, // Include size
             };
@@ -114,8 +121,8 @@ function ProductDetail() {
             if (userCart) {
                 // Check if the product already exists in the cart
                 const existingProductIndex = userCart.products.findIndex(
-                    (item) => item.name === product.name && item.size === product.size
-                );
+                (item: CartItem) => item.name === product.name && item.size === product.size
+  );
     
                 let updatedProducts;
                 if (existingProductIndex !== -1) {
