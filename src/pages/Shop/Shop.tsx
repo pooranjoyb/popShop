@@ -9,6 +9,7 @@ import { supabase } from "../../utils/client";
 function Shop() {
   const [products, setproducts] = useState<any[]>([]);
   const [skeleton, setSkeleton] = useState<boolean>(true); //skeleton-state
+  const [selectedFilter, setSelectedFilter] = useState<any>({ "price-range": [], "size": [] });
 
   const getProducts = async () => {
     const { data } = await supabase.from("Product_table").select();
@@ -39,13 +40,69 @@ function Shop() {
   const handlesearch = async (e: ChangeEvent<HTMLInputElement>) => {
     const { data } = await supabase.from("Product_table").select();
     const value = e.target.value;
-    console.log(value, "hello");
     if (data) {
       const filtereddata = data.filter((elem) => {
         if (elem.name.toLowerCase().includes(value.toLowerCase())) return true;
         else return;
       });
       setproducts(filtereddata);
+    }
+  };
+
+  const handleFilterChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked
+    const value = e.target.value;
+    if (value) {
+      const key = value.split(":")[0]
+      const selection = value.split(":")[1]
+      let selections = selectedFilter[key]
+      if (isChecked) {
+        selections.push(selection)
+      }
+      else {
+        const index = selections.indexOf(selection);
+        if (index > -1) {
+          selections.splice(index, 1);
+        }
+      }
+      setSelectedFilter({ ...selectedFilter, key: selections });
+    }
+  };
+
+  const handlefilter = async () => {
+    const { data } = await supabase.from("Product_table").select();
+    if (data) {
+      if (selectedFilter['price-range'].length !== 0) {
+        let filtereddata: any[] = [];
+        for (let f of selectedFilter['price-range']) {
+          let min = 0;
+          let max = 1e9;
+          if (f.split("-")[0] != "below") {
+            min = +f.split("-")[0].slice(1,)
+          }
+          if (f.split("-")[1] != "above") {
+            max = +f.split("-")[1].slice(1,)
+          }
+          let newFilteredData = data.filter((elem) => {
+            if (min <= elem.Price && max >= elem.Price) return true;
+            else return false;
+          });
+          if (filtereddata.length !== 0) {
+            newFilteredData.forEach((newItem) => {
+              if (!filtereddata.some((item) => newItem === item)) {
+                filtereddata.push(newItem);
+              }
+            });
+          }
+          else {
+            filtereddata = [...newFilteredData]
+          }
+        }
+        setproducts(filtereddata);
+      }
+      else {
+        setproducts(data);
+      }
     }
   };
 
@@ -61,7 +118,7 @@ function Shop() {
         "₹1000-₹2000",
         "₹2000-₹4000",
         "₹4000-₹8000",
-        "₹8000-and above",
+        "₹8000-above",
       ],
     },
   ];
@@ -99,8 +156,9 @@ function Shop() {
                           <input
                             id={`default-checkbox${idx}${index}`}
                             type="checkbox"
-                            value=""
+                            value={`${fil.filterOption.toLowerCase().replace(" ", "-")}:${size}`}
                             className="w-4 h-4 checkbox"
+                            onChange={handleFilterChange}
                           />
                           <label
                             htmlFor={`default-checkbox${idx}${index}`}
@@ -117,6 +175,7 @@ function Shop() {
 
               <div className="modal-action  pe-5">
                 <label
+                  onClick={handlefilter}
                   htmlFor="my_modal_6"
                   className="btn hover:bg-mygreen bg-myyellow"
                 >
@@ -159,25 +218,25 @@ function Shop() {
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {skeleton
             ? Array(4)
-                .fill(0)
-                .map((_, idx) => (
-                  <div key={idx} className="flex flex-col gap-5">
-                    <div className="skeleton w-full h-[50vh] overflow-hidden rounded-lg bg-gray-200 aspect-h-8 aspect-w-7"></div>
-                    <div className="skeleton h-4 w-36 m-auto"></div>
-                    <div className="skeleton h-4 w-20 m-auto"></div>
-                  </div>
-                ))
+              .fill(0)
+              .map((_, idx) => (
+                <div key={idx} className="flex flex-col gap-5">
+                  <div className="skeleton w-full h-[50vh] overflow-hidden rounded-lg bg-gray-200 aspect-h-8 aspect-w-7"></div>
+                  <div className="skeleton h-4 w-36 m-auto"></div>
+                  <div className="skeleton h-4 w-20 m-auto"></div>
+                </div>
+              ))
             : products.map((elem, idx) => {
-                return (
-                  <Product
-                    key={idx}
-                    desc={elem.Desc}
-                    image={elem.Image_link}
-                    price={elem.Price}
-                    name={elem.Name}
-                  />
-                );
-              })}
+              return (
+                <Product
+                  key={idx}
+                  desc={elem.Desc}
+                  image={elem.Image_link}
+                  price={elem.Price}
+                  name={elem.Name}
+                />
+              );
+            })}
         </div>
       </div>
     </>
