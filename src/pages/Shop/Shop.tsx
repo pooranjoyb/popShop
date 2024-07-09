@@ -7,7 +7,9 @@ import { IoFilterCircleOutline } from "react-icons/io5";
 import { supabase } from "../../utils/client";
 
 function Shop() {
-  const [products, setproducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<any[]>([]);
   const [skeleton, setSkeleton] = useState<boolean>(true); //skeleton-state
   const [selectedFilter, setSelectedFilter] = useState<any>({ "price-range": [], "size": [] });
 
@@ -15,7 +17,8 @@ function Shop() {
     const { data } = await supabase.from("Product_table").select();
     console.log(data);
     if (data) {
-      setproducts(data);
+      setProducts(data);
+      setSearchResults(data); // Initially display all products
     }
   };
 
@@ -37,29 +40,29 @@ function Shop() {
     };
   }, [products]);
 
-  const handlesearch = async (e: ChangeEvent<HTMLInputElement>) => {
-    const { data } = await supabase.from("Product_table").select();
-    const value = e.target.value;
-    if (data) {
-      const filtereddata = data.filter((elem) => {
-        if (elem.name.toLowerCase().includes(value.toLowerCase())) return true;
-        else return;
-      });
-      setproducts(filtereddata);
+  const handlesearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toLowerCase();
+    setSearchTerm(value);
+    if (value === "") {
+      setSearchResults(products); // Reset to all products if search term is empty
+    } else {
+      const filteredData = products.filter((product) =>
+        product.Name.toLowerCase().includes(value)
+      );
+      setSearchResults(filteredData);
     }
   };
 
   const handleFilterChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.checked
+    const isChecked = e.target.checked;
     const value = e.target.value;
     if (value) {
-      const key = value.split(":")[0]
-      const selection = value.split(":")[1]
-      let selections = selectedFilter[key]
+      const key = value.split(":")[0];
+      const selection = value.split(":")[1];
+      let selections = selectedFilter[key];
       if (isChecked) {
-        selections.push(selection)
-      }
-      else {
+        selections.push(selection);
+      } else {
         const index = selections.indexOf(selection);
         if (index > -1) {
           selections.splice(index, 1);
@@ -98,10 +101,10 @@ function Shop() {
             filtereddata = [...newFilteredData]
           }
         }
-        setproducts(filtereddata);
+        setProducts(filtereddata);
       }
       else {
-        setproducts(data);
+        setProducts(data);
       }
     }
   };
@@ -226,7 +229,7 @@ function Shop() {
                   <div className="skeleton h-4 w-20 m-auto"></div>
                 </div>
               ))
-            : products.map((elem, idx) => {
+            : searchResults.map((elem, idx) => {
               return (
                 <Product
                   key={idx}
