@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-
+import React, { useState } from "react";
+import Popthis from "./Popthis"; // Assuming Popthis is in the parent directory
+import { Link } from "react-router-dom";
+import Head from "../../components/Head";
+import Button from "../../components/Button";
 interface Product {
   desc: string;
   image: string;
@@ -27,6 +30,9 @@ const DisplayOrders: React.FC<DisplayOrdersProps> = ({ orders }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
 
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [showPopthis, setShowPopthis] = useState(false);
+
   const totalPages = Math.ceil(orders.length / pageSize);
 
   const handlePageChange = (pageNumber: number) => {
@@ -38,73 +44,86 @@ const DisplayOrders: React.FC<DisplayOrdersProps> = ({ orders }) => {
     currentPage * pageSize
   );
 
-  return (
-    <div className="p-4 w-full">
-      <h1 className="text-2xl font-bold mb-4">Orders</h1>
-      <div className="overflow-x-auto">
-        <table className="table table-xs w-full">  {/* Added w-full class for full width */}
-          <thead>
-            <tr className="hover">
-              <th className="px-12">Date</th>  {/* Added px-4 for padding */}
-              <th className="px-14">Order ID</th>  {/* Added px-4 for padding */}
-              <th className="px-12">Phone</th>  {/* Added px-4 for padding */}
-              <th className="px-12">Price</th>  {/* Added px-4 for padding */}
-              <th className="px-12">Status</th>  {/* Added px-4 for padding */}
-              <th className="px-12">Username</th>  {/* Added px-4 for padding */}
-              <th className="px-12">Products</th>  {/* Added px-4 for padding */}
-            </tr>
-          </thead>
-          <tbody>
-            {displayedOrders.map((order) => (
-              <tr key={order.orderId} className="hover">
-                <td className="px-5">{order.date}</td>  {/* Added px-4 for padding */}
-                <td className="px-5">{order.orderId}</td>  {/* Added px-4 for padding */}
-                <td className="px-12">{order.phone}</td>  {/* Added px-4 for padding */}
-                <td className="px-12">{order.price}</td>  {/* Added px-4 for padding */}
-                <td className="px-12">{order.status}</td>  {/* Added px-4 for padding */}
-                <td className="px-12">{order.username}</td>  {/* Added px-4 for padding */}
-                <td>
-                  <div>
-                    {order.product.map((product, index) => (
-                      <div key={index}>
-                        <div>
-                          <div>
-                          <p style={{ marginTop: '10px', marginBottom: "11px" }}>{product.name}</p>
-                            <p>{product.desc}</p>
-                          </div>
-                        </div>
-                        <div className="flex space-x-4">  {/* Added flexbox for spacing */}
-                          <p>Price: ${product.price}</p>
-                          <p>Quantity: {product.quantity}</p>
-                          <p>Rating: {product.rating}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
 
-        {/* Pagination controls (adjust styling as needed) */}
-        <div className="flex justify-center mt-4">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i + 1}
-              className={`mx-2 px-3 py-1 rounded-md text-sm focus:outline-none ${
-                currentPage === i + 1
-                  ? 'bg-blue-500 text-white hover:bg-blue-600'
-                  : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-100'
-              }`}
-              onClick={() => handlePageChange(i + 1)}
-            >
-              {i + 1}
-            </button>
-          ))}
+  const handleViewClick = (order: Order) => {
+    setSelectedOrder(order);
+    setShowPopthis(true);
+  };
+
+  const handleClosePopthis = () => {
+    setShowPopthis(false);
+    setSelectedOrder(null);
+  };
+
+  return (
+    <>
+      <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
+        <Head  h2="Orders" />
+        
+      </div>
+      <div className=" pl-10 w-full max-w-6xl mx-auto mb-32">
+        <div className="  overflow-x-auto rounded-lg border border-base-300">
+          <table className=" table w-full max-w-full">
+            <thead>
+              <tr className="text-neutral">
+                <th >Date</th>
+                <th className="pl-10">Order ID</th>
+                <th className="pl-10">Phone</th>
+                <th className="pl-10">Price</th>
+                <th className="pl-10">Username</th>
+                <th className="pl-10">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {displayedOrders.map((order, index) => (
+                <tr
+                  key={order.orderId}
+                  className={index % 2 === 0 ? "bg-base-200" : "bg-base-100"}
+                >
+                  <td >{order.date}</td>
+                  <td className="pl-10">{order.orderId}</td>
+                  <td className="pl-10">{order.phone}</td>
+                  <td className="pl-10">${order.price}</td>
+                  <td className="pl-10">{order.username}</td>
+                  <td className="pl-10">
+                    <Link to="#">
+                      <Button
+                        text="View"
+                        color="mygreen"
+                        hover="myyellow"
+                        onClick={() => handleViewClick(order)}
+                      />
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div className="flex justify-center mt-6">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                className={`mx-2 px-3 py-1 rounded-md text-sm focus:outline-none ${
+                  currentPage === i + 1
+                    ? 'bg-blue-500 text-white hover:bg-blue-600'
+                    : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-100'
+                }`}
+                onClick={() => handlePageChange(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+      {showPopthis && selectedOrder && (
+        <Popthis
+          order={selectedOrder}
+          onClose={handleClosePopthis}
+        />
+      )}
+    </>
   );
 };
 
