@@ -167,9 +167,6 @@ function ProductDetail() {
                 dispatch(addItem({ item: product }));
                 toast.success('Product added to cart');
             }
-    
-            // Navigate the user to the cart
-            navigate('/home/shop/cart');
         } catch (error) {
             console.error("Error adding product to cart:", error);
             toast.error('Error adding product to cart');
