@@ -8,7 +8,6 @@ import { supabase } from "../../utils/client";
 
 function Shop() {
   const [products, setProducts] = useState<any[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [skeleton, setSkeleton] = useState<boolean>(true); //skeleton-state
   const [selectedFilter, setSelectedFilter] = useState<any>({ "price-range": [], "size": [] });
@@ -42,9 +41,8 @@ function Shop() {
 
   const handlesearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
-    setSearchTerm(value);
     if (value === "") {
-      setSearchResults(products); // Reset to all products if search term is empty
+
     } else {
       const filteredData = products.filter((product) =>
         product.Name.toLowerCase().includes(value)
