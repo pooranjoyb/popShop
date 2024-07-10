@@ -1,5 +1,5 @@
 import Table from "../components/Table";
-import {fetchOrders} from "./fetchAdmin/fetchOrder";
+import {supabase} from "../utils/client";
 import { useEffect } from "react";
 import { useState } from "react";
 import DisplayOrders from "./fetchAdmin/DisplayOrders"
@@ -22,6 +22,19 @@ interface items {
   product: Product[]
   status: string
   username: string
+}
+
+ const fetchOrders = async (): Promise<items[]> => {
+  let { data, error } = await supabase
+    .from('orders')
+    .select('*')
+
+  if (error) {
+    console.error('Error fetching orders:', error)
+    return []
+  }
+
+  return data || []
 }
 
 const Orders: React.FC = () => {
