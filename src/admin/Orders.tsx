@@ -2,7 +2,7 @@ import Table from "../components/Table";
 import {supabase} from "../utils/client";
 import { useEffect } from "react";
 import { useState } from "react";
-import DisplayOrders from "./fetchAdmin/DisplayOrders"
+
 
 
 interface Product {
@@ -49,8 +49,7 @@ const Orders: React.FC = () => {
   console.log(orderStore);
   return (
     <div>
-      <Table />
-      <DisplayOrders orders={orderStore}/>
+      <Table orders={orderStore}/>
     </div>
   )
 }
