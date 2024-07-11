@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
+import { ChartOptions } from 'chart.js/auto';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -15,9 +16,8 @@ interface Customer {
 function Dashboard() {
   const currentDate = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   const [recentCustomers, setRecentCustomers] = useState<Customer[]>([]);
-  const [weeklySales, setWeeklySales] = useState<number>(0);
   const currentOnlineUsers = 78; 
-  const [salesDetails, setSalesDetails] = useState({
+  const salesDetails= ({
     fromDate: '2023-01',
     toDate: '2023-07',
     salesNumber: 5000,
@@ -35,16 +35,7 @@ function Dashboard() {
       ];
       setRecentCustomers(dummyCustomers);
     };
-
-    // Fetch Weekly Sales
-    const fetchWeeklySales = async () => {
-      // Example
-      const weeklySalesData: number = 5000;
-      setWeeklySales(weeklySalesData);
-    };
-
     fetchRecentCustomers();
-    fetchWeeklySales();
   }, []); 
 
   const handleAddNew = () => {
@@ -65,7 +56,7 @@ const barChartData = {
   ],
 };
 
-const barChartOptions = {
+const barChartOptions: ChartOptions<'bar'> = {
   responsive: true,
   plugins: {
     legend: {
@@ -77,8 +68,9 @@ const barChartOptions = {
   },
   scales: {
     x: {
-      barPercentage: 0.5, 
-      categoryPercentage: 0.5,
+      grid: {
+        display: false,
+      },
     },
     y: {
       beginAtZero: true,
@@ -100,7 +92,7 @@ const onlineUsersChartData = {
   ],
 };
 
-const onlineUsersChartOptions = {
+const onlineUsersChartOptions: ChartOptions<'bar'> = {
   responsive: true,
   plugins: {
     legend: {
@@ -112,8 +104,9 @@ const onlineUsersChartOptions = {
   },
   scales: {
     x: {
-      barPercentage: 0.5,
-      categoryPercentage: 0.5,
+      grid: {
+        display: false,
+      },
     },
     y: {
       beginAtZero: true,
@@ -135,7 +128,7 @@ const onlineUsersChartOptions = {
   ],
 };
 
-const historicalSalesChartOptions = {
+const historicalSalesChartOptions: ChartOptions<'bar'> = {
   responsive: true,
   plugins: {
     legend: {
@@ -147,8 +140,9 @@ const historicalSalesChartOptions = {
   },
   scales: {
     x: {
-      barPercentage: 0.5,
-      categoryPercentage: 0.5,
+      grid: {
+        display: false,
+      },
     },
     y: {
       beginAtZero: true,
