@@ -143,7 +143,7 @@ function Navbar() {
         <div className="flex md:ml-16 ml-2">
           <Link to="/home">
             <img
-              src="./logo.png"
+              src="/logo.png"
               alt="PopShop Logo"
               className="md:w-36 w-20 duration-100"
             />
