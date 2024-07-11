@@ -194,14 +194,14 @@ function Navbar() {
                             {_.name}
                           </h4>
                           <p className="font-medium dark:text-gray-400">
-                            Price: ${_.price}
+                            Price: ₹{_.price}
                           </p>
                         </div>
                       </div>
                     ))}
 
                 <span className="text-mynavy mt-3">
-                  subtotal ${total}
+                  subtotal ₹{total}
                 </span>
 
                 <Link

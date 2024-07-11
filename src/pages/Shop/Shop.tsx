@@ -7,14 +7,17 @@ import { IoFilterCircleOutline } from "react-icons/io5";
 import { supabase } from "../../utils/client";
 
 function Shop() {
-  const [products, setproducts] = useState<any[]>([]);
-  const [skeleton, setSkeleton] = useState<boolean>(true); //skeleton-state
+  const [products, setProducts] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [skeleton, setSkeleton] = useState<boolean>(true); // skeleton-state
+  const [selectedFilter, setSelectedFilter] = useState<any>({ "price-range": [], "size": [] });
 
   const getProducts = async () => {
     const { data } = await supabase.from("Product_table").select();
     console.log(data);
     if (data) {
-      setproducts(data);
+      setProducts(data);
+      setSearchResults(data); // Initially display all products
     }
   };
 
@@ -36,16 +39,68 @@ function Shop() {
     };
   }, [products]);
 
-  const handlesearch = async (e: ChangeEvent<HTMLInputElement>) => {
-    const { data } = await supabase.from("Product_table").select();
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toLowerCase();
+    if (value === "") {
+      setSearchResults(products); // Reset to all products
+    } else {
+      const filteredData = products.filter((product) =>
+        product.Name.toLowerCase().includes(value)
+      );
+      setSearchResults(filteredData);
+    }
+  };
+
+  const handleFilterChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
     const value = e.target.value;
-    console.log(value, "hello");
+    if (value) {
+      const key = value.split(":")[0];
+      const selection = value.split(":")[1];
+      let selections = selectedFilter[key];
+      if (isChecked) {
+        selections.push(selection);
+      } else {
+        const index = selections.indexOf(selection);
+        if (index > -1) {
+          selections.splice(index, 1);
+        }
+      }
+      setSelectedFilter({ ...selectedFilter, key: selections });
+    }
+  };
+
+  const handleFilter = async () => {
+    const { data } = await supabase.from("Product_table").select();
     if (data) {
-      const filtereddata = data.filter((elem) => {
-        if (elem.name.toLowerCase().includes(value.toLowerCase())) return true;
-        else return;
-      });
-      setproducts(filtereddata);
+      if (selectedFilter['price-range'].length !== 0) {
+        let filteredData: any[] = [];
+        for (let f of selectedFilter['price-range']) {
+          let min = 0;
+          let max = 1e9;
+          if (f.split("-")[0] !== "below") {
+            min = +f.split("-")[0].slice(1);
+          }
+          if (f.split("-")[1] !== "above") {
+            max = +f.split("-")[1].slice(1);
+          }
+          let newFilteredData = data.filter((elem) => {
+            return min <= elem.Price && max >= elem.Price;
+          });
+          if (filteredData.length !== 0) {
+            newFilteredData.forEach((newItem) => {
+              if (!filteredData.some((item) => newItem === item)) {
+                filteredData.push(newItem);
+              }
+            });
+          } else {
+            filteredData = [...newFilteredData];
+          }
+        }
+        setProducts(filteredData);
+      } else {
+        setProducts(data);
+      }
     }
   };
 
@@ -61,14 +116,14 @@ function Shop() {
         "₹1000-₹2000",
         "₹2000-₹4000",
         "₹4000-₹8000",
-        "₹8000-and above",
+        "₹8000-above",
       ],
     },
   ];
 
   return (
     <>
-      <div className=" mx-auto max-w-screen-xl px-4 pt-12 pb-8 flex justify-center md:justify-between items-center flex-wrap">
+      <div className="mx-auto max-w-screen-xl px-4 pt-12 pb-8 flex justify-center md:justify-between items-center flex-wrap">
         <Head h1="Our" h2="Store" />
         <div className="flex gap-6 mt-8 justify-center md:justify-end w-full">
           {/* The button to open modal */}
@@ -78,7 +133,7 @@ function Shop() {
           >
             <IoFilterCircleOutline className="text-3xl" />
           </label>
-          {/* Modal Body*/}
+          {/* Modal Body */}
           <input
             type="checkbox"
             id="my_modal_6"
@@ -86,9 +141,7 @@ function Shop() {
           />
           <div className="modal" role="dialog">
             <div className="modal-box w-[18rem] md:w-[30rem]">
-              <h3 className="font-bold text-center text-lg">
-                Apply your filters
-              </h3>
+              <h3 className="font-bold text-center text-lg">Apply your filters</h3>
               <div className="flex font-semiold justify-around mt-5">
                 {filter.map((fil, idx) => (
                   <div key={idx}>
@@ -99,8 +152,9 @@ function Shop() {
                           <input
                             id={`default-checkbox${idx}${index}`}
                             type="checkbox"
-                            value=""
+                            value={`${fil.filterOption.toLowerCase().replace(" ", "-")}:${size}`}
                             className="w-4 h-4 checkbox"
+                            onChange={handleFilterChange}
                           />
                           <label
                             htmlFor={`default-checkbox${idx}${index}`}
@@ -115,8 +169,9 @@ function Shop() {
                 ))}
               </div>
 
-              <div className="modal-action  pe-5">
+              <div className="modal-action pe-5">
                 <label
+                  onClick={handleFilter}
                   htmlFor="my_modal_6"
                   className="btn hover:bg-mygreen bg-myyellow"
                 >
@@ -138,7 +193,7 @@ function Shop() {
               type="text"
               className="grow w-36"
               placeholder="Search"
-              onChange={handlesearch}
+              onChange={handleSearch}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -159,25 +214,25 @@ function Shop() {
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {skeleton
             ? Array(4)
-                .fill(0)
-                .map((_, idx) => (
-                  <div key={idx} className="flex flex-col gap-5">
-                    <div className="skeleton w-full h-[50vh] overflow-hidden rounded-lg bg-gray-200 aspect-h-8 aspect-w-7"></div>
-                    <div className="skeleton h-4 w-36 m-auto"></div>
-                    <div className="skeleton h-4 w-20 m-auto"></div>
-                  </div>
-                ))
-            : products.map((elem, idx) => {
-                return (
-                  <Product
-                    key={idx}
-                    desc={elem.Desc}
-                    image={elem.Image_link}
-                    price={elem.Price}
-                    name={elem.Name}
-                  />
-                );
-              })}
+              .fill(0)
+              .map((_, idx) => (
+                <div key={idx} className="flex flex-col gap-5">
+                  <div className="skeleton w-full h-[50vh] overflow-hidden rounded-lg bg-gray-200 aspect-h-8 aspect-w-7"></div>
+                  <div className="skeleton h-4 w-36 m-auto"></div>
+                  <div className="skeleton h-4 w-20 m-auto"></div>
+                </div>
+              ))
+            : searchResults.map((elem, idx) => {
+              return (
+                <Product
+                  key={idx}
+                  desc={elem.Desc}
+                  image={elem.Image_link}
+                  price={elem.Price}
+                  name={elem.Name}
+                />
+              );
+            })}
         </div>
       </div>
     </>
