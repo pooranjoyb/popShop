@@ -107,7 +107,7 @@ function Profile() {
         </div>
 
         {/* Profile Information */}
-        <div className="w-full responsive-user sm:mt-44 sm:p-1 md:w-3/4 bg-white p-5 rounded-lg">
+        <div className="w-full responsive-user sm:mt-44 sm:p-1 md:w-3/4 bg-white p-5 rounded-lg shadow-md">
           {/* user info */}
           <div className="flex relative flex-col gap-5 items-center justify-center md:px-48 px-8">
             <div className="absolute profile-background -z-20 w-full h-[250px] sm:h-[350px] md:top-[-150px] top-[-200px]"></div>
@@ -135,12 +135,12 @@ function Profile() {
             <EditProfileModal userData={userData} onUpdate={handleUpdate} />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10 px-20">
             <div className="form-group">
               <label className="block text-gray-600">First Name</label>
               <input
                 type="text"
-                className="w-full border rounded p-2"
+                className="w-full border rounded-lg p-2 shadow-md"
                 value={userData.firstname}
                 readOnly
               />
@@ -149,7 +149,7 @@ function Profile() {
               <label className="block text-gray-600">Last Name</label>
               <input
                 type="text"
-                className="w-full border rounded p-2"
+                className="w-full border rounded-lg p-2 shadow-md"
                 value={userData.lastname}
                 readOnly
               />
@@ -158,7 +158,7 @@ function Profile() {
               <label className="block text-gray-600">Email Address</label>
               <input
                 type="email"
-                className="w-full border rounded p-2"
+                className="w-full border rounded-lg p-2 shadow-md"
                 value={userData.email}
                 readOnly
               />
@@ -167,7 +167,7 @@ function Profile() {
               <label className="block text-gray-600">Phone Number</label>
               <input
                 type="tel"
-                className="w-full border rounded p-2"
+                className="w-full border rounded-lg p-2 shadow-md"
                 value={userData.phone}
                 readOnly
               />
@@ -176,7 +176,7 @@ function Profile() {
               <label className="block text-gray-600">Gender</label>
               <input
                 type="text"
-                className="w-full border rounded p-2"
+                className="w-full border rounded-lg p-2 shadow-md"
                 value={userData.gender}
                 readOnly
               />
@@ -185,7 +185,7 @@ function Profile() {
               <label className="block text-gray-600">Postal Code</label>
               <input
                 type="text"
-                className="w-full border rounded p-2"
+                className="w-full border rounded-lg p-2 shadow-md"
                 value="23728167"
                 readOnly
               />
@@ -193,6 +193,7 @@ function Profile() {
           </div>
         </div>
       </div>
+        <hr className="my-4 text-mynavy" />
     </>
   );
 }
