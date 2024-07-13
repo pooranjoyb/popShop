@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { supabase } from "../../utils/client";
 import { useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
@@ -7,7 +7,7 @@ import Head from "../../components/Head";
 import Loader from "../../components/Loader/Loader";
 import EditProfileModal from "./EditProfileModal";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faHeart, faEye, faCog, faBell, faSignOutAlt, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faHeart, faEye, faCog, faBell, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import './profile.css'
 
 interface USER {
@@ -34,9 +34,13 @@ function Profile() {
     window.scrollTo(0, 0);
   }, []);
 
-  if (!isAuthenticated) {
-    navigate("/home");
-  }
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/home");
+    } else {
+      fetchData();
+    }
+  }, [isAuthenticated, navigate]);
 
   const fetchData = async () => {
     const { data, error } = await supabase
@@ -51,10 +55,6 @@ function Profile() {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const handleUpdate = () => {
     fetchData();
   };
@@ -65,25 +65,10 @@ function Profile() {
 
   return (
     <>
-      <div className="md:hidden flex justify-between items-center mb-4 px-10 py-5">
-        <h2 className="text-2xl font-bold">{username}</h2>
-        <button
-          className="text-gray-700"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-        >
-          <FontAwesomeIcon icon={faBars} size="lg" />
-        </button>
-      </div>
-      <div className="md:flex sm:block flex-row gap-5 p-8">
+      <div className="md:flex sm:block flex-row gap-5 md:p-8 relative">
 
         {/* Sidebar */}
-        <div className={`md:block ${sidebarOpen ? 'block w-full min-h-[500px] h-[600px]' : 'hidden w-1/4 min-h-[800px]'} bg-gray-100 p-5 rounded-lg shadow-md `}>
-          <div className="flex flex-col mb-5">
-            {
-              sidebarOpen ? "" :
-                <h2 className="text-2xl text-start font-bold mb-10 ml-6">User Profile</h2>
-            }
-          </div>
+        <div className={`md:block ${sidebarOpen ? 'block w-full min-h-[500px] h-[600px] bg-gray-700 text-white' : 'hidden w-1/4 min-h-[800px]'} bg-gray-100 p-5 rounded-lg shadow-md`}>
           <ul className="space-y-4">
             <li className="text-lg font-semibold text-gray-700 active hover:cursor-pointer hover:bg-mygreen p-4 rounded-md">
               <FontAwesomeIcon icon={faUser} className="mr-2" /> User info
@@ -193,7 +178,6 @@ function Profile() {
           </div>
         </div>
       </div>
-        <hr className="my-4 text-mynavy" />
     </>
   );
 }
