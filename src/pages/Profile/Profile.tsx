@@ -65,7 +65,7 @@ function Profile() {
 
   return (
     <>
-      <div className="md:flex sm:block flex-row gap-5 md:p-8 relative">
+      <div className="md:flex sm:block flex-row gap-5 p-8 relative">
 
         {/* Sidebar */}
         <div className={`md:block ${sidebarOpen ? 'block w-full min-h-[500px] h-[600px] bg-gray-700 text-white' : 'hidden w-1/4 min-h-[800px]'} bg-gray-100 p-5 rounded-lg shadow-md`}>
@@ -170,7 +170,7 @@ function Profile() {
               <label className="block text-gray-600">Postal Code</label>
               <input
                 type="text"
-                className="w-full border rounded-lg p-2 shadow-md"
+                className="w-full border rounded-lg p-2 mb-7 shadow-md"
                 value="23728167"
                 readOnly
               />
