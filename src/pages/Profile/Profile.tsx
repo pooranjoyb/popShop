@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../../utils/client";
 import { useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
@@ -27,7 +27,7 @@ function Profile() {
     (state: RootState) => state.auth.isAuthenticated
   );
   const [userData, setUserData] = useState<USER>();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const sidebarOpen = false;
   const navigate = useNavigate();
 
   useEffect(() => {
