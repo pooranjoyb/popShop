@@ -21,7 +21,7 @@ const AddProduct: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { data, error } = await supabase
+    const {  error } = await supabase
       .from('Product_table') // Ensure this matches your table name in Supabase
       .insert([
         {
