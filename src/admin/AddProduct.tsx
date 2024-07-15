@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import { supabase } from '../utils/client';
 
+interface Product {
+  image_file: File | null;
+  Name: string;
+  Desc: string;
+  id: string;
+  created_at: string;
+  Price: string;
+}
+
 const AddProduct: React.FC = () => {
-  const [product, setProduct] = useState({
-    image_file: null, // Changed from image_link to image_file
-    image_link: '',
+  const [product, setProduct] = useState<Product>({
+    image_file: null,
     Name: '',
     Desc: '',
     id: '',
@@ -13,7 +21,7 @@ const AddProduct: React.FC = () => {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value, files } = e.target;
+    const { name, value, files } = e.target as HTMLInputElement;
     if (name === 'image_file' && files) {
       setProduct({
         ...product,
@@ -29,62 +37,66 @@ const AddProduct: React.FC = () => {
 
   const uploadImage = async (file: File) => {
     const filePath = `${Date.now()}_${file.name}`;
-    const { data, error } = await supabase.storage
-      .from('images_bucket') // Updated to use your bucket name
-      .upload(filePath, file);
+    const { error: uploadError } = await supabase.storage
+      .from('images_bucket')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
 
-    if (error) {
-      console.error('Error uploading image:', error);
+    if (uploadError) {
+      console.error('Error uploading image:', uploadError);
       return null;
     }
 
-    const { publicURL, error: urlError } = supabase.storage
+    const { data } = await supabase.storage
       .from('images_bucket')
       .getPublicUrl(filePath);
 
-    if (urlError) {
-      console.error('Error getting public URL:', urlError);
-      return null;
-    }
-
-    return publicURL;
+    return { publicURL: data.publicUrl, originalFileName: file.name };
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
     if (product.image_file) {
-      const imageUrl = await uploadImage(product.image_file);
-      if (imageUrl) {
-        const { error } = await supabase
-          .from('Product_table') // Ensure this matches your table name in Supabase
-          .insert([
-            {
-              Image_link: imageUrl,
-              Name: product.Name,
-              Desc: product.Desc,
-              id: product.id,
-              created_at: product.created_at,
-              Price: product.Price
-            }
-          ]);
-
-        if (error) {
-          console.error('Error adding product:', error);
-        } else {
-          setProduct({
-            id: '',
-            created_at: '',
-            image_file: null,
-            image_link: '',
-            Price: '',
-            Name: '',
-            Desc: '',
-          });
+      try {
+        const uploadResult = await uploadImage(product.image_file);
+        if (uploadResult) {
+          const { publicURL } = uploadResult;
+          const { data, error } = await supabase
+            .from('Product_table')
+            .insert([
+              {
+                Image_link: publicURL,
+                Name: product.Name,
+                Desc: product.Desc,
+                id: product.id,
+                created_at: product.created_at,
+                Price: product.Price
+              }
+            ]);
+  
+          if (error) {
+            console.error('Error adding product:', error.message);
+          } else {
+            console.log('Product added successfully:', data);
+            setProduct({
+              id: '',
+              created_at: '',
+              image_file: null,
+              Name: '',
+              Desc: '',
+              Price: ''
+            });
+          }
         }
+      } catch (uploadError) {
+        console.error('Error uploading image:');
       }
     }
   };
+  
 
   return (
     <div className="p-4">
