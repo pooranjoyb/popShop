@@ -106,15 +106,14 @@ const AddProduct: React.FC = () => {
           <label htmlFor="image_file" className="label">
             <span className="label-text">Image:</span>
           </label>
+
           <input
-            type="file"
-            id="image_file"
-            name="image_file"
-            accept="image/*"
-            onChange={handleChange}
-            required
-            className="input input-bordered w-full"
-          />
+  type="file"
+  className="file-input file-input-bordered file-input-primary w-full max-w-xs"  id="image_file"
+  name="image_file"
+  accept="image/*"
+  onChange={handleChange}
+  required/>
         </div>
         <div className="form-control">
           <label htmlFor="Name" className="label">
