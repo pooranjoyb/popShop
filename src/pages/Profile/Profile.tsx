@@ -86,7 +86,7 @@ function Profile() {
               <FontAwesomeIcon icon={faBell} className="mr-2" /> Notifications
             </li>
           </ul>
-          <button className={` ${sidebarOpen ? "mt-[20%]" : 'mt-[90%]'} p-4 rounded-md ml-auto text-end text-myred font-semibold hover:bg-myred hover:text-mywhite w-full`}>
+          <button className={` ${sidebarOpen ? "mt-[20%]" : 'mt-[90%]'} p-4 rounded-md ml-auto text-center text-myred font-semibold hover:bg-myred hover:text-mywhite w-full`}>
             <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" /> Log out
           </button>
         </div>
