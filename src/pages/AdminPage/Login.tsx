@@ -27,13 +27,12 @@ function Login() {
     };
     const [email, setEmail] = useState("");
     const [userData, setUserData] = useState<USER>({
-        username: "",
+        username: "admin",
         email: "",
-        pass: "",
+        pass: "Admin@123",
         createdAt: new Date().toISOString(),
     });
     const [errors, setErrors] = useState<Record<string, string[]>>({});
-    const [autoFillData, setAutoFillData] = useState<USER | null>(null);
 
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -148,12 +147,6 @@ function Login() {
             handleLogin();
         }
     };
-
-    useEffect(() => {
-        if (autoFillData) {
-            setUserData(autoFillData);
-        }
-    }, [autoFillData]);
 
     return (
         <>
