@@ -2,37 +2,23 @@ import { createSlice, createAction } from "@reduxjs/toolkit";
 
 interface AuthState {
   isAuthenticated: boolean;
+  isAdmin: boolean;
   user?: User;
-}
-
-interface AdminAuthState {
-  isAdminAuthenticated: boolean;
-  admin?: Admin;
 }
 
 interface User {
   username: string;
 }
 
-interface Admin {
-  username: string;
-}
-
 const initialAuthState: AuthState = {
   isAuthenticated: false,
+  isAdmin: false,
   user: undefined,
-};
-
-const initialAdminAuthState: AdminAuthState = {
-  isAdminAuthenticated: false,
-  admin: undefined,
 };
 
 export const login = createAction<User>("auth/login");
 export const logout = createAction("auth/logout");
 
-export const adminLogin = createAction<Admin>("admin/login");
-export const adminLogout = createAction("admin/logout");
 
 const authSlice = createSlice({
   name: "auth",
@@ -48,28 +34,15 @@ const authSlice = createSlice({
       localStorage.clear();
       sessionStorage.clear();
     },
+    adminLoggedIn(state, action: ReturnType<typeof login>) {
+      state.isAuthenticated = false;
+      state.isAdmin = true;
+      state.user = action.payload
+    }
   },
 });
 
-const adminAuthSlice = createSlice({
-  name: "adminAuth",
-  initialState: initialAdminAuthState,
-  reducers: {
-    adminLogin(state, action: ReturnType<typeof adminLogin>) {
-      state.isAdminAuthenticated = true;
-      state.admin = action.payload;
-    },
-    adminLogout(state) {
-      state.isAdminAuthenticated = false;
-      state.admin = undefined;
-      localStorage.clear();
-      sessionStorage.clear();
-    },
-  },
-});
 
-export const { login: userLogin, logout: userLogout } = authSlice.actions;
-export const { adminLogin: adminUserLogin, adminLogout: adminUserLogout } = adminAuthSlice.actions;
+export const { login: userLogin, logout: userLogout, adminLoggedIn: adminLoggedIn } = authSlice.actions;
 
-export const authReducer = authSlice.reducer;
-export const adminAuthReducer = adminAuthSlice.reducer;
+export default authSlice.reducer;

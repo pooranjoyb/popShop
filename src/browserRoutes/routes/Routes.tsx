@@ -30,7 +30,7 @@ const Routes = () => {
     (state: RootState) => state?.auth?.isAuthenticated
   );
 
-  const isAdmin = useSelector((state: RootState) => state?.admin?.isAdminAuthenticated)
+  const isAdmin = useSelector((state: RootState) => state?.auth?.isAdmin)
 
   return createBrowserRouter([
     {

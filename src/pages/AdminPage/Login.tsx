@@ -4,7 +4,7 @@ import { z } from "zod";
 import { supabase } from "../../utils/client";
 import { LogInSchema, ForgotPasswordSchema } from "../../utils/schema";
 import { useDispatch } from "react-redux";
-import { adminLogin } from "../../utils/features/Auth/authSlice";
+import { adminLoggedIn } from "../../utils/features/Auth/authSlice";
 import { Slide, toast, TypeOptions } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -108,32 +108,19 @@ function Login() {
     };
 
     const handleLogin = async () => {
-        try {
-            const validateData = LogInSchema.parse({
-                username: userData.username,
-                password: userData.pass,
-            });
+        const validateData = LogInSchema.parse({
+            username: userData.username,
+            password: userData.pass,
+        });
 
-            if (
-                validateData.username === "admin" &&
-                validateData.password === "Admin@123"
-            ) {
-                dispatch(adminLogin({ username: "admin" }));
-                toastNotification("Admin Logged In !!", "success");
-                navigate("/admin");
-                return;
-            }
-
-        } catch (err) {
-            if (err instanceof z.ZodError) {
-                const newErrors = err.flatten().fieldErrors;
-                setErrors(
-                    Object.keys(newErrors).reduce((acc, key) => {
-                        acc[key] = newErrors[key] ?? [];
-                        return acc;
-                    }, {} as Record<string, string[]>)
-                );
-            }
+        if (
+            validateData.username === "admin" &&
+            validateData.password === "Admin@123"
+        ) {
+            dispatch(adminLoggedIn({ username: "admin" }));
+            toastNotification("Admin Logged In !!", "success");
+            navigate("/admin");
+            return;
         }
     };
 
