@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
-import bcrypt from "bcryptjs";
 import { supabase } from "../../utils/client";
 import { LogInSchema, ForgotPasswordSchema } from "../../utils/schema";
 import { useDispatch } from "react-redux";
