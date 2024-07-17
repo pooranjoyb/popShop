@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { supabase } from "../../utils/client";
 import { LogInSchema, ForgotPasswordSchema } from "../../utils/schema";
@@ -54,28 +54,6 @@ function Login() {
             pauseOnHover: false,
             transition: Slide,
         });
-    };
-
-    const handleGoogleSignIn = async () => {
-        try {
-            await supabase.auth.signInWithOAuth({
-                provider: "google",
-                options: {
-                    redirectTo: `${window.location.href}oauth`,
-                },
-            });
-        } catch (err) {
-            console.log(err);
-            if (err instanceof z.ZodError) {
-                const newErrors = err.flatten().fieldErrors;
-                setErrors(
-                    Object.keys(newErrors).reduce((acc, key) => {
-                        acc[key] = newErrors[key] ?? [];
-                        return acc;
-                    }, {} as Record<string, string[]>)
-                );
-            }
-        }
     };
 
     const handleResetPassword = async () => {
