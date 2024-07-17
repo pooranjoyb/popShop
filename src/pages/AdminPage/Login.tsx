@@ -276,38 +276,13 @@ function Login() {
                                     <div className="flex justify-center">
                                         <button
                                             type="submit"
-                                            className="bg-mygreen text-mywhite text-[1rem] shadow-lg rounded-xl py-2.5 px-10 hover:bg-myyellow transition-colors duration-300"
+                                            className="bg-mygreen w-full text-mywhite text-[1rem] shadow-lg rounded-xl py-2.5 px-10 hover:bg-myyellow transition-colors duration-300"
                                         >
-                                            Log In
-                                        </button>
-                                    </div>
-                                    <div className="relative flex justify-center items-center mt-4">
-                                        <div className="border-t border-gray-300 flex-grow mr-2"></div>
-                                        <div className="text-sm text-gray-600 tracking-wider">
-                                            Or continue with
-                                        </div>
-                                        <div className="border-t border-gray-300 flex-grow ml-2"></div>
-                                    </div>
-                                    <div className="flex justify-center mt-4">
-                                        <button
-                                            type="button"
-                                            onClick={handleGoogleSignIn}
-                                            className="bg-red-500 text-white text-[1rem] shadow-lg rounded-xl py-2.5 px-10 hover:bg-red-600 transition-colors duration-300"
-                                        >
-                                            Google
+                                            Log In As Admin
                                         </button>
                                     </div>
                                 </>
                             )}
-                            <div className="text-center mt-4 text-sm text-gray-600 tracking-wider">
-                                Don't have an account?{" "}
-                                <Link
-                                    to="/signup"
-                                    className="hover:text-mygreen transition-colors duration-300"
-                                >
-                                    Sign up
-                                </Link>
-                            </div>
                         </form>
                     </div>
                 </div>

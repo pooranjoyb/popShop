@@ -38,11 +38,16 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.isAdmin = true;
       state.user = action.payload
+    },
+    adminLoggedOut(state) {
+      state.isAuthenticated = false;
+      state.isAdmin = false;
+      state.user = undefined;
     }
   },
 });
 
 
-export const { login: userLogin, logout: userLogout, adminLoggedIn: adminLoggedIn } = authSlice.actions;
+export const { login: userLogin, logout: userLogout, adminLoggedIn: adminLoggedIn, adminLoggedOut: adminLoggedOut } = authSlice.actions;
 
 export default authSlice.reducer;
