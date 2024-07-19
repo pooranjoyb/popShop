@@ -24,7 +24,17 @@ function Profile() {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
-  const [userData, setUserData] = useState<USER>();
+  const [userData, setUserData] = useState<USER>({
+    username: "",
+    email: "",
+    pass: "",
+    firstname: "",
+    lastname: "",
+    gender: "",
+    phone: "",
+    createdAt: null,
+    profilepicture: null,
+  });
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -66,40 +76,39 @@ function Profile() {
       try {
         const reader = new FileReader();
         reader.readAsDataURL(file);
-  
+
         reader.onloadend = async () => {
           const base64String = reader.result as string;
-  
+
           // Update the user's profile with the base64 string
           const { data: updateData, error: updateError } = await supabase
             .from("users")
             .update({ profilepicture: base64String })
             .eq("username", username);
-  
+
           if (updateError) {
             console.error("Update Error:", updateError);
             alert("Error updating user profile: " + updateError.message);
           } else {
             console.log("Profile updated:", updateData);
-            setUserData({ ...userData, profilepicture: base64String });
+            setUserData((prevData) => ({
+              ...prevData,
+              profilepicture: base64String,
+            }));
             setImageUrl(base64String);
           }
           window.location.reload();
         };
-  
+
         reader.onerror = (error) => {
           console.error("FileReader Error:", error);
-          alert("Error reading file: " + error.message);
         };
       } catch (err) {
         console.error("Unexpected Error:", err);
-        alert("Unexpected error occurred: " + err.message);
       }
     }
   };
-  
-  
-  
+
   if (!userData) {
     return <Loader />;
   }
@@ -162,8 +171,9 @@ function Profile() {
                 <span className="label-text md:text-xl text-sm">
                   Gender :{" "}
                   <b>
-                    {userData.gender.charAt(0).toUpperCase() +
-                      userData.gender.slice(1)}
+                    {userData.gender &&
+                      userData.gender.charAt(0).toUpperCase() +
+                        userData.gender.slice(1)}
                   </b>
                 </span>
               </div>
@@ -189,7 +199,10 @@ function Profile() {
               <div className="label">
                 <span className="label-text md:text-xl text-sm">
                   Account Creation Date :{" "}
-                  <b> {new Date(userData.createdAt!).toLocaleDateString()}</b>
+                  <b>
+                    {userData.createdAt &&
+                      new Date(userData.createdAt).toLocaleDateString()}
+                  </b>
                 </span>
               </div>
             </div>
