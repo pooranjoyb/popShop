@@ -41,6 +41,7 @@ const SignUpSchema = z.object({
     .length(10, "Phone number must be exactly 10 digits")
     .regex(/^\d{10}$/, "Phone number must contain only digits"),
   createdAt: z.string().default(getCurrentTime),
+  profilePic: z.string().url().optional(),
 });
 
 const LogInSchema = z.object({
