@@ -24,6 +24,7 @@ import Orders from "../../admin/Orders";
 import Transactions from "../../admin/Transactions";
 import AddProduct from "../../admin/AddProduct";
 import Login from "../../pages/AdminPage/Login";
+import ResetPassword from "../../pages/Auth/ResetPassword";
 
 const Routes = () => {
   const isAuthenticated = useSelector(
@@ -41,6 +42,11 @@ const Routes = () => {
     {
       path: "/oauth",
       element: <Oauth />,
+      errorElement: <Error />,
+    },
+    {
+      path: "/reset-password",
+      element: <ResetPassword />,
       errorElement: <Error />,
     },
     {

@@ -159,7 +159,9 @@ function Auth() {
       const validateData = ForgotPasswordSchema.parse({ email });
 
       const { error } = await supabase.auth.resetPasswordForEmail(
-        validateData.email
+        validateData.email, {
+        redirectTo: `${window.location.href}/reset-password`,
+      }
       );
 
       if (error) {
@@ -169,6 +171,7 @@ function Auth() {
       } else {
         setForgotPassword(false);
         toastNotification("Password reset email sent!", "success");
+        localStorage.setItem("email", validateData.email);
       }
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -279,8 +282,8 @@ function Auth() {
               {isForgotPassword
                 ? "Reset Password"
                 : isLogin
-                ? "Login"
-                : "Sign Up"}
+                  ? "Login"
+                  : "Sign Up"}
             </h1>
             <div className="text-md text-[#636364] mb-4 text-center tracking-wider">
               <p>Please enter your details</p>
