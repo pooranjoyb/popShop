@@ -52,7 +52,7 @@ function Transactions() {
         </thead>
         <tbody>
           {transactions.map((transaction) => (
-            <tr key={transaction.transactionId} className="border-b border-gray-200">
+            <tr key={transaction.transactionId} className="border-gray-200">
               <td className="p-3">{transaction.transactionId}</td>
               <td className="p-3">{transaction.username}</td>
               <td className="p-3">{transaction.phone}</td>
@@ -75,7 +75,7 @@ function Transactions() {
                   <p>No Product</p>
                 )}
               </td>
-              <td className="p-3 capitalize">{transaction.status == "pending" ? <span className='bg-myyellow p-2 font-semibold rounded-md text-mywhite'>{transaction.status}</span> : <span className='bg-myyellow p-2 rounded-md text-mywhite font-semibold'>{transaction.status}</span>}</td>
+              <td className="p-3 capitalize">{transaction.status == "pending" ? <span className='bg-myyellow p-2 font-semibold rounded-md text-mywhite'>{transaction.status}</span> : <span className='bg-mygreen p-2 rounded-md text-mywhite font-semibold'>{transaction.status}</span>}</td>
             </tr>
           ))}
         </tbody>
