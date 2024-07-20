@@ -23,11 +23,14 @@ import Dashboard from "../../admin/Dashboard";
 import Orders from "../../admin/Orders";
 import Transactions from "../../admin/Transactions";
 import AddProduct from "../../admin/AddProduct";
+import Login from "../../pages/AdminPage/Login";
 
 const Routes = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state?.auth?.isAuthenticated
   );
+
+  const isAdmin = useSelector((state: RootState) => state?.auth?.isAdmin)
 
   return createBrowserRouter([
     {
@@ -42,7 +45,7 @@ const Routes = () => {
     },
     {
       path: "/admin",
-      element: <AdminLayout />,
+      element: isAdmin ? <AdminLayout /> : <Login />,
       children: [
         {
           index: true,
