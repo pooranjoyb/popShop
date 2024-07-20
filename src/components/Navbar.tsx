@@ -113,6 +113,7 @@ function Navbar() {
         { event: "INSERT", schema: "public", table: "Cart" },
         (payload) => {
           console.log("Insert Change received!", payload);
+          // Assuming payload.new.products is an array of the inserted products
           const productsCount = payload.new.products
             ? payload.new.products.length
             : 0;
@@ -124,6 +125,7 @@ function Navbar() {
         { event: "DELETE", schema: "public", table: "Cart" },
         (payload) => {
           console.log("Delete Change received!", payload);
+          // Assuming payload.old.products is an array of the deleted products
           const productsCount = payload.old.products
             ? payload.old.products.length
             : 0;
@@ -135,6 +137,7 @@ function Navbar() {
         { event: "UPDATE", schema: "public", table: "Cart" },
         (payload) => {
           console.log("Update Change received!", payload);
+          // Fetch the latest cart items on update to ensure consistency
           fetchCartItems();
         }
       )
@@ -247,14 +250,9 @@ function Navbar() {
               onClick={handleToggleMenu}
             >
               <div className="w-10 rounded-full">
-                <img />
-                <img
-                  src={userInfo?.profilepicture ? userInfo.profilepicture : "/images/winter2.jpg"}
-                  alt="Profile"
-                  className="object-cover w-full h-full rounded-full"
-                />
-              </div >
-            </div >
+                <img src={userInfo?.profilepicture ? userInfo.profilepicture : "/images/winter2.jpg"} />
+              </div>
+            </div>
             {showMenu && (
               <ul
                 tabIndex={0}
@@ -286,11 +284,10 @@ function Navbar() {
                   </Link>
                 </li>
               </ul>
-            )
-            }
-          </div >
-        </div >
-      </div >
+            )}
+          </div>
+        </div>
+      </div>
     </>
   );
 }
