@@ -16,6 +16,7 @@ interface USER {
   gender: string;
   phone: string;
   createdAt: string | null;
+  profilepicture: string;
 }
 
 function Profile() {
@@ -44,6 +45,7 @@ function Profile() {
       console.error(error);
     } else {
       setUserData(data[0]);
+      console.log(data[0]);
     }
   };
 
@@ -64,7 +66,7 @@ function Profile() {
 
       <div className="avatar">
         <div className="w-24 sm:w-80 rounded-full">
-          <img src="/images/winter2.jpg" alt="" />
+          <img src={userData.profilepicture ? userData.profilepicture : "/images/winter2.jpg"} alt="" />
         </div>
       </div>
       <div className="w-full text-center">
