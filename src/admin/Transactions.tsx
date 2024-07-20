@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../utils/client';
 import { Product } from '../pages/Orders/ReturnExchangePopup';
+import Head from '../components/Head';
 
 // Define the interface for transaction data
 interface Transaction {
@@ -37,7 +38,8 @@ function Transactions() {
 
   return (
     <div className="overflow-x-auto mt-4">
-      {error && <p className="text-red-500 text-center mb-4 mt-4">{error}</p>}
+      <Head h2="Transactions" />
+      {error && <p className="text-red-500 text-center mb-4 mt-6">{error}</p>}
       <table className="table w-full text-left bg-white rounded-lg shadow-md">
         <thead className="bg-gray-100">
           <tr>
