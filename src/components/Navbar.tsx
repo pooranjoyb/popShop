@@ -37,6 +37,7 @@ function Navbar() {
   const [itemsInCart, setItemsInCart] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
   const [total, setTotal] = useState(0);
+  const [profilePic, setProfilePic] = useState<string | null>(null); 
 
   useEffect(() => {
     if (!userName) return;
@@ -75,7 +76,22 @@ function Navbar() {
       }
     };
 
+    const fetchProfilePic = async () => {
+      const { data, error } = await supabase
+        .from('users')
+        .select('profilepicture')
+        .eq('username', userName)
+        .single();
+
+      if (error) {
+        console.error('Error fetching profile picture:', error);
+      } else {
+        setProfilePic(data.profilepicture);
+      }
+    };
+
     fetchCartItems();
+    fetchProfilePic();
 
     const cartChannel = supabase
       .channel("cart_updates")
@@ -84,7 +100,6 @@ function Navbar() {
         { event: "INSERT", schema: "public", table: "Cart" },
         (payload) => {
           console.log("Insert Change received!", payload);
-          // Assuming payload.new.products is an array of the inserted products
           const productsCount = payload.new.products
             ? payload.new.products.length
             : 0;
@@ -96,7 +111,6 @@ function Navbar() {
         { event: "DELETE", schema: "public", table: "Cart" },
         (payload) => {
           console.log("Delete Change received!", payload);
-          // Assuming payload.old.products is an array of the deleted products
           const productsCount = payload.old.products
             ? payload.old.products.length
             : 0;
@@ -108,7 +122,6 @@ function Navbar() {
         { event: "UPDATE", schema: "public", table: "Cart" },
         (payload) => {
           console.log("Update Change received!", payload);
-          // Fetch the latest cart items on update to ensure consistency
           fetchCartItems();
         }
       )
@@ -221,7 +234,11 @@ function Navbar() {
               onClick={handleToggleMenu}
             >
               <div className="w-10 rounded-full">
-                <img src="/images/winter2.jpg" />
+                <img
+                  src={profilePic || "/images/winter2.jpg"} 
+                  alt="Profile"
+                  className="object-cover w-full h-full rounded-full"
+                />
               </div>
             </div>
             {showMenu && (
