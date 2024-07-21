@@ -7,7 +7,7 @@ const AdminLayout: React.FC = () => {
     <>
       <div className="flex">
         <Sidebar />
-        <div className="p-8 flex flex-col">
+        <div className="p-8 flex flex-col w-full">
           <span className="text-2xl font-bold">
             Welcome to SuperAdmin Portal!
           </span>
