@@ -5,10 +5,9 @@ import Head from "../../components/Head";
 import { Button as BootstrapButton } from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import { supabase } from "../../utils/client";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
 import Loader from "../../components/Loader/Loader";
-import { addItem } from "../../utils/features/cart/cartSlice";
 
 export interface Product {
   desc: string | null;
@@ -34,7 +33,14 @@ const addToCart = async (username: string, products: Product[]) => {
   try {
     const { data, error } = await supabase
       .from("Cart")
-      .upsert({ username, products }, { onConflict: ["username"] });
+      .upsert(
+        [
+          {
+            username,
+            products,
+          },
+        ]
+      );
 
     if (error) throw error;
     return data;
@@ -49,7 +55,6 @@ const MyOrders = () => {
   const [orders, setOrders] = useState<ORDER[]>([]);
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const userName = useSelector((state: RootState) => state.auth.user.username);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleViewClick = (index: number) => {
@@ -74,7 +79,9 @@ const MyOrders = () => {
         image: p.image,
         price: p.price,
         quantity: p.quantity,
-        desc: p.desc
+        desc: p.desc,
+        ratings: p.ratings, 
+        size: p.size
       }));
 
       // Add items to cart
