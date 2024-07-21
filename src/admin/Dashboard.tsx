@@ -11,7 +11,6 @@ import {
   Legend
 } from "chart.js";
 import { supabase } from "../utils/client";
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -44,6 +43,25 @@ function Dashboard() {
   });
   const [recentCustomers, setRecentCustomers] = useState<Customer[]>([]);
   const [productsCount, setProductsCount] = useState<number>(0);
+  const [currentOnlineUsers, setCurrentOnlineUsers] = useState<number>(0); // State for online users count
+  const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine); // Track online status
+  const [completedCheckouts, setCompletedCheckouts] = useState<number>(0);
+  const [abandonedCheckouts, setAbandonedCheckouts] = useState<number>(0);
+  // Fetch online users count
+  const fetchOnlineUsersCount = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("users")
+        .select("user_id", { count: "exact" })
+        .eq("status", "online");
+
+      if (error) throw error;
+      setCurrentOnlineUsers(data.length); // Update state with the number of online users
+    } catch (error) {
+      console.error("Error fetching online users count:", error);
+    }
+  };
+
   const fetchProductsCount = async () => {
     try {
       // Fetch the count of products from the product_table
@@ -52,19 +70,41 @@ function Dashboard() {
         .select("*", { count: "exact" });
 
       if (error) throw error;
-      setProductsCount(count ?? 0); 
+      setProductsCount(count ?? 0);
     } catch (error) {
       console.error("Error fetching products count:", error);
     }
   };
-  const currentOnlineUsers = 78;
   const salesDetails = {
     fromDate: "2023-01",
     toDate: "2023-07",
     salesNumber: 5000,
     percentageIncrease: 10
   };
-
+  const fetchCheckoutStatus = async () => {
+    try {
+      const { count: completedCount, error: completedError } = await supabase
+        .from("transactions")
+        .select("*", { count: "exact" })
+        .eq("status", "success");
+  
+      if (completedError) throw completedError;
+      console.log("Completed Checkouts Count:", completedCount); // Debug log
+      setCompletedCheckouts(completedCount ?? 0);
+  
+      const { count: abandonedCount, error: abandonedError } = await supabase
+        .from("checkouts")
+        .select("*", { count: "exact" })
+        .eq("status", "pending");
+  
+      if (abandonedError) throw abandonedError;
+      console.log("Abandoned Checkouts Count:", abandonedCount); // Debug log
+      setAbandonedCheckouts(abandonedCount ?? 0);
+    } catch (error) {
+      console.error("Error fetching checkout status:", error);
+    }
+  };
+  
   // Fetch Recent Customers
   const fetchRecentCustomers = async () => {
     try {
@@ -85,11 +125,42 @@ function Dashboard() {
       console.error("Error fetching data:", error);
     }
   };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (isOnline) {
+        fetchOnlineUsersCount(); // Fetch online users count periodically
+      }
+    }, 10000); // Update every 10 seconds
+
+    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+  }, [isOnline]);
   useEffect(() => {
     fetchRecentCustomers();
     fetchProductsCount();
+    fetchOnlineUsersCount();
+    fetchCheckoutStatus();
   }, []);
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
 
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    // Fetch the online users count periodically if online
+    const intervalId = setInterval(() => {
+      if (isOnline) {
+        fetchOnlineUsersCount(); // Fetch online users count periodically
+      }
+    }, 10000); // Update every 10 seconds
+
+    return () => {
+      clearInterval(intervalId); // Cleanup interval on component unmount
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, [isOnline]);
   const handleAddNew = () => {
     // Handle adding a new item action here
     console.log("Add New button clicked!");
@@ -375,7 +446,7 @@ function Dashboard() {
                 <i>Completed</i>
               </h2>
               <p className="text-xl font-semibold mb-1 text-mynavy pr-2">
-                <b>981</b>
+                <b>{completedCheckouts}</b>
               </p>
               <div className="flex items-center text-center pl-2">
                 <p className="text-xs text-mygreen">+14%</p>
@@ -388,7 +459,7 @@ function Dashboard() {
                 <i>Abandoned</i>
               </h2>
               <p className="text-xl font-semibold mb-1 text-mynavy pr-2">
-                <b>654</b>
+                <b>{abandonedCheckouts}</b>
               </p>
               <div className="flex items-center text-center pl-2">
                 <p className="text-xs text-myred">+21%</p>
