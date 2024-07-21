@@ -16,7 +16,7 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@hookform/resolvers": "^3.3.4",
     "@reduxjs/toolkit": "^2.2.4",
-    "@supabase/supabase-js": "^2.39.8",
+    "@supabase/supabase-js": "^2.44.4",
     "@types/react-bootstrap": "^0.32.36",
     "appwrite": "^13.0.2",
     "axios": "^1.7.2",
