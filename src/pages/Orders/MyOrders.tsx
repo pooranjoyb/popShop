@@ -5,9 +5,10 @@ import Head from "../../components/Head";
 import { Button as BootstrapButton } from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import { supabase } from "../../utils/client";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../utils/features/store";
 import Loader from "../../components/Loader/Loader";
+import { addItem } from "../../utils/features/cart/cartSlice";
 
 export interface Product {
   desc: string | null;
@@ -35,9 +36,49 @@ const MyOrders = () => {
   const [orders, setOrders] = useState<ORDER[]>([]);
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const userName = useSelector((state: RootState) => state.auth.user.username);
+  const dispatch = useDispatch();
 
   const handleViewClick = (index: number) => {
     setOpenDropdown(index === openDropdown ? null : index);
+  };
+
+  const handleBuyAgainClick= ()=>{
+    console.log("Buy again");
+  }
+
+  const handleCancelClick = async (order: ORDER) => {
+    try {
+      const { data, error } = await supabase
+        .from("orders")
+        .update({ status: "Cancelled" })
+        .eq("orderId", order.orderId);
+
+      if (error) throw error;
+
+      if (data) {
+        setOrders((prevOrders) =>
+          prevOrders.map((o) =>
+            o.orderId === order.orderId ? { ...o, status: "Cancelled" } : o
+          )
+        );
+      }
+      console.log(`Cancel action for order ${order.orderId}`);
+      // Re-fetch the orders
+      const { data: newData, error: fetchError } = await supabase
+        .from("orders")
+        .select("*")
+        .eq("username", userName);
+
+      if (fetchError) throw fetchError;
+
+      if (newData) {
+        setOrders(newData);
+      } else {
+        setOrders([]);
+      }
+    }catch (err) {
+      console.log("Error cancelling order: ", err);
+    }
   };
 
   const handleInvoiceClick = (order: ORDER) => {
@@ -166,6 +207,26 @@ const MyOrders = () => {
                                     onClick={() => handleReturnClick(order)}
                                   >
                                     Return/Exchange
+                                  </button>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link to="#">
+                                  <button
+                                    className="dropdown-item w-full text-left px-4 py-2"
+                                    onClick={() => handleBuyAgainClick(order)}
+                                  >
+                                    Buy Again
+                                  </button>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link to="#">
+                                  <button
+                                    className="dropdown-item w-full text-left px-4 py-2"
+                                    onClick={() => handleCancelClick(order)}
+                                  >
+                                    Cancel Order
                                   </button>
                                 </Link>
                               </li>
