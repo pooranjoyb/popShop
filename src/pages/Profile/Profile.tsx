@@ -6,9 +6,16 @@ import { useNavigate } from "react-router-dom";
 import Head from "../../components/Head";
 import Loader from "../../components/Loader/Loader";
 import EditProfileModal from "./EditProfileModal";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faHeart, faEye, faCog, faBell, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import './profile.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUser,
+  faHeart,
+  faEye,
+  faCog,
+  faBell,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import "./profile.css";
 
 interface USER {
   username: string;
@@ -28,7 +35,7 @@ function Profile() {
     (state: RootState) => state.auth.isAuthenticated
   );
   const [userData, setUserData] = useState<USER>();
-  const sidebarOpen = false;
+  let sidebarOpen = false;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,7 +75,12 @@ function Profile() {
   return (
     <>
       <div className="md:flex sm:block flex-row gap-5 p-8 relative">
-        <div className={`md:block ${sidebarOpen ? 'block w-full min-h-[500px] h-[600px] bg-gray-700 text-white' : 'hidden w-1/4 min-h-[800px]'} bg-gray-100 p-5 rounded-lg shadow-md`}>
+        <div
+          className={`md:block ${sidebarOpen
+            ? "block w-full min-h-[500px] h-[600px] bg-gray-700 text-white"
+            : "hidden w-1/4 min-h-[800px]"
+            } bg-gray-100 p-5 rounded-lg shadow-md`}
+        >
           <ul className="space-y-4">
             <li className="text-lg font-semibold text-gray-700 active hover:cursor-pointer hover:bg-mygreen p-4 rounded-md">
               <FontAwesomeIcon icon={faUser} className="mr-2" /> User info
@@ -80,19 +92,20 @@ function Profile() {
               <FontAwesomeIcon icon={faEye} className="mr-2" /> Watchlist
             </li>
             <li className="text-lg font-semibold text-gray-700 active hover:cursor-pointer hover:bg-mygreen p-4 rounded-md">
-              <FontAwesomeIcon icon={faCog} className="mr-2" /> Setting
+              <FontAwesomeIcon icon={faCog} className="mr-2" /> Settings
             </li>
             <li className="text-lg font-semibold text-gray-700 active hover:cursor-pointer hover:bg-mygreen p-4 rounded-md">
               <FontAwesomeIcon icon={faBell} className="mr-2" /> Notifications
             </li>
           </ul>
-          <button className={` ${sidebarOpen ? "mt-[20%]" : 'mt-[90%]'} p-4 rounded-md ml-auto text-center text-myred font-semibold hover:bg-myred hover:text-mywhite w-full`}>
+          <button
+            className={`${sidebarOpen ? "mt-[20%]" : "mt-[90%]"
+              } p-4 rounded-md ml-auto text-center text-myred font-semibold hover:bg-myred hover:text-mywhite w-full`}
+          >
             <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" /> Log out
           </button>
-      <div className="avatar">
-        <div className="w-24 sm:w-80 rounded-full">
-          <img src={userData.profilepicture ? userData.profilepicture : "/images/winter2.jpg"} alt="" />
         </div>
+
 
         {/* Profile Information */}
         <div className="w-full responsive-user sm:mt-44 sm:p-1 md:w-3/4 bg-white p-5 rounded-lg shadow-md">
@@ -101,7 +114,14 @@ function Profile() {
             <div className="absolute profile-background -z-20 w-full h-[250px] sm:h-[350px] md:top-[-150px] top-[-200px]"></div>
             <div className="avatar">
               <div className="w-24 sm:w-80 rounded-full">
-                <img src="/images/winter2.jpg" alt="" />
+                <img
+                  src={
+                    userData.profilepicture
+                      ? userData.profilepicture
+                      : "/images/winter2.jpg"
+                  }
+                  alt=""
+                />
               </div>
             </div>
             <div className="w-full text-center">
