@@ -1,6 +1,6 @@
 import Popup from "./Popup";
 import ReturnExchangePopup from "./ReturnExchangePopup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Head from "../../components/Head";
 import { Button as BootstrapButton } from 'react-bootstrap';
 import { useEffect, useState } from "react";
@@ -30,6 +30,19 @@ export interface ORDER {
   price: string;
 }
 
+const addToCart = async (username: string, products: Product[]) => {
+  try {
+    const { data, error } = await supabase
+      .from("Cart")
+      .upsert({ username, products }, { onConflict: ["username"] });
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+  }
+};
+
 const MyOrders = () => {
   const [selectedOrder, setSelectedOrder] = useState<ORDER | null>(null);
   const [returnExchangeOrder, setReturnExchangeOrder] = useState<ORDER | null>(null);
@@ -37,15 +50,43 @@ const MyOrders = () => {
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const userName = useSelector((state: RootState) => state.auth.user.username);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleViewClick = (index: number) => {
     setOpenDropdown(index === openDropdown ? null : index);
   };
 
-  const handleBuyAgainClick= ()=>{
-    console.log("Buy again");
-  }
+  const handleInvoiceClick = (order: ORDER) => {
+    setSelectedOrder(order);
+    setOpenDropdown(null);
+  };
 
+  const handleReturnClick = (order: ORDER) => {
+    setReturnExchangeOrder(order);
+    setOpenDropdown(null);
+  };
+
+  const handleBuyAgainClick = async (order: ORDER) => {
+    try {
+      // Extract products from the order
+      const products = order.product.map(p => ({
+        name: p.name,
+        image: p.image,
+        price: p.price,
+        quantity: p.quantity,
+        desc: p.desc
+      }));
+
+      // Add items to cart
+      await addToCart(userName, products);
+
+      // Navigate to the cart page
+      navigate('/home/shop/cart');
+    } catch (err) {
+      console.error("Error adding items to the cart: ", err);
+    }
+  };
+ 
   const handleCancelClick = async (order: ORDER) => {
     try {
       const { data, error } = await supabase
@@ -79,16 +120,6 @@ const MyOrders = () => {
     }catch (err) {
       console.log("Error cancelling order: ", err);
     }
-  };
-
-  const handleInvoiceClick = (order: ORDER) => {
-    setSelectedOrder(order);
-    setOpenDropdown(null);
-  };
-
-  const handleReturnClick = (order: ORDER) => {
-    setReturnExchangeOrder(order);
-    setOpenDropdown(null);
   };
 
   const handleClosePopup = () => {
