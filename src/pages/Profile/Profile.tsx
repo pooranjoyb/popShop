@@ -106,7 +106,6 @@ function Profile() {
           </button>
         </div>
 
-
         {/* Profile Information */}
         <div className="w-full responsive-user sm:mt-44 sm:p-1 md:w-3/4 bg-white p-5 rounded-lg shadow-md">
           {/* user info */}
