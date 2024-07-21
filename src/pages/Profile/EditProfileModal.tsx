@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { supabase } from "../../utils/client";
+import { z } from "zod";
+import validator from "validator";
+
 interface USER {
     username: string;
     email: string;
@@ -16,16 +19,33 @@ interface Props {
     onUpdate: () => void;
 }
 
+const phoneSchema = z.string().refine((value) => validator.isMobilePhone(value), {
+    message: 'Invalid mobile phone number',
+});
+
 function EditProfileModal({ userData, onUpdate }: Props) {
     const [updatedData, setUpdatedData] = useState<USER>(userData);
+    const [phoneError, setPhoneError] = useState<string | null>(null); // State to hold phone validation error
+    const [isSaving, setIsSaving] = useState<boolean>(false); // State to track saving state
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // State to track modal open/close
 
     const handleUpdate = async () => {
+        setIsSaving(true);
+
+        const validationResult = phoneSchema.safeParse(updatedData.phone);
+
+        if (!validationResult.success) {
+            setPhoneError("Invalid phone number");
+            setIsSaving(false);
+            return; // Exit early if validation fails
+        }
+
         const { error } = await supabase
             .from("users")
             .update({
                 firstname: updatedData.firstname,
                 lastname: updatedData.lastname,
-                phone: updatedData.phone,
+                phone: validationResult.data,
                 gender: updatedData.gender
             })
             .eq("username", updatedData.username);
@@ -33,9 +53,20 @@ function EditProfileModal({ userData, onUpdate }: Props) {
         if (error) {
             console.error(error);
         } else {
-            setUpdatedData(updatedData);
+            setIsModalOpen(false); // Close the modal upon successful update
             onUpdate();
         }
+
+        setIsSaving(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false); // Close the modal on cancel
+        // Optionally, reset form fields or perform other cancel actions
+    };
+
+    const handleModalToggle = () => {
+        setIsModalOpen(!isModalOpen); // Toggle modal open/close
     };
 
     return (
@@ -44,8 +75,10 @@ function EditProfileModal({ userData, onUpdate }: Props) {
                 type="checkbox"
                 id="my_modal_1"
                 className="modal-toggle w-5xl"
+                checked={isModalOpen}
+                onChange={handleModalToggle}
             />
-            <div className="modal" role="dialog">
+            <div className={`modal ${isModalOpen ? 'open' : ''}`} role="dialog">
                 <div className="modal-box md:w-full px-4 card">
                     <h3 className="font-bold text-center text-lg">
                         Edit Your Profile
@@ -63,8 +96,8 @@ function EditProfileModal({ userData, onUpdate }: Props) {
                                     type="text"
                                     id="firstname"
                                     name="firstname"
-                                    placeholder="first name"
-                                    className="mt-2 p-2 w-full placeholder:text-sm  border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                                    placeholder="First Name"
+                                    className="mt-2 p-2 w-full placeholder:text-sm border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                                     value={updatedData.firstname}
                                     onChange={(e) =>
                                         setUpdatedData((prevData) => ({ ...prevData, firstname: e.target.value }))
@@ -82,8 +115,8 @@ function EditProfileModal({ userData, onUpdate }: Props) {
                                     type="text"
                                     id="lastname"
                                     name="lastname"
-                                    placeholder="last name"
-                                    className="mt-2 p-2 w-full border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none placeholder:text-sm focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                                    placeholder="Last Name"
+                                    className="mt-2 p-2 w-full placeholder:text-sm border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                                     value={updatedData.lastname}
                                     onChange={(e) =>
                                         setUpdatedData((prevData) => ({ ...prevData, lastname: e.target.value }))
@@ -92,7 +125,7 @@ function EditProfileModal({ userData, onUpdate }: Props) {
                             </div>
                             <div className="w-full sm:p-4 p-1">
                                 <label
-                                    htmlFor="email"
+                                    htmlFor="phone"
                                     className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
                                 >
                                     Phone
@@ -101,19 +134,23 @@ function EditProfileModal({ userData, onUpdate }: Props) {
                                     type="text"
                                     id="phone"
                                     name="phone"
-                                    placeholder="9546897889"
-                                    className="mt-2 p-2 w-full placeholder:text-sm  border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                                    placeholder="Phone Number"
+                                    className={`mt-2 p-2 w-full placeholder:text-sm border ${phoneError ? 'border-red-500' : 'border-[#C4C4C4]'} rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300`}
                                     value={updatedData.phone}
-                                    onChange={(e) =>
-                                        setUpdatedData((prevData) => ({ ...prevData, phone: e.target.value }))
-                                    }
+                                    onChange={(e) => {
+                                        setUpdatedData((prevData) => ({ ...prevData, phone: e.target.value }));
+                                        setPhoneError(null); // Clear phone error on input change
+                                    }}
                                 />
+                                {phoneError && (
+                                    <p className="text-red-500 text-sm mt-1">{phoneError}</p>
+                                )}
                             </div>
                         </div>
                         <div className="flex flex-col">
                             <div className="w-full sm:p-4 p-1">
                                 <label
-                                    htmlFor="email"
+                                    htmlFor="gender"
                                     className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
                                 >
                                     Gender
@@ -124,7 +161,8 @@ function EditProfileModal({ userData, onUpdate }: Props) {
                                     className="mt-2 p-2 w-full placeholder:text-sm border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                                     value={updatedData.gender}
                                     onChange={(e) =>
-                                        setUpdatedData((prevData) => ({ ...prevData, gender: e.target.value }))}
+                                        setUpdatedData((prevData) => ({ ...prevData, gender: e.target.value }))
+                                    }
                                 >
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
@@ -142,10 +180,10 @@ function EditProfileModal({ userData, onUpdate }: Props) {
                             </div>
                             <div className="w-full sm:p-4 p-1">
                                 <label
-                                    htmlFor="email"
+                                    htmlFor="createdAt"
                                     className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
                                 >
-                                    Account creation date
+                                    Account Creation Date
                                 </label>
                                 <p className="ml-1">{String(userData.createdAt)}</p>
                             </div>
@@ -153,20 +191,19 @@ function EditProfileModal({ userData, onUpdate }: Props) {
                     </div>
 
                     <div className="modal-action  pe-5">
-                        <label
-                            htmlFor="my_modal_1"
-                            className="btn hover:bg-mygreen bg-myyellow"
+                        <button
+                            className={`btn hover:bg-mygreen bg-myyellow ${isSaving && 'opacity-50 cursor-not-allowed'}`}
                             onClick={handleUpdate}
+                            disabled={isSaving}
                         >
-                            Save
-                        </label>
-
-                        <label
-                            htmlFor="my_modal_1"
+                            {isSaving ? 'Saving...' : 'Save'}
+                        </button>
+                        <button
                             className="btn hover:bg-myred bg-myred"
+                            onClick={handleCancel}
                         >
                             Cancel
-                        </label>
+                        </button>
                     </div>
                 </div>
             </div>

@@ -19,6 +19,7 @@ interface USER {
   gender: string;
   phone: string;
   createdAt: string | null;
+  profilepicture: string;
 }
 
 function Profile() {
@@ -52,6 +53,7 @@ function Profile() {
       console.error(error);
     } else {
       setUserData(data[0]);
+      console.log(data[0]);
     }
   };
 
@@ -66,8 +68,6 @@ function Profile() {
   return (
     <>
       <div className="md:flex sm:block flex-row gap-5 p-8 relative">
-
-        {/* Sidebar */}
         <div className={`md:block ${sidebarOpen ? 'block w-full min-h-[500px] h-[600px] bg-gray-700 text-white' : 'hidden w-1/4 min-h-[800px]'} bg-gray-100 p-5 rounded-lg shadow-md`}>
           <ul className="space-y-4">
             <li className="text-lg font-semibold text-gray-700 active hover:cursor-pointer hover:bg-mygreen p-4 rounded-md">
@@ -89,6 +89,9 @@ function Profile() {
           <button className={` ${sidebarOpen ? "mt-[20%]" : 'mt-[90%]'} p-4 rounded-md ml-auto text-center text-myred font-semibold hover:bg-myred hover:text-mywhite w-full`}>
             <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" /> Log out
           </button>
+      <div className="avatar">
+        <div className="w-24 sm:w-80 rounded-full">
+          <img src={userData.profilepicture ? userData.profilepicture : "/images/winter2.jpg"} alt="" />
         </div>
 
         {/* Profile Information */}
