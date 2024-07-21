@@ -19,6 +19,7 @@ interface USER {
   gender: string;
   phone: string;
   createdAt: string | null;
+  profilepicture: string;
 }
 
 function Profile() {
@@ -52,6 +53,7 @@ function Profile() {
       console.error(error);
     } else {
       setUserData(data[0]);
+      console.log(data[0]);
     }
   };
 
@@ -89,6 +91,22 @@ function Profile() {
           <button className={` ${sidebarOpen ? "mt-[20%]" : 'mt-[90%]'} p-4 rounded-md ml-auto text-center text-myred font-semibold hover:bg-myred hover:text-mywhite w-full`}>
             <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" /> Log out
           </button>
+      <div className="avatar">
+        <div className="w-24 sm:w-80 rounded-full">
+          <img src={userData.profilepicture ? userData.profilepicture : "/images/winter2.jpg"} alt="" />
+        </div>
+      </div>
+      <div className="w-full text-center">
+        <Head h2={username!} />
+      </div>
+      <div className="flex gap-5">
+        <div className="card">
+          <label
+            htmlFor="my_modal_1"
+            className="btn bg-myyellow hover:bg-mygreen"
+          >
+            Edit Profile
+          </label>
         </div>
 
         {/* Profile Information */}

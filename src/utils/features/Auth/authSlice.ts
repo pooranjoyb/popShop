@@ -2,6 +2,7 @@ import { createSlice, createAction } from "@reduxjs/toolkit";
 
 interface AuthState {
   isAuthenticated: boolean;
+  isAdmin: boolean;
   user?: User;
 }
 
@@ -9,17 +10,19 @@ interface User {
   username: string;
 }
 
-const initialState: AuthState = {
+const initialAuthState: AuthState = {
   isAuthenticated: false,
+  isAdmin: false,
   user: undefined,
 };
 
 export const login = createAction<User>("auth/login");
 export const logout = createAction("auth/logout");
 
+
 const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: initialAuthState,
   reducers: {
     login(state, action: ReturnType<typeof login>) {
       state.isAuthenticated = true;
@@ -29,9 +32,22 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.user = undefined;
       localStorage.clear();
-      sessionStorage.clear();//incase in future if we store data in session.
+      sessionStorage.clear();
     },
+    adminLoggedIn(state, action: ReturnType<typeof login>) {
+      state.isAuthenticated = false;
+      state.isAdmin = true;
+      state.user = action.payload
+    },
+    adminLoggedOut(state) {
+      state.isAuthenticated = false;
+      state.isAdmin = false;
+      state.user = undefined;
+    }
   },
 });
+
+
+export const { login: userLogin, logout: userLogout, adminLoggedIn: adminLoggedIn, adminLoggedOut: adminLoggedOut } = authSlice.actions;
 
 export default authSlice.reducer;

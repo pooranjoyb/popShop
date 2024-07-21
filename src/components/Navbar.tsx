@@ -30,6 +30,18 @@ function Floatingnav() {
   }
 }
 
+interface USER {
+  username: string;
+  email: string;
+  pass: string;
+  firstname: string;
+  lastname: string;
+  gender: string;
+  phone: string;
+  createdAt: string | null;
+  profilepicture: string;
+}
+
 function Navbar() {
   const userName = useSelector((state: RootState) => state.auth.user?.username);
   const dispatch = useDispatch();
@@ -37,9 +49,26 @@ function Navbar() {
   const [itemsInCart, setItemsInCart] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
   const [total, setTotal] = useState(0);
+  const [userInfo, setUserInfo] = useState<USER>();
 
   useEffect(() => {
     if (!userName) return;
+
+    const fetchData = async () => {
+      const { data, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("username", userName);
+
+      if (error) {
+        console.error(error);
+      } else {
+        setUserInfo(data[0]);
+        console.log(data[0]);
+      }
+    };
+
+    fetchData();
 
     const fetchCartItems = async () => {
       const { data, error } = await supabase
@@ -61,7 +90,7 @@ function Navbar() {
           price: number;
           quantity: number;
         };
-        
+
         const subtotalAmount = data.reduce((acc, item) => {
           return acc + item.products.reduce((itemAcc: number, product: Product) => {
             const price = typeof product.price === 'number' ? product.price : 0;
@@ -143,7 +172,7 @@ function Navbar() {
         <div className="flex md:ml-16 ml-2">
           <Link to="/home">
             <img
-              src="./logo.png"
+              src="/logo.png"
               alt="PopShop Logo"
               className="md:w-36 w-20 duration-100"
             />
@@ -194,14 +223,14 @@ function Navbar() {
                             {_.name}
                           </h4>
                           <p className="font-medium dark:text-gray-400">
-                            Price: ${_.price}
+                            Price: ₹{_.price}
                           </p>
                         </div>
                       </div>
                     ))}
 
                 <span className="text-mynavy mt-3">
-                  subtotal ${total}
+                  subtotal ₹{total}
                 </span>
 
                 <Link
@@ -221,7 +250,7 @@ function Navbar() {
               onClick={handleToggleMenu}
             >
               <div className="w-10 rounded-full">
-                <img src="/images/winter2.jpg" />
+                <img src={userInfo?.profilepicture ? userInfo.profilepicture : "/images/winter2.jpg"} />
               </div>
             </div>
             {showMenu && (
