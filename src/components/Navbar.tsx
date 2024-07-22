@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { Slide, toast } from "react-toastify";
-import { supabase } from "../utils/client"; // Ensure the correct path to your Supabase client
+import { supabase } from "../utils/client";
 import { RootState } from "../utils/features/store";
 import { logout } from "../utils/features/Auth/authSlice";
 import Glassnav from "./Floating_Nav";
