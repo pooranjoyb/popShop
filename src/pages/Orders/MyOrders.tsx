@@ -1,6 +1,6 @@
 import Popup from "./Popup";
 import ReturnExchangePopup from "./ReturnExchangePopup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Head from "../../components/Head";
 import { Button as BootstrapButton } from 'react-bootstrap';
 import { useEffect, useState } from "react";
@@ -29,12 +29,33 @@ export interface ORDER {
   price: string;
 }
 
+const addToCart = async (username: string, products: Product[]) => {
+  try {
+    const { data, error } = await supabase
+      .from("Cart")
+      .upsert(
+        [
+          {
+            username,
+            products,
+          },
+        ]
+      );
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+  }
+};
+
 const MyOrders = () => {
   const [selectedOrder, setSelectedOrder] = useState<ORDER | null>(null);
   const [returnExchangeOrder, setReturnExchangeOrder] = useState<ORDER | null>(null);
   const [orders, setOrders] = useState<ORDER[]>([]);
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const userName = useSelector((state: RootState) => state.auth.user.username);
+  const navigate = useNavigate();
 
   const handleViewClick = (index: number) => {
     setOpenDropdown(index === openDropdown ? null : index);
@@ -48,6 +69,64 @@ const MyOrders = () => {
   const handleReturnClick = (order: ORDER) => {
     setReturnExchangeOrder(order);
     setOpenDropdown(null);
+  };
+
+  const handleBuyAgainClick = async (order: ORDER) => {
+    try {
+      // Extract products from the order
+      const products = order.product.map(p => ({
+        name: p.name,
+        image: p.image,
+        price: p.price,
+        quantity: p.quantity,
+        desc: p.desc,
+        ratings: p.ratings, 
+        size: p.size
+      }));
+
+      // Add items to cart
+      await addToCart(userName, products);
+
+      // Navigate to the cart page
+      navigate('/home/shop/cart');
+    } catch (err) {
+      console.error("Error adding items to the cart: ", err);
+    }
+  };
+ 
+  const handleCancelClick = async (order: ORDER) => {
+    try {
+      const { data, error } = await supabase
+        .from("orders")
+        .update({ status: "Cancelled" })
+        .eq("orderId", order.orderId);
+
+      if (error) throw error;
+
+      if (data) {
+        setOrders((prevOrders) =>
+          prevOrders.map((o) =>
+            o.orderId === order.orderId ? { ...o, status: "Cancelled" } : o
+          )
+        );
+      }
+      console.log(`Cancel action for order ${order.orderId}`);
+      // Re-fetch the orders
+      const { data: newData, error: fetchError } = await supabase
+        .from("orders")
+        .select("*")
+        .eq("username", userName);
+
+      if (fetchError) throw fetchError;
+
+      if (newData) {
+        setOrders(newData);
+      } else {
+        setOrders([]);
+      }
+    }catch (err) {
+      console.log("Error cancelling order: ", err);
+    }
   };
 
   const handleClosePopup = () => {
@@ -166,6 +245,26 @@ const MyOrders = () => {
                                     onClick={() => handleReturnClick(order)}
                                   >
                                     Return/Exchange
+                                  </button>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link to="#">
+                                  <button
+                                    className="dropdown-item w-full text-left px-4 py-2"
+                                    onClick={() => handleBuyAgainClick(order)}
+                                  >
+                                    Buy Again
+                                  </button>
+                                </Link>
+                              </li>
+                              <li>
+                                <Link to="#">
+                                  <button
+                                    className="dropdown-item w-full text-left px-4 py-2"
+                                    onClick={() => handleCancelClick(order)}
+                                  >
+                                    Cancel Order
                                   </button>
                                 </Link>
                               </li>
