@@ -30,10 +30,7 @@ interface Customer {
   profilepicture: string;
 }
 
-interface SupabaseCountResponse {
-  count: number;
-  error: Error | null;
-}
+
 function Dashboard() {
   const currentDate = new Date().toLocaleDateString("en-US", {
     weekday: "long",
