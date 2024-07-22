@@ -50,6 +50,7 @@ function Navbar() {
   const [showMenu, setShowMenu] = useState(false);
   const [total, setTotal] = useState(0);
   const [userInfo, setUserInfo] = useState<USER>();
+  const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
 
   useEffect(() => {
     if (!userName) return;
@@ -82,7 +83,6 @@ function Navbar() {
       if (error) {
         console.error('Error fetching cart items:', error);
       } else {
-        // Assuming products is an array within each row in the Cart table
         const totalItems = data.reduce((acc, item) => acc + item.products.length, 0);
         setItemsInCart(totalItems);
 
@@ -113,7 +113,6 @@ function Navbar() {
         { event: "INSERT", schema: "public", table: "Cart" },
         (payload) => {
           console.log("Insert Change received!", payload);
-          // Assuming payload.new.products is an array of the inserted products
           const productsCount = payload.new.products
             ? payload.new.products.length
             : 0;
@@ -125,7 +124,6 @@ function Navbar() {
         { event: "DELETE", schema: "public", table: "Cart" },
         (payload) => {
           console.log("Delete Change received!", payload);
-          // Assuming payload.old.products is an array of the deleted products
           const productsCount = payload.old.products
             ? payload.old.products.length
             : 0;
@@ -137,7 +135,6 @@ function Navbar() {
         { event: "UPDATE", schema: "public", table: "Cart" },
         (payload) => {
           console.log("Update Change received!", payload);
-          // Fetch the latest cart items on update to ensure consistency
           fetchCartItems();
         }
       )
@@ -166,9 +163,13 @@ function Navbar() {
     setShowMenu(false);
   };
 
+  const handleToggleHamburgerMenu = () => {
+    setShowHamburgerMenu((prev) => !prev);
+  };
+
   return (
     <>
-      <div className="navbar flex justify-between">
+      <div className="navbar flex justify-between bg-base-100 p-4">
         <div className="flex md:ml-16 ml-2">
           <Link to="/home">
             <img
@@ -179,7 +180,7 @@ function Navbar() {
           </Link>
         </div>
 
-        <div className="flex justify-center z-[100]">{Floatingnav()}</div>
+        <div className="hidden lg:flex justify-center z-[100]">{Floatingnav()}</div>
 
         <div className="flex-none gap-6 md:mr-16 mr-2">
           <div className="dropdown dropdown-end relative">
@@ -270,24 +271,67 @@ function Navbar() {
                   <Link to={"/home/shop/cart"}>{<p>Cart</p>}</Link>
                 </li>
                 <li onClick={handleCloseMenu}>
-                  <Link to="/home/my-orders">{<p>Orders</p>}</Link>
+                  <Link to="/home/my-orders">{<p>My Orders</p>}</Link>
                 </li>
-                <li onClick={handleCloseMenu}>
-                  <Link
-                    to="/"
-                    onClick={() => {
-                      dispatch(logout());
-                      toastNotification("Successfully Logged Out!!!");
-                    }}
-                  >
-                    Logout
-                  </Link>
+                <li onClick={() => { 
+                  dispatch(logout());
+                  handleCloseMenu();
+                  toastNotification("Logged out successfully!");
+                }}>
+                  <Link to={"/"}>{<p>Logout</p>}</Link>
                 </li>
               </ul>
             )}
           </div>
+          <div className="lg:hidden">
+            <button
+              className="btn btn-ghost btn-circle"
+              onClick={handleToggleHamburgerMenu}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
+      {showHamburgerMenu && (
+        <div className="lg:hidden bg-base-100 p-4 shadow-2xl absolute top-16 right-0 w-full">
+          <ul className="menu menu-compact">
+            <li>
+              <Link to={"/home#Collections"} onClick={() => setShowHamburgerMenu(false)}>Collections</Link>
+            </li>
+            <li>
+              <Link to={"/home#Products"} onClick={() => setShowHamburgerMenu(false)}>Product</Link>
+            </li>
+            <li>
+              <Link to={"/home/contact"} onClick={() => setShowHamburgerMenu(false)}>Contact Us</Link>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  dispatch(logout());
+                  setShowHamburgerMenu(false);
+                  toastNotification("Logged out successfully!");
+                }}
+              >
+                Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+      )}
     </>
   );
 }
