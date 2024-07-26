@@ -374,7 +374,7 @@ function Dashboard() {
               Online Users
             </h2>
           </div>
-          <div className="flex-grow flex flex-col">
+          <div className="flex-grow flex flex-col overflow-hidden">
             <div
               className="flex-grow origin-bottom pr-4"
               style={{ height: "200px" }}
