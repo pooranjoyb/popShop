@@ -337,7 +337,7 @@ function Dashboard() {
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-8 gap-4 mt-4">
-        <div className="col-span-2 sm:col-span-3 bg-white border border-gray-300 p-4 rounded-lg">
+        <div className="sm:col-span-3 bg-white border border-gray-300 p-4 rounded-lg">
           <h2 className="text-xl font-bold mb-8">Today Orders</h2>
           <p className="text-sm mb-2">{currentDate}</p>
           <p className="text-3xl font-bold mb-4">$ 450K</p>
