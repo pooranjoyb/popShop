@@ -30,6 +30,18 @@ function Floatingnav() {
   }
 }
 
+interface USER {
+  username: string;
+  email: string;
+  pass: string;
+  firstname: string;
+  lastname: string;
+  gender: string;
+  phone: string;
+  createdAt: string | null;
+  profilepicture: string;
+}
+
 function Navbar() {
   const userName = useSelector((state: RootState) => state.auth.user?.username);
   const dispatch = useDispatch();
@@ -37,10 +49,26 @@ function Navbar() {
   const [itemsInCart, setItemsInCart] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
   const [total, setTotal] = useState(0);
-  const [profilePic, setProfilePic] = useState<string | null>(null); 
+  const [userInfo, setUserInfo] = useState<USER>();
 
   useEffect(() => {
     if (!userName) return;
+
+    const fetchData = async () => {
+      const { data, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("username", userName);
+
+      if (error) {
+        console.error(error);
+      } else {
+        setUserInfo(data[0]);
+        console.log(data[0]);
+      }
+    };
+
+    fetchData();
 
     const fetchCartItems = async () => {
       const { data, error } = await supabase
@@ -62,7 +90,7 @@ function Navbar() {
           price: number;
           quantity: number;
         };
-        
+
         const subtotalAmount = data.reduce((acc, item) => {
           return acc + item.products.reduce((itemAcc: number, product: Product) => {
             const price = typeof product.price === 'number' ? product.price : 0;
@@ -76,22 +104,7 @@ function Navbar() {
       }
     };
 
-    const fetchProfilePic = async () => {
-      const { data, error } = await supabase
-        .from('users')
-        .select('profilepicture')
-        .eq('username', userName)
-        .single();
-
-      if (error) {
-        console.error('Error fetching profile picture:', error);
-      } else {
-        setProfilePic(data.profilepicture);
-      }
-    };
-
     fetchCartItems();
-    fetchProfilePic();
 
     const cartChannel = supabase
       .channel("cart_updates")
@@ -100,6 +113,7 @@ function Navbar() {
         { event: "INSERT", schema: "public", table: "Cart" },
         (payload) => {
           console.log("Insert Change received!", payload);
+          // Assuming payload.new.products is an array of the inserted products
           const productsCount = payload.new.products
             ? payload.new.products.length
             : 0;
@@ -111,6 +125,7 @@ function Navbar() {
         { event: "DELETE", schema: "public", table: "Cart" },
         (payload) => {
           console.log("Delete Change received!", payload);
+          // Assuming payload.old.products is an array of the deleted products
           const productsCount = payload.old.products
             ? payload.old.products.length
             : 0;
@@ -122,6 +137,7 @@ function Navbar() {
         { event: "UPDATE", schema: "public", table: "Cart" },
         (payload) => {
           console.log("Update Change received!", payload);
+          // Fetch the latest cart items on update to ensure consistency
           fetchCartItems();
         }
       )
@@ -234,11 +250,7 @@ function Navbar() {
               onClick={handleToggleMenu}
             >
               <div className="w-10 rounded-full">
-                <img
-                  src={profilePic || "/images/winter2.jpg"} 
-                  alt="Profile"
-                  className="object-cover w-full h-full rounded-full"
-                />
+                <img src={userInfo?.profilepicture ? userInfo.profilepicture : "/images/winter2.jpg"} />
               </div>
             </div>
             {showMenu && (
