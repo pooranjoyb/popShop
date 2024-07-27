@@ -7,6 +7,7 @@ import Head from "../../components/Head";
 import Button from "../../components/Button";
 import "../../index.css"; // Import the custom CSS file
 import { supabase } from "../../utils/client";
+import { Tilt } from "react-tilt";
 
 function Home() {
   const [heroRef, heroInView] = useInView({
@@ -43,42 +44,48 @@ function Home() {
     getProducts()
   }, []);
 
+  
   return (
     <>
-      {/* Hero Section */}
-      <motion.div
-        ref={heroRef}
-        initial={{ opacity: 0, y: -100 }}
-        animate={{ opacity: heroInView ? 1 : 0, y: heroInView ? 0 : -100 }}
-        transition={{ duration: 1 }}
-        className="mx-auto max-w-screen-xl px-4 pt-8 gap-6 sm:gap-0 sm:py-12 flex flex-col sm:flex-row justify-between items-center mt-8"
-      >
-        <div className="max-w-xl">
-          <div className="text-mynavy">
-            <Head h1="Make Your Look more" h2="Perfect" />
-            <p className="mt-4 max-w-lg">Look your best on your best day</p>
-            <div className="mt-8 w-full flex flex-wrap gap-4 text-center">
-              <a
-                href="#about"
-                className="btn w-1/2 bg-myred hover:bg-myyellow text-white"
-              >
-                Get Started
-              </a>
-              <Link
-                to="/home/shop"
-                className="btn w-1/3 bg-mygreen hover:bg-myyellow text-white"
-              >
-                Explore
-              </Link>
-            </div>
+     {/* Hero Section */}
+    <motion.div
+      ref={heroRef}
+      initial={{ opacity: 0, y: -100 }}
+      animate={{ opacity: heroInView ? 1 : 0, y: heroInView ? 0 : -100 }}
+      transition={{ duration: 1 }}
+      className="mx-auto max-w-screen-xl px-4 pt-8 gap-6 sm:gap-0 sm:py-12 flex flex-col sm:flex-row justify-between items-center mt-8"
+    >
+      <div className="max-w-xl">
+        <div className="text-mynavy">
+          <Head h1="Make Your Look more" h2="Perfect" />
+          <p className="mt-4 max-w-lg">Look your best on your best day</p>
+          <div className="mt-8 w-full flex flex-wrap gap-4 text-center">
+            <a
+              href="#about"
+              className="btn w-1/2 bg-myred hover:bg-myyellow text-white"
+            >
+              Get Started
+            </a>
+            <Link
+              to="/home/shop"
+              className="btn w-1/3 bg-mygreen hover:bg-myyellow text-white"
+            >
+              Explore
+            </Link>
           </div>
         </div>
-        <img
-          className="w-2/3 sm:w-1/3 py-4 sm:p-0"
-          src="/images/hero.png"
-          alt=""
-        />
-      </motion.div>
+      </div>
+      <Tilt
+        options={{
+          max: 25, // Maximum tilt rotation
+          scale: 1.05, // Image scale on hover
+          speed: 400, // Speed of the enter/exit transition
+        }}
+        className="w-2/3 sm:w-1/3 py-4 sm:p-0"
+      >
+        <img src="/images/hero.png" alt="" />
+      </Tilt>
+    </motion.div>
 
       {/* About Section */}
       <motion.div
