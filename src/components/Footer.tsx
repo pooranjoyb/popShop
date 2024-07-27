@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import Button from "./Button";
 import { supabase } from '../utils/client';
+import GoogleTranslateComponent from './GoogleTranslateComponent';
+
 
 const Socials = () => {
   return (
@@ -179,10 +181,12 @@ export default function NewFooter() {
                 <span>Weekend: 10am - 3pm</span>
               </p>
               <Socials />
+              <GoogleTranslateComponent />
             </div>
             <div className="sm:w-52 grow w-full mx-auto">
               <ServicesList />
             </div>
+            
           </div>
           <div className="mt-12 border-t border-gray-100 flex flex-wrap max-sm:text-left items-center justify-between pt-8 space-8 gap-x-8">
             <div className="text-xs flex gap-x-4">
