@@ -118,22 +118,16 @@ function AdminNavbar() {
                                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 bg-base-100 rounded-box w-52 shadow-2xl"
                             >
                                 <li onClick={handleCloseMenu}>
-                                    <Link to={"/admin/profile"} className="justify-between">
+                                    <Link to={"/admin"} className="justify-between">
                                         {`${userName}` || <p>Profile</p>}
                                     </Link>
-                                </li>
-                                <li onClick={handleCloseMenu}>
-                                    <Link to={"/admin/dashboard"}>{<p>Dashboard</p>}</Link>
-                                </li>
-                                <li onClick={handleCloseMenu}>
-                                    <Link to={"/admin/settings"}>{<p>Settings</p>}</Link>
                                 </li>
                                 <li onClick={() => {
                                     logoutAdmin();
                                     handleCloseMenu();
                                     toastNotification("Logged out successfully!");
                                 }}>
-                                    <Link to={"/admin/login"}>{<p>Logout</p>}</Link>
+                                    <h1>{<p>Logout</p>}</h1>
                                 </li>
                             </ul>
                         )}
