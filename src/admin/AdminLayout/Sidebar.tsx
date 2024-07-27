@@ -21,7 +21,7 @@ function Sidebar() {
             Open drawer
           </label>
         </div>
-        <div className="drawer-side bg-base-200">
+        <div className="drawer-side border-r">
           <label
             htmlFor="my-drawer"
             aria-label="close sidebar"
