@@ -18,7 +18,6 @@ function Shop() {
     if (data) {
       setProducts(data);
       setSearchResults(data); 
-      console.log("daata",data)// Initially display all products
     }
   };
 
