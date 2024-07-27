@@ -178,16 +178,13 @@ function AdminNavbar() {
                                 Add Prdocut
                             </li>
                         </a>
-                        <li>
-                            <button
-                                onClick={() => {
-                                    logoutAdmin();
-                                    setShowHamburgerMenu(false);
-                                    toastNotification("Logged out successfully!");
-                                }}
-                            >
-                                Logout
-                            </button>
+                        <li className="hover:scale-105 duration-75 text-sm hover:font-semibold px-4 rounded-full hover:cursor-pointer" onClick={() => {
+                            logoutAdmin();
+                            setShowHamburgerMenu(false);
+                            toastNotification("Logged out successfully!");
+                        }}>
+
+                            Logout
                         </li>
                     </ul>
                 </div>
