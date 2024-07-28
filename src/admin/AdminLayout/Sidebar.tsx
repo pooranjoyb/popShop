@@ -21,21 +21,12 @@ function Sidebar() {
             Open drawer
           </label>
         </div>
-        <div className="drawer-side bg-base-200">
+        <div className="drawer-side border-r">
           <label
             htmlFor="my-drawer"
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <div className="flex md:ml-16 ml-2">
-            <Link to="/admin">
-              <img
-                src="./logo.png"
-                alt="PopShop Logo"
-                className="md:w-36 w-20 duration-100 mt-4 -ml-4"
-              />
-            </Link>
-          </div>
           <ul className="menu bg-white text-lg w-80 p-8">
             <li className="pt-1 pb-1">
               <Link to='/admin'>

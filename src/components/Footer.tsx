@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import Button from "./Button";
 import { supabase } from '../utils/client';
+import GoogleTranslateComponent from './GoogleTranslateComponent';
+
 
 const Socials = () => {
   return (
@@ -85,6 +87,8 @@ const ServicesList = () => {
 
 export default function NewFooter() {
   const [email, setEmail] = useState('');
+  const today = new Date();
+  const year = today.getFullYear();
 
   const handleSubscribe = async () => {
     if (!email) {
@@ -177,17 +181,19 @@ export default function NewFooter() {
                 <span>Weekend: 10am - 3pm</span>
               </p>
               <Socials />
+              <GoogleTranslateComponent />
             </div>
             <div className="sm:w-52 grow w-full mx-auto">
               <ServicesList />
             </div>
+            
           </div>
           <div className="mt-12 border-t border-gray-100 flex flex-wrap max-sm:text-left items-center justify-between pt-8 space-8 gap-x-8">
             <div className="text-xs flex gap-x-4">
               <Link to="/home/terms-and-conditions">Terms & Conditions</Link>
             </div>
             <p className="text-xs text-gray-500">
-              &copy; 2024. PopShop.com. All rights reserved.
+              &copy; {year}. PopShop.com. All rights reserved.
             </p>
           </div>
         </div>
