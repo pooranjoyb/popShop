@@ -21,7 +21,7 @@ function Product({ name, image, price, desc }: Data) {
             <img
               src={image}
               alt="Tall slender porcelain bottle with natural clay textured body and cork stopper."
-              className="h-full w-full object-cover object-center group-hover:opacity-75 hover:duration-300"
+              className="h-[400px] w-full object-cover object-center group-hover:opacity-75 hover:duration-300"
             />
           </div>
           <h3 className="mt-4 text-sm text-gray-700">{name}</h3>
