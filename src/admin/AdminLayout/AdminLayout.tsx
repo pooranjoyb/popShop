@@ -1,16 +1,16 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import '../admin.css'
+import AdminNavbar from "./AdminNavbar";
 
 const AdminLayout: React.FC = () => {
   return (
     <>
+      <div className="relative z-10">
+        <AdminNavbar />
+      </div>
       <div className="flex">
-        <Sidebar />
-        <div className="p-8 flex flex-col w-full">
-          <span className="text-2xl font-bold">
-            Welcome to SuperAdmin Portal!
-          </span>
+        <div className="dashboard p-8 flex flex-col w-full lg::absolute">
           <Outlet />
         </div>
       </div>
