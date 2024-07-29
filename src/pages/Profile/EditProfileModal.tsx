@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { supabase } from "../../utils/client";
 import { z } from "zod";
-import validator from "validator";
 
 interface USER {
     username: string;
@@ -19,15 +18,17 @@ interface Props {
     onUpdate: () => void;
 }
 
-const phoneSchema = z.string().refine((value) => validator.isMobilePhone(value), {
-    message: 'Invalid mobile phone number',
+const phoneSchema = z.string().refine((value) => {
+    return /^[0-9]{10}$/.test(value);
+}, {
+    message: 'Phone number must be exactly 10 digits and contain only numbers',
 });
 
 function EditProfileModal({ userData, onUpdate }: Props) {
     const [updatedData, setUpdatedData] = useState<USER>(userData);
-    const [phoneError, setPhoneError] = useState<string | null>(null); // State to hold phone validation error
-    const [isSaving, setIsSaving] = useState<boolean>(false); // State to track saving state
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // State to track modal open/close
+    const [phoneError, setPhoneError] = useState<string | null>(null);
+    const [isSaving, setIsSaving] = useState<boolean>(false); 
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false); 
 
     const handleUpdate = async () => {
         setIsSaving(true);

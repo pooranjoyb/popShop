@@ -17,7 +17,7 @@ function Shop() {
     console.log(data);
     if (data) {
       setProducts(data);
-      setSearchResults(data); // Initially display all products
+      setSearchResults(data); 
     }
   };
 
