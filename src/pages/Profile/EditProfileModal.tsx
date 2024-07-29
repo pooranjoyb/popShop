@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { supabase } from "../../utils/client";
 import { z } from "zod";
-import validator from "validator";
 
 interface USER {
     username: string;
