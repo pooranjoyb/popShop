@@ -51,7 +51,7 @@ function Shop() {
     }
   };
 
-  const handleFilterChange = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
     const value = e.target.value;
     if (value) {
@@ -66,15 +66,16 @@ function Shop() {
           selections.splice(index, 1);
         }
       }
-      setSelectedFilter({ ...selectedFilter, key: selections });
+      setSelectedFilter({ ...selectedFilter, [key]: selections });
     }
   };
 
   const handleFilter = async () => {
     const { data } = await supabase.from("Product_table").select();
     if (data) {
+      let filteredData = data;
       if (selectedFilter['price-range'].length !== 0) {
-        let filteredData: any[] = [];
+        let priceFilteredData: any[] = [];
         for (let f of selectedFilter['price-range']) {
           let min = 0;
           let max = 1e9;
@@ -84,23 +85,27 @@ function Shop() {
           if (f.split("-")[1] !== "above") {
             max = +f.split("-")[1].slice(1);
           }
-          let newFilteredData = data.filter((elem) => {
+          let newFilteredData = filteredData.filter((elem) => {
             return min <= elem.Price && max >= elem.Price;
           });
-          if (filteredData.length !== 0) {
+          if (priceFilteredData.length !== 0) {
             newFilteredData.forEach((newItem) => {
-              if (!filteredData.some((item) => newItem === item)) {
-                filteredData.push(newItem);
+              if (!priceFilteredData.some((item) => newItem === item)) {
+                priceFilteredData.push(newItem);
               }
             });
           } else {
-            filteredData = [...newFilteredData];
+            priceFilteredData = [...newFilteredData];
           }
         }
-        setProducts(filteredData);
-      } else {
-        setProducts(data);
+        filteredData = priceFilteredData;
       }
+      if (selectedFilter['size'].length !== 0) {
+        filteredData = filteredData.filter((elem) =>
+          selectedFilter['size'].includes(elem.Size)
+        );
+      }
+      setSearchResults(filteredData);
     }
   };
 
