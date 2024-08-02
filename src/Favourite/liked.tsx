@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/client"; // Adjust the path as necessary
+import { useNavigate } from "react-router-dom";
 
 interface LikedProduct {
   id: number;
@@ -20,7 +21,7 @@ function Liked() {
       const { data, error } = await supabase
         .from('liked_products') // Replace with your table name
         .select('*');
-        
+
       if (error) {
         setError('Failed to fetch liked products');
         console.error('Error fetching liked products:', error);
@@ -33,7 +34,11 @@ function Liked() {
     fetchLikedProducts();
   }, []);
 
- 
+  const navigate = useNavigate();
+
+  const handleAddToCart = (product: LikedProduct) => {
+    navigate("/home/shop/product", { state: product });
+  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -51,17 +56,22 @@ function Liked() {
           <p>No liked products found.</p>
         ) : (
           likedProducts.map((product) => (
-            <div key={product.name} className="relative border border-gray-300 rounded-lg overflow-hidden shadow-lg bg-white transition-transform transform hover:scale-105">
+            <div key={product.id} className="relative bg-white border border-gray-300 rounded-lg shadow-lg overflow-hidden">
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-48 object-cover object-center"
+                className="w-full h-64 object-cover"
               />
               <div className="p-4">
                 <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
                 <p className="text-gray-600 mt-2">{product.desc}</p>
                 <p className="text-xl font-bold text-gray-900 mt-2">₹{product.price}</p>
-               
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  className="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 border border-gray-300"
+                >
+                  Add to Cart
+                </button>
               </div>
             </div>
           ))

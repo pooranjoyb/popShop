@@ -145,10 +145,11 @@ function Profile() {
                 </span>
               </div>
             </div>
+
           </div>
         </div>
+            <Liked />
       </div>
-      <Liked />
     </div>
   );
 }
