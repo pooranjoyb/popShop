@@ -35,7 +35,7 @@ function Product({ name, image, price, desc }: Data) {
     <>
       <div className="flex flex-col">
         <div
-          className={`relative top-[-95%] left-[75%] p-2 rounded-full ${
+          className={`relative top-[10%] left-[75%] p-2 z-10 rounded-full ${
             liked ? "text-red-500" : "text-gray-500"
           } hover:text-red-500 transition-colors duration-300 cursor-pointer`}
           onClick={handleLike}
@@ -47,7 +47,7 @@ function Product({ name, image, price, desc }: Data) {
             <img
               src={image}
               alt="Tall slender porcelain bottle with natural clay textured body and cork stopper."
-              className="h-[500px] w-full object-cover object-center group-hover:opacity-75 hover:duration-300"
+              className="h-[500px] w-full object-cover object-center  "
             />
           </div>
 
