@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Head from "../../components/Head";
 import Loader from "../../components/Loader/Loader";
 import EditProfileModal from "./EditProfileModal";
+import Liked from "../../Favourite/liked";
 
 interface USER {
   username: string;
@@ -66,7 +67,14 @@ function Profile() {
 
       <div className="avatar">
         <div className="w-24 sm:w-80 rounded-full">
-          <img src={userData.profilepicture ? userData.profilepicture : "/images/winter2.jpg"} alt="" />
+          <img
+            src={
+              userData.profilepicture
+                ? userData.profilepicture
+                : "/images/winter2.jpg"
+            }
+            alt=""
+          />
         </div>
       </div>
       <div className="w-full text-center">
@@ -137,8 +145,10 @@ function Profile() {
                 </span>
               </div>
             </div>
+
           </div>
         </div>
+            <Liked />
       </div>
     </div>
   );
