@@ -25,6 +25,7 @@
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.3",
     "cookies-next": "^4.2.1",
+    "font-awesome": "^4.7.0",
     "framer-motion": "^11.2.6",
     "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
