@@ -20,11 +20,6 @@ export interface Data {
   rating: string;
 }
 
-interface RatingItem {
-  className: string;
-  checked?: boolean;
-}
-
 interface CartItem {
   name: string;
   size: string;
@@ -41,30 +36,14 @@ export interface RootState {
   auth: UserState;
 }
 
-const commonClasses = "mask mask-star-2";
 
-const ratingItems: RatingItem[] = [
-  { className: `${commonClasses} mask-half-1` },
-  { className: `${commonClasses} mask-half-2` },
-  { className: `${commonClasses} mask-half-1` },
-  { className: `${commonClasses} mask-half-2` },
-  { className: `${commonClasses} mask-half-1` },
-  { className: `${commonClasses} mask-half-2` },
-  { className: `${commonClasses} mask-half-1` },
-  { className: `${commonClasses} mask-half-2` },
-  { className: `${commonClasses} mask-half-1` },
-  { className: `${commonClasses} mask-half-2` }
-];
+
 
 function ProductDetail() {
-  const [filledStars, setFilledStars] = useState(0);
   const availableSizes = ["XS", "S", "M", "L", "XL"];
   const [size, setSize] = useState("");
   const navigate = useNavigate();
 
-  const handleRatingChange = (index: number) => {
-    setFilledStars(index / 2 + 0.5);
-  };
 
   const handleSize = (sizeValue: string) => {
     setSize(sizeValue);
