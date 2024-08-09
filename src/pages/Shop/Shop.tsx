@@ -235,6 +235,7 @@ function Shop() {
                   image={elem.Image_link}
                   price={elem.Price}
                   name={elem.Name}
+                  rating={elem.rating}
                 />
               );
             })}
