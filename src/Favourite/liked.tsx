@@ -9,6 +9,7 @@ interface LikedProduct {
   price: number;
   desc: string;
   created_at: string;
+  rating: string;
 }
 
 function Liked() {
@@ -19,12 +20,12 @@ function Liked() {
   useEffect(() => {
     const fetchLikedProducts = async () => {
       const { data, error } = await supabase
-        .from('liked_products') // Replace with your table name
-        .select('*');
-
+        .from("liked_products") // Replace with your table name
+        .select("*");
+      console.log("liked", data);
       if (error) {
-        setError('Failed to fetch liked products');
-        console.error('Error fetching liked products:', error);
+        setError("Failed to fetch liked products");
+        console.error("Error fetching liked products:", error);
       } else {
         setLikedProducts(data || []);
       }
@@ -56,16 +57,28 @@ function Liked() {
           <p>No liked products found.</p>
         ) : (
           likedProducts.map((product) => (
-            <div key={product.id} className="relative bg-white border border-gray-300 rounded-lg shadow-lg overflow-hidden">
+            <div
+              key={product.id}
+              className="relative bg-white border border-gray-300 rounded-lg shadow-lg overflow-hidden"
+            >
               <img
                 src={product.image}
                 alt={product.name}
                 className="w-full h-64 object-cover"
               />
               <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  {product.name}
+                </h3>
                 <p className="text-gray-600 mt-2">{product.desc}</p>
-                <p className="text-xl font-bold text-gray-900 mt-2">₹{product.price}</p>
+                <div className="flex space-x-1">
+                  <p className="text-xl font-bold text-gray-900 mt-2">
+                    ₹{product.price}
+                  </p>{" "}
+                  <span className="bg-mygreen  px-4 py-2 font-bold text-mywhite rounded-md">
+                    {product.rating} ⭐
+                  </span>
+                </div>
                 <button
                   onClick={() => handleAddToCart(product)}
                   className="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 border border-gray-300"

@@ -242,6 +242,7 @@ function Home() {
                 image={elem.Image_Link}
                 price={elem.Price}
                 name={elem.Name}
+                rating={elem.rating}
               />
             );
           })}
