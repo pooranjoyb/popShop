@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../../utils/client";
 
 export interface Data {
+    id: string;
     name: string;
     image: string;
     price: number;
@@ -28,8 +29,7 @@ interface CartItem {
     name: string;
     size: string;
     quantity: number;
-  }
-  
+}
 
 export interface UserState {
     user: {
@@ -60,6 +60,9 @@ function ProductDetail() {
     const [filledStars, setFilledStars] = useState(0);
     const availableSizes = ["XS", "S", "M", "L", "XL"];
     const [size, setSize] = useState("");
+    const [reviewText, setReviewText] = useState("");
+    const [reviewImage, setReviewImage] = useState<string | null>(null);
+    const [reviews, setReviews] = useState<any[]>([]);
     const navigate = useNavigate();
 
     const handleRatingChange = (index: number) => {
@@ -75,26 +78,31 @@ function ProductDetail() {
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        fetchReviews();
     }, []);
 
     const dispatch = useDispatch();
     const userName = useSelector((state: RootState) => state.auth.user.username);
+    
     const product = {
+        id: data.id,
         name: data.name,
         image: data.image,
         price: data.price,
         desc: data.desc,
         quantity: data.qauntity || 1,
         ratings: 5,
-        size, //Include size
+        size, 
     };
+
     const addToCart = async () => {
-        if (!size) { // added check for size
+        if (!size) { 
             toast.error('Please select a size');
             return;
         }
         try {
             const product = {
+                id: data.id,
                 name: data.name,
                 image: data.image,
                 price: data.price,
@@ -172,9 +180,63 @@ function ProductDetail() {
             toast.error('Error adding product to cart');
         }
     };
-    
-    
 
+    // Function to handle review submission
+    const handleReviewSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+
+        try {
+            const { error } = await supabase
+                .from('Reviews')
+                .insert([
+                    {
+                        username: userName,
+                        product_id: data.id,
+                        review_text: reviewText,
+                        rating: filledStars,
+                        image_url: reviewImage,
+                    },
+                ]);
+
+            if (error) {
+                console.error("Insert error:", error);
+                throw error;
+            }
+
+            setReviewText("");
+            setReviewImage(null);
+            fetchReviews(); 
+            toast.success('Review submitted');
+        } catch (error) {
+            console.error("Error submitting review:", error);
+            toast.error('Error submitting review');
+        }
+    };
+
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            setReviewImage(URL.createObjectURL(event.target.files[0]));
+        }
+    };
+
+    const fetchReviews = async () => {
+        try {
+            const { data: reviewsData, error } = await supabase
+                .from('Reviews')
+                .select('*')
+
+            if (error) {
+                console.error("Fetch error:", error);
+                throw error;
+            }
+
+            setReviews(reviewsData);
+        } catch (error) {
+            console.error("Error fetching reviews:", error);
+            toast.error('Error fetching reviews');
+        }
+    };
+    
     return (
         <>
             <div className=" mx-auto max-w-screen-xl px-4 py-12 flex justify-between items-center">
@@ -252,13 +314,80 @@ function ProductDetail() {
                                 </div>
                                 <div className="flex flex-wrap items-center gap-10 ">
                                     <Button text="Add to Cart" color="mygreen" hover="myred" onClick={addToCart} />
-                                    <Button
-                                        text="Buy Now"
-                                        color="myyellow"
-                                        hover="myred"
-                                        onClick={() => navigate("/home/shop/checkout", { state: { directPurchase: product } })}
-                                    />
+                                    <Button text="Buy Now" color="mygreen" hover="myred" onClick={() => navigate('/buy', { state: { product } })} />
+                                </div>
+                                <div className="bg-gray-100 py-6 dark:bg-gray-800 mt-6">
+                                    <div className="px-4 py-4">
+                                        <h2 className="text-xl font-bold text-gray-700 dark:text-gray-400 mb-4">Customer Reviews</h2>
+                                        <form className="mb-4" onSubmit={handleReviewSubmit}>
+                                            <textarea
+                                                id="review"
+                                                name="review"
+                                                className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300"
+                                                rows={3}
+                                                placeholder="Write your review here..."
+                                                value={reviewText}
+                                                onChange={(e) => setReviewText(e.target.value)}
+                                                required
+                                            ></textarea>
+                                            <input
+                                                type="file"
+                                                id="image"
+                                                name="image"
+                                                accept="image/*"
+                                                className="block w-full text-gray-700 dark:text-gray-300"
+                                                onChange={handleImageChange}
+                                            />
+                                            <Button text="Submit Review" color="mygreen" hover="myred" onClick={() => toast.success('Review submitted')} />
+                                        </form>
+                                        {/* Display Reviews */}
+<div className="mt-8">
+    <h3 className="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">Customer Reviews</h3>
+    <div className="w-full max-w-lg overflow-y-auto max-h-80"> {/* Set fixed width and make it scrollable */}
+        {reviews.length === 0 ? (
+            <p className="text-gray-500 dark:text-gray-400">No reviews yet.</p>
+        ) : (
+            <ul className="space-y-6">
+                {reviews.map((review) => (
+                    <li key={review.id} className="p-6 border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                        <div className="flex items-center mb-4">
+                            <div className="flex items-center mr-2">
+                                {/* Render stars based on rating */}
+                                {[...Array(5)].map((_, index) => (
+                                    <svg
+                                        key={index}
+                                        className={`w-5 h-5 ${index < review.rating ? 'text-yellow-500' : 'text-gray-300'} dark:text-gray-500`}
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.08 3.317a1 1 0 00.95.69h3.462c.969 0 1.372 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.08 3.316c.3.921-.755 1.688-1.54 1.118l-2.8-2.033a1 1 0 00-1.176 0l-2.8 2.033c-.785.57-1.84-.197-1.54-1.118l1.08-3.316a1 1 0 00-.364-1.118L2.97 8.744c-.784-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.08-3.317z" />
+                                    </svg>
+                                ))}
+                            </div>
+                            <span className="text-sm text-gray-500 dark:text-gray-400">{review.rating} stars</span>
+                        </div>
+                        <p className="mb-4 text-gray-800 dark:text-gray-300">{review.review_text}</p>
+                        {review.image_url && (
+                            <img
+                                src={review.image_url}
+                                alt="Review"
+                                className="max-w-xs mb-4 rounded-md"
+                            />
+                        )}
+                        <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                            <span>- {review.username}</span>
+                            <span>{new Date(review.created_at).toLocaleDateString()}</span>
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        )}
+    </div>
+</div>
 
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -266,7 +395,7 @@ function ProductDetail() {
                 </div>
             </section>
         </>
-    )
+    );
 }
 
 export default ProductDetail;
