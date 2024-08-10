@@ -16,6 +16,7 @@ interface USER {
   gender: string;
   phone: string;
   createdAt: string | null;
+  profilepicture: string;
 }
 
 function Profile() {
@@ -23,7 +24,6 @@ function Profile() {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
-
   const [userData, setUserData] = useState<USER>();
   const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ function Profile() {
   }, []);
 
   if (!isAuthenticated) {
-    navigate("/");
+    navigate("/home");
   }
 
   const fetchData = async () => {
@@ -45,6 +45,7 @@ function Profile() {
       console.error(error);
     } else {
       setUserData(data[0]);
+      console.log(data[0]);
     }
   };
 
@@ -63,10 +64,9 @@ function Profile() {
     <div className="flex relative flex-col gap-5 items-center justify-center md:px-48 px-8">
       <div className="absolute profile-background -z-20 w-full h-[250px] sm:h-[350px] md:top-[-150px] top-[-200px]"></div>
 
-
       <div className="avatar">
         <div className="w-24 sm:w-80 rounded-full">
-          <img src="/images/winter2.jpg" alt="" />
+          <img src={userData.profilepicture ? userData.profilepicture : "/images/winter2.jpg"} alt="" />
         </div>
       </div>
       <div className="w-full text-center">

@@ -11,6 +11,8 @@ import {
 import { useDispatch } from "react-redux";
 import { login } from "../../utils/features/Auth/authSlice";
 import { Slide, toast, TypeOptions } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 
 
@@ -30,6 +32,10 @@ function Auth() {
   const dispatch = useDispatch();
   const [isLogin, setLogin] = useState(true);
   const [isForgotPassword, setForgotPassword] = useState(false);
+  const [isPasswordVisible, setPasswordVisible] = useState(false);
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!isPasswordVisible);
+  };
   const [email, setEmail] = useState("");
   const [userData, setUserData] = useState<USER>({
     username: "admin",
@@ -131,12 +137,36 @@ function Auth() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.href}oauth`,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+      if (err instanceof z.ZodError) {
+        const newErrors = err.flatten().fieldErrors;
+        setErrors(
+          Object.keys(newErrors).reduce((acc, key) => {
+            acc[key] = newErrors[key] ?? [];
+            return acc;
+          }, {} as Record<string, string[]>)
+        );
+      }
+    }
+  };
+
   const handleResetPassword = async () => {
     try {
       const validateData = ForgotPasswordSchema.parse({ email });
 
       const { error } = await supabase.auth.resetPasswordForEmail(
-        validateData.email
+        validateData.email, {
+        redirectTo: `${window.location.href}/reset-password`,
+      }
       );
 
       if (error) {
@@ -146,6 +176,7 @@ function Auth() {
       } else {
         setForgotPassword(false);
         toastNotification("Password reset email sent!", "success");
+        localStorage.setItem("email", validateData.email);
       }
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -166,6 +197,14 @@ function Auth() {
         username: userData.username,
         password: userData.pass,
       });
+
+      if (
+        validateData.username === "admin-popshop" &&
+        validateData.password === "admin-popshop"
+      ) {
+        navigate("/admin");
+        return;
+      }
 
       const { data, error } = await supabase
         .from("users")
@@ -256,8 +295,8 @@ function Auth() {
               {isForgotPassword
                 ? "Reset Password"
                 : isLogin
-                ? "Login"
-                : "Sign Up"}
+                  ? "Login"
+                  : "Sign Up"}
             </h1>
             <div className="text-md text-[#636364] mb-4 text-center tracking-wider">
               <p>Please enter your details</p>
@@ -474,12 +513,15 @@ function Auth() {
                       </div>
                     </>
                   )}
-                  <div>
-                     <label htmlFor="pass" className="block text-sm font-medium text-gray-700">
+                  <div className="relative">
+                    <label
+                      htmlFor="pass"
+                      className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
+                    >
                       Password
                     </label>
                     <input
-                      required
+                      type={isPasswordVisible ? "text" : "password"}
                       id="pass"
                       type={showPassword || isTyping  ? "text" : "password"}
                       name="pass"
@@ -489,6 +531,22 @@ function Auth() {
                       onChange={handleInputChange}
                       onBlur={handleBlur}
                     />
+                    <FontAwesomeIcon
+                      icon={isPasswordVisible ? faEyeSlash : faEye}
+                      onClick={togglePasswordVisibility}
+                      className="absolute right-3 top-10 cursor-pointer"
+                    />
+                    {errors.password && (
+                      <ul
+                        className="px-2 text-xs mt-1"
+                        style={{ color: "red" }}
+                      >
+                        {errors.password.map((error, index) => (
+                          <li key={index}>{error}</li>
+                        ))}
+                      </ul>
+                    )}
+
                     <button
                     type="button"
                     className="absolute inset-y-0 right-0 px-3 flex items-center"
@@ -534,6 +592,9 @@ function Auth() {
                       <div className="w-full lg:w-full mb-2 lg:mb-0">
                         <button
                           type="button"
+                          onClick={() => {
+                            handleGoogleSignIn();
+                          }}
                           className="w-full flex justify-center items-center gap-2 bg-white text-md text-gray-600 py-3 rounded-[1rem] hover:bg-gray-50 border border-[#b8b8b8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-colors duration-300 shadow tracking-wide"
                         >
                           <svg

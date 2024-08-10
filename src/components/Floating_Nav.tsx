@@ -40,9 +40,9 @@ function Floatingnav() {
               Products
             </li>
           </a>
-          <a href="#Footer">
+          <a href="/home/contact">
             <li className="hover:scale-105 duration-75 text-sm hover:font-semibold px-4 rounded-full">
-              Contact
+              Contact Us
             </li>
           </a>
         </ul>

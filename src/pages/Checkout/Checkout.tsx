@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Head from "../../components/Head";
 import Button from "../../components/Button";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { RiVisaLine } from "react-icons/ri";
 import { FaCcMastercard, FaPaypal } from "react-icons/fa6";
 import { SiAmericanexpress } from "react-icons/si";
@@ -21,6 +21,9 @@ interface CartItem {
 }
 
 function Checkout() {
+    const { state } = useLocation();
+    const directPurchase = state?.directPurchase;
+
     const [paymentOption, setPaymentOption] = useState<string>("");
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [total, setTotal] = useState<number>(0);
@@ -47,8 +50,15 @@ function Checkout() {
             }
         };
 
-        fetchCartItems();
-    }, [userName]);
+        if (directPurchase) {
+            // Direct purchase scenario
+            setCartItems([directPurchase]);
+            calculateTotal([directPurchase]);
+        } else {
+            // Fetch cart items as usual
+            fetchCartItems();
+        }
+    }, [userName, directPurchase]);
 
     const calculateTotal = (items: CartItem[]) => {
         console.log('Items for total calculation:', items); // Debugging line
@@ -61,8 +71,7 @@ function Checkout() {
     };
 
     const placeOrder = async () => {
-
-        console.log("placeOrder")
+        console.log("placeOrder");
 
         if (!userName || cartItems.length === 0) {
             return;
@@ -75,7 +84,8 @@ function Checkout() {
             phone: `1234567890`,
             price: total,
             date: new Date().toISOString(),
-            status: 'Pending'
+            status: 'Pending',
+            product: cartItems
         };
 
         const { error } = await supabase
@@ -85,12 +95,23 @@ function Checkout() {
         if (error) {
             console.error('Error placing order:', error);
         } else {
+            if (!directPurchase) {
+                // Clear cart items from the database after placing the order
+                const { error: deleteError } = await supabase
+                    .from('Cart')
+                    .delete()
+                    .eq('username', userName);
+
+                if (deleteError) {
+                    console.error('Error deleting cart items:', deleteError);
+                }
+            }
+
             setIsModalOpen(true);
             setCartItems([]);
             setOrderId(orderId);
         }
     };
-
     return (
         <>
             <div className="mx-auto max-w-screen-xl px-4 pt-8 sm:py-12 flex justify-between items-center mt-6">

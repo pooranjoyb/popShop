@@ -30,12 +30,123 @@ function Floatingnav() {
   }
 }
 
+interface USER {
+  username: string;
+  email: string;
+  pass: string;
+  firstname: string;
+  lastname: string;
+  gender: string;
+  phone: string;
+  createdAt: string | null;
+  profilepicture: string;
+}
+
 function Navbar() {
   const userName = useSelector((state: RootState) => state.auth.user?.username);
   const dispatch = useDispatch();
-
+  const [items, setItems] = useState<any>();
   const [itemsInCart, setItemsInCart] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
+  const [total, setTotal] = useState(0);
+  const [userInfo, setUserInfo] = useState<USER>();
+
+  useEffect(() => {
+    if (!userName) return;
+
+    const fetchData = async () => {
+      const { data, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("username", userName);
+
+      if (error) {
+        console.error(error);
+      } else {
+        setUserInfo(data[0]);
+        console.log(data[0]);
+      }
+    };
+
+    fetchData();
+
+    const fetchCartItems = async () => {
+      const { data, error } = await supabase
+        .from('Cart')
+        .select('products')
+        .eq('username', userName);
+
+      console.log("items in cart:  ", data);
+      setItems(data);
+
+      if (error) {
+        console.error('Error fetching cart items:', error);
+      } else {
+        // Assuming products is an array within each row in the Cart table
+        const totalItems = data.reduce((acc, item) => acc + item.products.length, 0);
+        setItemsInCart(totalItems);
+
+        type Product = {
+          price: number;
+          quantity: number;
+        };
+
+        const subtotalAmount = data.reduce((acc, item) => {
+          return acc + item.products.reduce((itemAcc: number, product: Product) => {
+            const price = typeof product.price === 'number' ? product.price : 0;
+            const quantity = typeof product.quantity === 'number' ? product.quantity : 0;
+            console.log(price, quantity);
+            return itemAcc + (price * quantity);
+          }, 0);
+        }, 0);
+
+        setTotal(subtotalAmount);
+      }
+    };
+
+    fetchCartItems();
+
+    const cartChannel = supabase
+      .channel("cart_updates")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "Cart" },
+        (payload) => {
+          console.log("Insert Change received!", payload);
+          // Assuming payload.new.products is an array of the inserted products
+          const productsCount = payload.new.products
+            ? payload.new.products.length
+            : 0;
+          setItemsInCart((prevCount) => prevCount + productsCount);
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "DELETE", schema: "public", table: "Cart" },
+        (payload) => {
+          console.log("Delete Change received!", payload);
+          // Assuming payload.old.products is an array of the deleted products
+          const productsCount = payload.old.products
+            ? payload.old.products.length
+            : 0;
+          setItemsInCart((prevCount) => Math.max(0, prevCount - productsCount));
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "Cart" },
+        (payload) => {
+          console.log("Update Change received!", payload);
+          // Fetch the latest cart items on update to ensure consistency
+          fetchCartItems();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(cartChannel);
+    };
+  }, [userName]);
 
   useEffect(() => {
     if (!userName) return;
@@ -129,7 +240,7 @@ function Navbar() {
         <div className="flex md:ml-16 ml-2">
           <Link to="/">
             <img
-              src="./logo.png"
+              src="/logo.png"
               alt="PopShop Logo"
               className="md:w-36 w-20 duration-100"
             />
@@ -139,7 +250,7 @@ function Navbar() {
         <div className="flex justify-center z-[100]">{Floatingnav()}</div>
 
         <div className="flex-none gap-6 md:mr-16 mr-2">
-          <div className="dropdown dropdown-end">
+          <div className="dropdown dropdown-end relative">
             <div
               tabIndex={0}
               role="button"
@@ -154,15 +265,47 @@ function Navbar() {
             </div>
             <div
               tabIndex={0}
-              className="mt-3 z-[1] card card-compact dropdown-content w-32 bg-base-100 shadow-2xl"
+              className="mt-3 z-[1] right-[2px] card card-compact dropdown-content w-[250px] sm:w-80 bg-base-100 shadow-2xl"
             >
               <div className="card-body">
                 <span className="font-bold text-lg text-mynavy">
-                  {itemsInCart} Items
+                  {itemsInCart} Items.
                 </span>
-                <span className="text-mynavy">Subtotal: $$999</span>
-                <Link to="/shop/cart" className="card-actions w-full">
-                  <Button text="View cart" color="myyellow" hover="mygreen" />
+                {items &&
+                  items[0]?.products
+                    ?.slice(0, 3)
+                    .map((_: any, index: number) => (
+                      <div
+                        key={`${_.name}-${index}`}
+                        className="flex gap-3 mt-4"
+                      >
+                        <div className="w-20 h-16">
+                          <img
+                            src={_.image}
+                            alt="product-image"
+                            className="object-cover w-full h-full rounded"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="font-bold dark:text-gray-400">
+                            {_.name}
+                          </h4>
+                          <p className="font-medium dark:text-gray-400">
+                            Price: ₹{_.price}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+
+                <span className="text-mynavy mt-3">
+                  subtotal ₹{total}
+                </span>
+
+                <Link
+                  to="/home/shop/cart"
+                  className="card-actions w-full flex items-center justify-center mt-3"
+                >
+                  <Button text="View All" color="myyellow" hover="mygreen" />
                 </Link>
               </div>
             </div>
@@ -175,7 +318,7 @@ function Navbar() {
               onClick={handleToggleMenu}
             >
               <div className="w-10 rounded-full">
-                <img src="/images/winter2.jpg" />
+                <img src={userInfo?.profilepicture ? userInfo.profilepicture : "/images/winter2.jpg"} />
               </div>
             </div>
 
@@ -197,6 +340,9 @@ function Navbar() {
                 </li>
                 <li onClick={handleCloseMenu}>
                   <Link to="/my-orders">{<p>Orders</p>}</Link>
+                </li>
+                <li onClick={handleCloseMenu}>
+                  <Link to="/home/my-orders">{<p>Orders</p>}</Link>
                 </li>
                 <li onClick={handleCloseMenu}>
                   <Link

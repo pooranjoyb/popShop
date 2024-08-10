@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 // components
 import Head from "../../components/Head";
@@ -22,6 +23,13 @@ interface RatingItem {
     className: string;
     checked?: boolean;
 }
+
+interface CartItem {
+    name: string;
+    size: string;
+    quantity: number;
+  }
+  
 
 export interface UserState {
     user: {
@@ -52,6 +60,7 @@ function ProductDetail() {
     const [filledStars, setFilledStars] = useState(0);
     const availableSizes = ["XS", "S", "M", "L", "XL"];
     const [size, setSize] = useState("");
+    const navigate = useNavigate();
 
     const handleRatingChange = (index: number) => {
         setFilledStars(index / 2 + 0.5);
@@ -70,8 +79,20 @@ function ProductDetail() {
 
     const dispatch = useDispatch();
     const userName = useSelector((state: RootState) => state.auth.user.username);
-
+    const product = {
+        name: data.name,
+        image: data.image,
+        price: data.price,
+        desc: data.desc,
+        quantity: data.qauntity || 1,
+        ratings: 5,
+        size, //Include size
+    };
     const addToCart = async () => {
+        if (!size) { // added check for size
+            toast.error('Please select a size');
+            return;
+        }
         try {
             const product = {
                 name: data.name,
@@ -80,37 +101,50 @@ function ProductDetail() {
                 desc: data.desc,
                 quantity: data.qauntity || 1,
                 ratings: 5,
+                size, // Include size
             };
-
+    
             // Attempt to fetch the user's cart
             const { data: userCart, error: fetchError } = await supabase
                 .from('Cart')
                 .select('*')
                 .eq('username', userName)
                 .single();
-
+    
             if (fetchError && fetchError.code !== 'PGRST116') { // Ignore "No such record" error
                 console.error("Fetch error:", fetchError);
                 throw fetchError;
             }
-
-            console.log("Product added", product);
-
+    
+            console.log("Product to be added", product);
+    
             if (userCart) {
-                // If the cart exists, update it
-                const updatedProducts = [...userCart.products, product];
-
+                // Check if the product already exists in the cart
+                const existingProductIndex = userCart.products.findIndex(
+                (item: CartItem) => item.name === product.name && item.size === product.size
+  );
+    
+                let updatedProducts;
+                if (existingProductIndex !== -1) {
+                    // If the product exists, increase its quantity
+                    updatedProducts = [...userCart.products];
+                    updatedProducts[existingProductIndex].quantity += product.quantity;
+                } else {
+                    // If the product does not exist, add it to the cart
+                    updatedProducts = [...userCart.products, product];
+                }
+    
                 const { error: updateError } = await supabase
                     .from('Cart')
                     .update({ products: updatedProducts })
                     .eq('username', userName);
-
+    
                 if (updateError) {
                     console.error("Update error:", updateError);
                     throw updateError;
                 }
-
-                console.log("Product added to cart:", product);
+    
+                console.log("Product added/updated in cart:", product);
                 dispatch(addItem({ item: product }));
                 toast.success('Product added to cart');
             } else {
@@ -123,12 +157,12 @@ function ProductDetail() {
                             products: [product],
                         },
                     ]);
-
+    
                 if (insertError) {
                     console.error("Insert error:", insertError);
                     throw insertError;
                 }
-
+    
                 console.log("Product added to cart:", product);
                 dispatch(addItem({ item: product }));
                 toast.success('Product added to cart');
@@ -138,6 +172,8 @@ function ProductDetail() {
             toast.error('Error adding product to cart');
         }
     };
+    
+    
 
     return (
         <>
@@ -167,9 +203,9 @@ function ProductDetail() {
                                         {data.desc}
                                     </p>
                                     <p className="inline-block mb-8 text-4xl font-bold text-gray-700 dark:text-gray-400 ">
-                                        <span>${data.price}</span>
+                                        <span>₹{data.price}</span>
                                         <span
-                                            className="text-base font-normal text-gray-500 line-through dark:text-gray-400 ml-2">${data.price + 89}</span>
+                                            className="text-base font-normal text-gray-500 line-through dark:text-gray-400 ml-2">₹{data.price + 89}</span>
                                     </p>
                                     <p className="text-green-600 dark:text-green-300 ">7 in stock</p>
                                 </div>
@@ -216,7 +252,13 @@ function ProductDetail() {
                                 </div>
                                 <div className="flex flex-wrap items-center gap-10 ">
                                     <Button text="Add to Cart" color="mygreen" hover="myred" onClick={addToCart} />
-                                    <Button text="Buy Now" color="myyellow" hover="myred" />
+                                    <Button
+                                        text="Buy Now"
+                                        color="myyellow"
+                                        hover="myred"
+                                        onClick={() => navigate("/home/shop/checkout", { state: { directPurchase: product } })}
+                                    />
+
                                 </div>
                             </div>
                         </div>

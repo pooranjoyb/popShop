@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 // components
 import Head from "../../components/Head";
@@ -8,13 +8,16 @@ import { supabase } from "../../utils/client";
 
 function Shop() {
   const [products, setProducts] = useState<any[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [skeleton, setSkeleton] = useState<boolean>(true); // skeleton-state
+  const [selectedFilter, setSelectedFilter] = useState<any>({ "price-range": [], "size": [] });
 
   const getProducts = async () => {
-    const { data } = await supabase.from('Product_table').select();
+    const { data } = await supabase.from("Product_table").select();
     console.log(data);
     if (data) {
       setProducts(data);
+      setSearchResults(data); // Initially display all products
     }
   };
 
@@ -23,14 +26,88 @@ function Shop() {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleSearch = (e: any) => {
-    const value = e.target.value;
-    setSearchTerm(value.toLowerCase());
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (products) {
+      timer = setTimeout(() => {
+        setSkeleton(false);
+      }, 2000);
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [products]);
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toLowerCase();
+    if (value === "") {
+      setSearchResults(products); // Reset to all products
+    } else {
+      const filteredData = products.filter((product) =>
+        product.Name.toLowerCase().includes(value)
+      );
+      setSearchResults(filteredData);
+    }
   };
 
-  const filteredProducts = products.filter((product) =>
-    product.Name.toLowerCase().includes(searchTerm)
-  );
+  const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+    const value = e.target.value;
+    if (value) {
+      const key = value.split(":")[0];
+      const selection = value.split(":")[1];
+      let selections = selectedFilter[key];
+      if (isChecked) {
+        selections.push(selection);
+      } else {
+        const index = selections.indexOf(selection);
+        if (index > -1) {
+          selections.splice(index, 1);
+        }
+      }
+      setSelectedFilter({ ...selectedFilter, [key]: selections });
+    }
+  };
+
+  const handleFilter = async () => {
+    const { data } = await supabase.from("Product_table").select();
+    if (data) {
+      let filteredData = data;
+      if (selectedFilter['price-range'].length !== 0) {
+        let priceFilteredData: any[] = [];
+        for (let f of selectedFilter['price-range']) {
+          let min = 0;
+          let max = 1e9;
+          if (f.split("-")[0] !== "below") {
+            min = +f.split("-")[0].slice(1);
+          }
+          if (f.split("-")[1] !== "above") {
+            max = +f.split("-")[1].slice(1);
+          }
+          let newFilteredData = filteredData.filter((elem) => {
+            return min <= elem.Price && max >= elem.Price;
+          });
+          if (priceFilteredData.length !== 0) {
+            newFilteredData.forEach((newItem) => {
+              if (!priceFilteredData.some((item) => newItem === item)) {
+                priceFilteredData.push(newItem);
+              }
+            });
+          } else {
+            priceFilteredData = [...newFilteredData];
+          }
+        }
+        filteredData = priceFilteredData;
+      }
+      if (selectedFilter['size'].length !== 0) {
+        filteredData = filteredData.filter((elem) =>
+          selectedFilter['size'].includes(elem.Size)
+        );
+      }
+      setSearchResults(filteredData);
+    }
+  };
 
   const filter = [
     {
@@ -44,7 +121,7 @@ function Shop() {
         "₹1000-₹2000",
         "₹2000-₹4000",
         "₹4000-₹8000",
-        "₹8000-and above",
+        "₹8000-above",
       ],
     },
   ];
@@ -69,35 +146,37 @@ function Shop() {
           />
           <div className="modal" role="dialog">
             <div className="modal-box w-[18rem] md:w-[30rem]">
-              <h3 className="font-bold text-center text-lg">
-                Apply your filters
-              </h3>
+              <h3 className="font-bold text-center text-lg">Apply your filters</h3>
               <div className="flex font-semiold justify-around mt-5">
                 {filter.map((fil, idx) => (
                   <div key={idx}>
                     <h2 className="mb-3">{fil.filterOption}</h2>
-                    {fil.checkbox.map((size, index) => (
-                      <div key={index} className="flex items-center mb-2">
-                        <input
-                          id={`default-checkbox${idx}${index}`}
-                          type="checkbox"
-                          value=""
-                          className="w-4 h-4 checkbox"
-                        />
-                        <label
-                          htmlFor={`default-checkbox${idx}${index}`}
-                          className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                        >
-                          {size}
-                        </label>
-                      </div>
-                    ))}
+                    {fil.checkbox.map((size, index) => {
+                      return (
+                        <div key={index} className="flex items-center mb-2">
+                          <input
+                            id={`default-checkbox${idx}${index}`}
+                            type="checkbox"
+                            value={`${fil.filterOption.toLowerCase().replace(" ", "-")}:${size}`}
+                            className="w-4 h-4 checkbox"
+                            onChange={handleFilterChange}
+                          />
+                          <label
+                            htmlFor={`default-checkbox${idx}${index}`}
+                            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          >
+                            {size}
+                          </label>
+                        </div>
+                      );
+                    })}
                   </div>
                 ))}
               </div>
 
-              <div className="modal-action  pe-5">
+              <div className="modal-action pe-5">
                 <label
+                  onClick={handleFilter}
                   htmlFor="my_modal_6"
                   className="btn hover:bg-mygreen bg-myyellow"
                 >
@@ -138,15 +217,27 @@ function Shop() {
       </div>
       <div className="mx-auto max-w-2xl px-4 py-8 lg:max-w-7xl lg:px-8">
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {filteredProducts.map((elem, idx) => (
-            <Product
-              key={idx}
-              desc={elem.Desc}
-              image={elem.Image_link}
-              price={elem.Price}
-              name={elem.Name}
-            />
-          ))}
+          {skeleton
+            ? Array(4)
+              .fill(0)
+              .map((_, idx) => (
+                <div key={idx} className="flex flex-col gap-5">
+                  <div className="skeleton w-full h-[50vh] overflow-hidden rounded-lg bg-gray-200 aspect-h-8 aspect-w-7"></div>
+                  <div className="skeleton h-4 w-36 m-auto"></div>
+                  <div className="skeleton h-4 w-20 m-auto"></div>
+                </div>
+              ))
+            : searchResults.map((elem, idx) => {
+              return (
+                <Product
+                  key={idx}
+                  desc={elem.Desc}
+                  image={elem.Image_link}
+                  price={elem.Price}
+                  name={elem.Name}
+                />
+              );
+            })}
         </div>
       </div>
     </>
