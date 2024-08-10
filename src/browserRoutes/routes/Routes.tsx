@@ -10,8 +10,6 @@ import Cart from "../../pages/Cart/Cart";
 import Checkout from "../../pages/Checkout/Checkout";
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "../../pages/Auth/ProtectedRoute";
-import { useSelector } from "react-redux";
-import { RootState } from "../../utils/features/store";
 import Profile from "../../pages/Profile/Profile";
 import TopButton from "../../components/TopButton/TopButton";
 import TermsandConditions from "../../pages/T&C/TermsCond";
@@ -26,10 +24,11 @@ import AddProduct from "../../admin/AddProduct";
 import Login from "../../pages/AdminPage/Login";
 import ResetPassword from "../../pages/Auth/ResetPassword";
 
+
 const Routes = () => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state?.auth?.isAuthenticated
-  );
+  // const isAuthenticated = useSelector(
+  //   (state: RootState) => state?.auth?.isAuthenticated
+  // );
 
   const isAdmin = useSelector((state: RootState) => state?.auth?.isAdmin)
 
@@ -74,10 +73,10 @@ const Routes = () => {
     {
       path: "/home",
       element: (
-        <ProtectedRoute>
+        <>
           <Layout />
           <TopButton />
-        </ProtectedRoute>
+        </>
       ),
       children: [
         {
@@ -85,8 +84,16 @@ const Routes = () => {
           element: <Home />,
         },
         {
+          path: "login",
+          element: <Auth />,
+        },
+        {
           path: "profile",
-          element: <Profile />,
+          element: (
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "shop",
@@ -121,8 +128,10 @@ const Routes = () => {
           path: "my-orders",
           element: <MyOrders />,
         },
-      ]
+      ],
+      errorElement: <Error />,
     },
+
     {
       path: "*",
       element: <Error />,
