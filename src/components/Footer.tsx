@@ -150,7 +150,7 @@ export default function NewFooter() {
       </div>
       <footer
         id="Footer"
-        className="text-mynavy mx-auto max-w-screen-xl px-4 my-12 flex flex-wrap items-center gap-8 lg:grid lg:grid-cols-5 max-sm:flex-col"
+        className="text-mynavy mx-auto max-w-screen-xl w-full px-4 mt-12 py-12 flex flex-wrap items-center gap-8 lg:grid lg:grid-cols-5 max-sm:flex-col"
       >
         <div className="lg:col-span-2 h-full w-full p-2 sm:p-0">
           <img
