@@ -176,10 +176,10 @@ const MyOrders = () => {
 
           <div className="w-2/3 mx-auto mb-32 mt-12">
             <div className="overflow-x-auto rounded-lg border border-base-300">
-              <table className="table w-full">
+              <table className="table w-full ">
                 {/* Table header */}
                 <thead>
-                  <tr className="text-neutral">
+                  <tr className="text-neutral dark:text-mywhite dark:bg-mynavy">
                     <th>Order No.</th>
                     <th>Product Name</th>
                     <th>Price</th>
@@ -188,13 +188,11 @@ const MyOrders = () => {
                     <th className="pl-12">Action</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="">
                   {orders.map((order, index) => (
                     <tr
                       key={index}
-                      className={
-                        index % 2 === 0 ? "bg-base-200" : "bg-base-100"
-                      }
+                      className={`${index % 2 === 0 ? "bg-base-200" : "bg-base-100"} dark:text-mywhite dark:bg-mynavy`}
                     >
                       <td>{truncateText(order.orderId, 10)}</td>
                       <td>{order.product[0].name}</td>
@@ -225,13 +223,13 @@ const MyOrders = () => {
                           >View</BootstrapButton>
                           {openDropdown === index && (
                             <ul
-                              className="dropdown-menu absolute right-0 mt-2 py-1 w-48 bg-mywhite border rounded shadow-md z-10"
+                              className="dropdown-menu absolute right-0 mt-2 py-1 w-48 bg-mywhite dark:text-mywhite dark:bg-mynavy border rounded shadow-md z-10"
                               aria-labelledby="dropdownMenuButton"
                             >
-                              <li>
+                              <li className="">
                                 <Link to="#">
                                   <button
-                                    className="dropdown-item w-full text-left px-4 py-2"
+                                    className="dropdown-item w-full text-left px-4 py-2 "
                                     onClick={() => handleInvoiceClick(order)}
                                   >
                                     Invoice

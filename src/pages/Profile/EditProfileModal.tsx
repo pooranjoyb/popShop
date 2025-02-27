@@ -38,7 +38,7 @@ function EditProfileModal({ userData, onUpdate }: Props) {
         if (!validationResult.success) {
             setPhoneError("Invalid phone number");
             setIsSaving(false);
-            return; // Exit early if validation fails
+            return;
         }
 
         const { error } = await supabase
@@ -54,7 +54,7 @@ function EditProfileModal({ userData, onUpdate }: Props) {
         if (error) {
             console.error(error);
         } else {
-            setIsModalOpen(false); // Close the modal upon successful update
+            setIsModalOpen(false);
             onUpdate();
         }
 
@@ -62,12 +62,11 @@ function EditProfileModal({ userData, onUpdate }: Props) {
     };
 
     const handleCancel = () => {
-        setIsModalOpen(false); // Close the modal on cancel
-        // Optionally, reset form fields or perform other cancel actions
+        setIsModalOpen(false);
     };
 
     const handleModalToggle = () => {
-        setIsModalOpen(!isModalOpen); // Toggle modal open/close
+        setIsModalOpen(!isModalOpen);
     };
 
     return (
@@ -79,87 +78,50 @@ function EditProfileModal({ userData, onUpdate }: Props) {
                 checked={isModalOpen}
                 onChange={handleModalToggle}
             />
-            <div className={`modal ${isModalOpen ? 'open' : ''}`} role="dialog">
-                <div className="modal-box md:w-full px-4 card">
+            <div className={`modal ${isModalOpen ? 'open' : ''} `} role="dialog">
+                <div className="modal-box md:w-full px-4 card dark:text-mywhite dark:bg-mynavy">
                     <h3 className="font-bold text-center text-lg">
                         Edit Your Profile
                     </h3>
-                    <div className="flex font-semiold justify-around mt-5 flex-col sm:flex-row">
+                    <div className="flex font-semibold justify-around mt-5 flex-col sm:flex-row">
                         <div className="flex flex-col">
-                            <div className="w-full sm:p-4 p-1">
-                                <label
-                                    htmlFor="firstname"
-                                    className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
-                                >
-                                    First Name
-                                </label>
-                                <input
-                                    type="text"
-                                    id="firstname"
-                                    name="firstname"
-                                    placeholder="First Name"
-                                    className="mt-2 p-2 w-full placeholder:text-sm border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                                    value={updatedData.firstname}
-                                    onChange={(e) =>
-                                        setUpdatedData((prevData) => ({ ...prevData, firstname: e.target.value }))
-                                    }
-                                />
-                            </div>
-                            <div className="w-full sm:p-4 p-1">
-                                <label
-                                    htmlFor="lastname"
-                                    className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
-                                >
-                                    Last Name
-                                </label>
-                                <input
-                                    type="text"
-                                    id="lastname"
-                                    name="lastname"
-                                    placeholder="Last Name"
-                                    className="mt-2 p-2 w-full placeholder:text-sm border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                                    value={updatedData.lastname}
-                                    onChange={(e) =>
-                                        setUpdatedData((prevData) => ({ ...prevData, lastname: e.target.value }))
-                                    }
-                                />
-                            </div>
-                            <div className="w-full sm:p-4 p-1">
-                                <label
-                                    htmlFor="phone"
-                                    className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
-                                >
-                                    Phone
-                                </label>
-                                <input
-                                    type="text"
-                                    id="phone"
-                                    name="phone"
-                                    placeholder="Phone Number"
-                                    className={`mt-2 p-2 w-full placeholder:text-sm border ${phoneError ? 'border-red-500' : 'border-[#C4C4C4]'} rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300`}
-                                    value={updatedData.phone}
-                                    onChange={(e) => {
-                                        setUpdatedData((prevData) => ({ ...prevData, phone: e.target.value }));
-                                        setPhoneError(null); // Clear phone error on input change
-                                    }}
-                                />
-                                {phoneError && (
-                                    <p className="text-red-500 text-sm mt-1">{phoneError}</p>
-                                )}
-                            </div>
+                            {[
+                                { label: "First Name", key: "firstname", type: "text", placeholder: "First Name" },
+                                { label: "Last Name", key: "lastname", type: "text", placeholder: "Last Name" },
+                                { label: "Phone", key: "phone", type: "text", placeholder: "Phone Number", error: phoneError }
+                            ].map(({ label, key, type, placeholder, error }) => (
+                                <div key={key} className="w-full sm:p-4 p-1">
+                                    <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 ml-1 tracking-wider">
+                                        {label}
+                                    </label>
+                                    <input
+                                        type={type}
+                                        name={key}
+                                        placeholder={placeholder}
+                                        className={`mt-2 p-2 w-full placeholder:text-sm border rounded-xl shadow transition-colors duration-300
+                                            border-gray-300 focus:border-gray-400 focus:ring-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2
+                                            dark:bg-gray-800 dark:border-gray-600 dark:focus:border-gray-500 dark:focus:ring-gray-500
+                                            ${error ? "border-red-500 dark:border-red-400" : ""}`}
+                                        value={updatedData[key as keyof USER]}
+                                        onChange={(e) => {
+                                            setUpdatedData((prevData) => ({ ...prevData, [key]: e.target.value }));
+                                            if (key === "phone") setPhoneError(null);
+                                        }}
+                                    />
+                                    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                                </div>
+                            ))}
                         </div>
                         <div className="flex flex-col">
                             <div className="w-full sm:p-4 p-1">
-                                <label
-                                    htmlFor="gender"
-                                    className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
-                                >
+                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 ml-1 tracking-wider">
                                     Gender
                                 </label>
                                 <select
                                     name="gender"
-                                    id="gender"
-                                    className="mt-2 p-2 w-full placeholder:text-sm border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                                    className="mt-2 p-2 w-full placeholder:text-sm border border-gray-300 dark:border-gray-600 rounded-xl shadow transition-colors duration-300
+                                    focus:border-gray-400 focus:ring-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2
+                                    dark:bg-gray-800 dark:focus:border-gray-500 dark:focus:ring-gray-500"
                                     value={updatedData.gender}
                                     onChange={(e) =>
                                         setUpdatedData((prevData) => ({ ...prevData, gender: e.target.value }))
@@ -171,36 +133,31 @@ function EditProfileModal({ userData, onUpdate }: Props) {
                                 </select>
                             </div>
                             <div className="w-full sm:p-4 p-1">
-                                <label
-                                    htmlFor="email"
-                                    className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
-                                >
+                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 ml-1 tracking-wider">
                                     Email
                                 </label>
-                                <p className="ml-1">{userData.email}</p>
+                                <p className="ml-1 dark:text-gray-300">{userData.email}</p>
                             </div>
                             <div className="w-full sm:p-4 p-1">
-                                <label
-                                    htmlFor="createdAt"
-                                    className="block text-sm font-bold text-gray-700 ml-1 tracking-wider"
-                                >
+                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 ml-1 tracking-wider">
                                     Account Creation Date
                                 </label>
-                                <p className="ml-1">{String(userData.createdAt)}</p>
+                                <p className="ml-1 dark:text-gray-300">{String(userData.createdAt)}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="modal-action  pe-5">
+                    <div className="modal-action pe-5">
                         <button
-                            className={`btn hover:bg-mygreen bg-myyellow ${isSaving && 'opacity-50 cursor-not-allowed'}`}
+                            className={`btn hover:bg-mygreen bg-myyellow text-black dark:bg-gray-700 dark:text-white dark:hover:bg-green-600
+                            ${isSaving && "opacity-50 cursor-not-allowed"}`}
                             onClick={handleUpdate}
                             disabled={isSaving}
                         >
-                            {isSaving ? 'Saving...' : 'Save'}
+                            {isSaving ? "Saving..." : "Save"}
                         </button>
                         <button
-                            className="btn hover:bg-myred bg-myred"
+                            className="btn hover:bg-myred bg-myred text-black dark:bg-gray-700 dark:text-white dark:hover:bg-red-600"
                             onClick={handleCancel}
                         >
                             Cancel

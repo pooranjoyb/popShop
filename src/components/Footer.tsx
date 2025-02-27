@@ -128,7 +128,7 @@ export default function NewFooter() {
   return (
     <>
       <div className="md:h-40 md:flex md:justify-center md:items-center flex flex-col justify-between items-center p-4">
-        <div className="md:w-1/2 flex flex-col justify-center items-center text-center">
+        <div className="md:w-1/2 flex flex-col justify-center items-center text-center dark:text-mywhite">
           <p className="md:text-3xl text-2xl font-bold">
             Subscribe to our newsletter
           </p>
@@ -150,7 +150,7 @@ export default function NewFooter() {
       </div>
       <footer
         id="Footer"
-        className="text-mynavy mx-auto max-w-screen-xl w-full px-4 mt-12 py-12 flex flex-wrap items-center gap-8 lg:grid lg:grid-cols-5 max-sm:flex-col"
+        className="text-mynavy dark:text-mygreen  mx-auto max-w-screen-xl w-full px-4 mt-12 py-12 flex flex-wrap items-center gap-8 lg:grid lg:grid-cols-5 max-sm:flex-col"
       >
         <div className="lg:col-span-2 h-full w-full p-2 sm:p-0">
           <img

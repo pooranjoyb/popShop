@@ -405,7 +405,7 @@ function Dashboard() {
               <h2 className="text-s font-bold mb-2">
                 <i>Returns</i>
               </h2>
-              <p className="text-xl font-semibold mb-1 text-mynavy">
+              <p className="text-xl font-semibold mb-1 text-mynavy dark:text-mygreen ">
                 <b>13.3K</b>
               </p>
               <div className="flex items-center text-center pl-2">
@@ -418,7 +418,7 @@ function Dashboard() {
               <h2 className="text-s font-bold mb-2">
                 <i>New</i>
               </h2>
-              <p className="text-xl font-semibold mb-1 text-mynavy">
+              <p className="text-xl font-semibold mb-1 text-mynavy dark:text-mygreen ">
                 <b>4.1K</b>
               </p>
               <div className="flex items-center text-center pl-2">
@@ -442,7 +442,7 @@ function Dashboard() {
               <h2 className="text-xs font-bold mb-2 pr-2">
                 <i>Completed</i>
               </h2>
-              <p className="text-xl font-semibold mb-1 text-mynavy pr-2">
+              <p className="text-xl font-semibold mb-1 text-mynavy dark:text-mygreen  pr-2">
                 <b>{completedCheckouts}</b>
               </p>
               <div className="flex items-center text-center pl-2">
@@ -455,7 +455,7 @@ function Dashboard() {
               <h2 className="text-xs font-bold mb-2">
                 <i>Abandoned</i>
               </h2>
-              <p className="text-xl font-semibold mb-1 text-mynavy pr-2">
+              <p className="text-xl font-semibold mb-1 text-mynavy dark:text-mygreen  pr-2">
                 <b>{abandonedCheckouts}</b>
               </p>
               <div className="flex items-center text-center pl-2">

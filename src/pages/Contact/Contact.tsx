@@ -39,21 +39,21 @@ function Contact() {
   return (
     <>
       <FQA/>
-      <h1 className="text-sm md:text-sm md:text-center font-medium text-mynavy mx-auto max-w-screen-xl px-4 py-4">
+      <h1 className="text-sm md:text-sm md:text-center font-medium text-mynavy dark:text-mygreen  mx-auto max-w-screen-xl px-4 py-4">
         Still not answered, kindly contact us through the contact form below.
       </h1>
       <form onSubmit={onSubmit}>
         <div className="px-4 mt-5 mb-20 md:mb-40 sm:py-6 mx-auto max-w-screen-md lg:py-4 md:px-6 flex flex-col gap-4">
           <div className="my-5 flex-col flex gap-5">
             <Head h1="Contact" h2="Us" />
-            <h1 className="text-md md:text-sm md:text-center font-medium text-mynavy mx-auto max-w-screen-xl px-4 ">
+            <h1 className="text-md md:text-sm md:text-center font-medium text-mynavy dark:text-mygreen  mx-auto max-w-screen-xl px-4 ">
               Need to get in touch with us? Just fill out the form with your
               inquiry!
             </h1>
           </div>
           <label className="form-control w-full">
             <div className="label">
-              <span className="label-text text-sm md:text-md font-medium text-mynavy">
+              <span className="label-text text-sm md:text-md font-medium text-mynavy dark:text-mygreen ">
                 What is your Name?
               </span>
             </div>

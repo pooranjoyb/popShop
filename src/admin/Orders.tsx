@@ -48,7 +48,7 @@ const Orders: React.FC = () => {
   },[])
   console.log(orderStore);
   return (
-    <div>
+    <div className="">
       <Table orders={orderStore}/>
     </div>
   )
