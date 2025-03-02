@@ -62,12 +62,12 @@ function Contact() {
               name="name"
               onChange={onChangeInput}
               placeholder="Full Name"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full dark:text-mywhite dark:bg-mynavy"
             />
           </label>
           <label className="form-control w-full">
             <div className="label">
-              <span className="label-text text-sm md:text-md font-medium text-[#073b4c]">
+              <span className="label-text text-sm md:text-md font-medium dark:text-mygreen text-[#073b4c]">
                 What is your Email?
               </span>
             </div>
@@ -76,19 +76,19 @@ function Contact() {
               name="email"
               onChange={onChangeInput}
               placeholder="Email Address"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full dark:text-mywhite dark:bg-mynavy"
             />
           </label>
           <label className="form-control w-full1">
             <div className="label">
-              <span className="label-text text-sm md:text-md font-medium text-[#073b4c]">
+              <span className="label-text text-sm md:text-md font-medium dark:text-mygreen text-[#073b4c]">
                 Your Message
               </span>
             </div>
             <textarea
               name="message"
               onChange={onChangeTextArea}
-              className="textarea textarea-bordered h-24 w-full text-sm"
+              className="textarea textarea-bordered h-24 w-full text-sm dark:text-mywhite dark:bg-mynavy"
               placeholder="Message"
             ></textarea>
           </label>

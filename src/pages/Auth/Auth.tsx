@@ -13,6 +13,7 @@ import { login } from "../../utils/features/Auth/authSlice";
 import { Slide, toast, TypeOptions } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import DarkModeToggle from "../../components/DarkModeToggle";
 
 interface USER {
   username: string;
@@ -261,9 +262,12 @@ function Auth() {
 
   return (
     <>
-      <div className="text-mynavy dark:text-mygreen  flex md:flex-row-reverse flex-col py-12">
+      <div className="text-mynavy dark:text-mygreen  flex md:flex-row-reverse flex-col">
+        <span className="p-4">
+          <DarkModeToggle/>
+        </span>
         <div className="flex items-center justify-center flex-1 bg-white text-black">
-          <div className="text-center flex justify-center">
+          <div className="text-center flex justify-center py-12">
             <img
               src="/images/winter1.jpg"
               className="rounded-[4rem] md:block md:h-[38rem] hidden"
@@ -306,7 +310,7 @@ function Auth() {
                     type="email"
                     id="email"
                     name="email"
-                    className="mt-2 p-2 w-full placeholder:text-sm shadow border border-[#C4C4C4] rounded-xl focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 mb-6"
+                    className="mt-2 p-2 w-full placeholder:text-sm dark:text-mywhite dark:bg-mynavy shadow border border-[#C4C4C4] rounded-xl focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 mb-6"
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
@@ -341,7 +345,7 @@ function Auth() {
                       id="username"
                       name="username"
                       placeholder="Enter your username"
-                      className="mt-2 p-2 w-full placeholder:text-sm  border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                      className="mt-2 p-2 w-full placeholder:text-sm dark:text-mywhite dark:bg-mynavy border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                       value={userData.username}
                       onChange={handleInputChange}
                     />
@@ -370,7 +374,7 @@ function Auth() {
                           id="email"
                           name="email"
                           placeholder="Enter you email"
-                          className="mt-2 p-2 w-full placeholder:text-sm  border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                          className="mt-2 p-2 w-full placeholder:text-sm dark:text-mywhite dark:bg-mynavy border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                           onChange={handleInputChange}
                         />
                         {errors.email && (
@@ -397,7 +401,7 @@ function Auth() {
                             id="firstname"
                             name="firstname"
                             placeholder="first name"
-                            className="mt-2 p-2 w-full placeholder:text-sm  border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                            className="mt-2 p-2 w-full placeholder:text-sm dark:text-mywhite dark:bg-mynavy border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                             value={userData.firstname}
                             onChange={handleInputChange}
                           />
@@ -424,7 +428,7 @@ function Auth() {
                             id="lastname"
                             name="lastname"
                             placeholder="last name"
-                            className="mt-2 p-2 w-full border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none placeholder:text-sm focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                            className="mt-2 p-2 w-full border dark:text-mywhite dark:bg-mynavy border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none placeholder:text-sm focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                             value={userData.lastname}
                             onChange={handleInputChange}
                           />
@@ -443,7 +447,7 @@ function Auth() {
                       <div className="w-full flex gap-2">
                         <div className="w-1/2 mt-5">
                           <select
-                            className="select w-full select-primary select-md max-w-xs"
+                            className="select w-full dark:text-mywhite dark:bg-mynavy select-md max-w-xs border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                             value={userData.gender ? 1 : 0}
                             onChange={(e) => {
                               const genderBoolean = e.target.value === "1";
@@ -482,7 +486,7 @@ function Auth() {
                             id="phone"
                             name="phone"
                             placeholder="9546897889"
-                            className="mt-2 p-2 w-full placeholder:text-sm  border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                            className="mt-2 p-2 w-full placeholder:text-sm dark:text-mywhite dark:bg-mynavy border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                             value={userData.phone}
                             onChange={handleInputChange}
                           />
@@ -512,7 +516,7 @@ function Auth() {
                       id="pass"
                       name="pass"
                       placeholder="Enter password"
-                      className="mt-2 p-2 w-full placeholder:text-sm border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                      className="mt-2 p-2 w-full placeholder:text-sm border dark:text-mywhite dark:bg-mynavy border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                       value={userData.pass}
                       onChange={handleInputChange}
                     />

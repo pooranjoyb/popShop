@@ -140,7 +140,7 @@ export default function NewFooter() {
           <input
             type="email"
             placeholder="Enter your email"
-            className="input input-bordered w-full max-w-xs"
+            className="input input-bordered w-full max-w-xs dark:text-mywhite dark:bg-mynavy"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required

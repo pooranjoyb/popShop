@@ -204,7 +204,7 @@ function Navbar() {
             </div>
             <div
               tabIndex={0}
-              className="mt-3 z-[1] right-[2px] card card-compact dropdown-content w-[250px] sm:w-80 bg-base-100 shadow-2xl"
+              className="mt-3 z-[1] right-[2px] card card-compact dropdown-content w-[250px] dark:bg-mynavy sm:w-80 bg-base-100 shadow-2xl"
             >
               <div className="card-body">
                 <span className="font-bold text-lg text-mynavy dark:text-mygreen ">

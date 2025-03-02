@@ -83,7 +83,7 @@ function Home() {
         }}
         className="w-2/3 sm:w-1/3 py-4 sm:p-0"
       >
-        <img src="/images/hero.png" alt="" />
+        <div className="rounded-2xl overflow-hidden"><img src="/images/hero.png" alt="" /></div>
       </Tilt>
     </motion.div>
 
