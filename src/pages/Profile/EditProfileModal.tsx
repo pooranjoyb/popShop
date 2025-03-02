@@ -102,7 +102,7 @@ function EditProfileModal({ userData, onUpdate }: Props) {
                                             border-gray-300 focus:border-gray-400 focus:ring-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2
                                             dark:bg-gray-800 dark:border-gray-600 dark:focus:border-gray-500 dark:focus:ring-gray-500
                                             ${error ? "border-red-500 dark:border-red-400" : ""}`}
-                                        value={updatedData[key as keyof USER]}
+                                            value={updatedData[key as keyof USER] ?? ""}
                                         onChange={(e) => {
                                             setUpdatedData((prevData) => ({ ...prevData, [key]: e.target.value }));
                                             if (key === "phone") setPhoneError(null);
