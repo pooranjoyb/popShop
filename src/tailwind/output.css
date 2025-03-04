@@ -4325,39 +4325,6 @@ html{
   border-end-end-radius:inherit
 }
 
-.mask{
-  -webkit-mask-size:contain;
-          mask-size:contain;
-  -webkit-mask-repeat:no-repeat;
-          mask-repeat:no-repeat;
-  -webkit-mask-position:center;
-          mask-position:center
-}
-
-.mask-half-1{
-  -webkit-mask-size:200%;
-          mask-size:200%;
-  -webkit-mask-position:left;
-          mask-position:left
-}
-
-.mask-half-1:where([dir="rtl"], [dir="rtl"] *){
-  -webkit-mask-position:right;
-          mask-position:right
-}
-
-.mask-half-2{
-  -webkit-mask-size:200%;
-          mask-size:200%;
-  -webkit-mask-position:right;
-          mask-position:right
-}
-
-.mask-half-2:where([dir="rtl"], [dir="rtl"] *){
-  -webkit-mask-position:left;
-          mask-position:left
-}
-
 .menu{
   display:flex;
   flex-direction:column;
@@ -5157,11 +5124,6 @@ html{
           mask-image:url("data:image/svg+xml,%3Csvg width='24' height='24' stroke='%23000' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E.spinner_V8m1%7Btransform-origin:center;animation:spinner_zKoa 2s linear infinite%7D.spinner_V8m1 circle%7Bstroke-linecap:round;animation:spinner_YpZS 1.5s ease-out infinite%7D%40keyframes spinner_zKoa%7B100%25%7Btransform:rotate(360deg)%7D%7D%40keyframes spinner_YpZS%7B0%25%7Bstroke-dasharray:0 150;stroke-dashoffset:0%7D47.5%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-16%7D95%25%2C100%25%7Bstroke-dasharray:42 150;stroke-dashoffset:-59%7D%7D%3C%2Fstyle%3E%3Cg class='spinner_V8m1'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='none' stroke-width='3'%3E%3C%2Fcircle%3E%3C%2Fg%3E%3C%2Fsvg%3E")
 }
 
-.mask-star-2{
-  -webkit-mask-image:url("data:image/svg+xml,%3csvg width='192' height='180' xmlns='http://www.w3.org/2000/svg'%3e%3cpath fill='black' d='m96 153.044-58.779 26.243 7.02-63.513L.894 68.481l63.117-13.01L96 0l31.989 55.472 63.117 13.01-43.347 47.292 7.02 63.513z' fill-rule='evenodd'/%3e%3c/svg%3e");
-          mask-image:url("data:image/svg+xml,%3csvg width='192' height='180' xmlns='http://www.w3.org/2000/svg'%3e%3cpath fill='black' d='m96 153.044-58.779 26.243 7.02-63.513L.894 68.481l63.117-13.01L96 0l31.989 55.472 63.117 13.01-43.347 47.292 7.02 63.513z' fill-rule='evenodd'/%3e%3c/svg%3e")
-}
-
 :where(.menu li:empty){
   --tw-bg-opacity:1;
   background-color:var(--fallback-bc,oklch(var(--bc)/var(--tw-bg-opacity)));
@@ -5424,10 +5386,6 @@ html{
 .rating input:active:focus{
   animation:none;
   transform:translateY(-0.125em)
-}
-
-.rating-half :where(input:not(.rating-hidden)){
-  width:0.75rem
 }
 
 @keyframes rating-pop{
@@ -5772,27 +5730,6 @@ html:has(.drawer-toggle:checked){
   transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
 }
 
-.rating-sm input{
-  height:1rem;
-  width:1rem
-}
-
-.rating-half.rating-xs input:not(.rating-hidden){
-  width:0.375rem
-}
-
-.rating-half.rating-sm input:not(.rating-hidden){
-  width:0.5rem
-}
-
-.rating-half.rating-md input:not(.rating-hidden){
-  width:0.75rem
-}
-
-.rating-half.rating-lg input:not(.rating-hidden){
-  width:1.25rem
-}
-
 .select-md{
   height:3rem;
   min-height:3rem;
@@ -5996,6 +5933,10 @@ html:has(.drawer-toggle:checked){
   border-width:0
 }
 
+.pointer-events-none{
+  pointer-events:none
+}
+
 .visible{
   visibility:visible
 }
@@ -6103,6 +6044,10 @@ html:has(.drawer-toggle:checked){
 
 .z-\[1\]{
   z-index:1
+}
+
+.z-\[9999\]{
+  z-index:9999
 }
 
 .col-span-1{
@@ -6396,6 +6341,10 @@ html:has(.drawer-toggle:checked){
   height:100vh
 }
 
+.min-h-screen{
+  min-height:100vh
+}
+
 .w-1\/2{
   width:50%
 }
@@ -6562,6 +6511,16 @@ html:has(.drawer-toggle:checked){
   transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
 }
 
+@keyframes spin{
+  to{
+    transform:rotate(360deg)
+  }
+}
+
+.animate-spin{
+  animation:spin 1s linear infinite
+}
+
 .cursor-not-allowed{
   cursor:not-allowed
 }
@@ -6689,10 +6648,22 @@ html:has(.drawer-toggle:checked){
   row-gap:2.5rem
 }
 
+.space-x-1 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-x-reverse:0;
+  margin-right:calc(0.25rem * var(--tw-space-x-reverse));
+  margin-left:calc(0.25rem * calc(1 - var(--tw-space-x-reverse)))
+}
+
 .space-x-2 > :not([hidden]) ~ :not([hidden]){
   --tw-space-x-reverse:0;
   margin-right:calc(0.5rem * var(--tw-space-x-reverse));
   margin-left:calc(0.5rem * calc(1 - var(--tw-space-x-reverse)))
+}
+
+.space-x-4 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-x-reverse:0;
+  margin-right:calc(1rem * var(--tw-space-x-reverse));
+  margin-left:calc(1rem * calc(1 - var(--tw-space-x-reverse)))
 }
 
 .space-y-4 > :not([hidden]) ~ :not([hidden]){
@@ -6782,6 +6753,10 @@ html:has(.drawer-toggle:checked){
   border-width:2px
 }
 
+.border-8{
+  border-width:8px
+}
+
 .border-b{
   border-bottom-width:1px
 }
@@ -6796,6 +6771,10 @@ html:has(.drawer-toggle:checked){
 
 .border-t{
   border-top-width:1px
+}
+
+.border-t-8{
+  border-top-width:8px
 }
 
 .border-solid{
@@ -6835,6 +6814,11 @@ html:has(.drawer-toggle:checked){
 .border-mygreen{
   --tw-border-opacity:1;
   border-color:rgb(6 214 160 / var(--tw-border-opacity))
+}
+
+.border-t-myred{
+  --tw-border-opacity:1;
+  border-top-color:rgb(239 71 111 / var(--tw-border-opacity))
 }
 
 .bg-\[\#0000FF06\]{
@@ -7312,6 +7296,11 @@ html:has(.drawer-toggle:checked){
   outline-style:solid
 }
 
+.blur-md{
+  --tw-blur:blur(12px);
+  filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)
+}
+
 .filter{
   filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)
 }
@@ -7375,6 +7364,10 @@ html:has(.drawer-toggle:checked){
   transition-timing-function:cubic-bezier(0.4, 0, 1, 1)
 }
 
+.ease-linear{
+  transition-timing-function:linear
+}
+
 *,
 html,
 body {
@@ -7403,6 +7396,19 @@ img {
 img:hover {
   transform: scale(1.05);
   opacity: 0.9;
+}
+
+/* Loader styles */
+
+.loader {
+  border-top-color: #3498db;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (min-width: 768px){
