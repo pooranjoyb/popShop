@@ -13,7 +13,7 @@ function FQA() {
                         <div className="py-5">
                             <details className="group">
                                 <summary className="flex cursor-pointer list-none items-center justify-between font-medium">
-                                    <span className="text-mynavy"> How does the billing work?</span>
+                                    <span className="text-mynavy dark:text-mygreen "> How does the billing work?</span>
                                     <span className="transition group-open:rotate-180">
                                         <svg fill="none" height="24" shape-rendering="geometricPrecision"
                                             stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -22,7 +22,7 @@ function FQA() {
                                         </svg>
                                     </span>
                                 </summary>
-                                <p className="group-open:animate-fadeIn mt-3 text-mynavy">PopShop offers a variety of
+                                <p className="group-open:animate-fadeIn mt-3 text-mynavy dark:text-mygreen ">PopShop offers a variety of
                                     billing options, including net banking, cash on delivery and UPI.
                                 </p>
                             </details>
@@ -30,7 +30,7 @@ function FQA() {
                         <div className="py-5">
                             <details className="group">
                                 <summary className="flex cursor-pointer list-none items-center justify-between font-medium">
-                                    <span className="text-mynavy"> Can I get a refund?</span>
+                                    <span className="text-mynavy dark:text-mygreen "> Can I get a refund?</span>
                                     <span className="transition group-open:rotate-180">
                                         <svg fill="none" height="24" shape-rendering="geometricPrecision"
                                             stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -39,7 +39,7 @@ function FQA() {
                                         </svg>
                                     </span>
                                 </summary>
-                                <p className="group-open:animate-fadeIn mt-3 text-mynavy">We offer a 7-day money-back
+                                <p className="group-open:animate-fadeIn mt-3 text-mynavy dark:text-mygreen ">We offer a 7-day money-back
                                     guarantee for most of the orders. The refund process usually takes 2 to 3 working days.
                                 </p>
                             </details>
@@ -47,7 +47,7 @@ function FQA() {
                         <div className="py-5">
                             <details className="group">
                                 <summary className="flex cursor-pointer list-none items-center justify-between font-medium">
-                                    <span className="text-mynavy"> How do I cancel my order?</span>
+                                    <span className="text-mynavy dark:text-mygreen "> How do I cancel my order?</span>
                                     <span className="transition group-open:rotate-180">
                                         <svg fill="none" height="24" shape-rendering="geometricPrecision"
                                             stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -56,7 +56,7 @@ function FQA() {
                                         </svg>
                                     </span>
                                 </summary>
-                                <p className="group-open:animate-fadeIn mt-3 text-mynavy">To cancel your order, you can
+                                <p className="group-open:animate-fadeIn mt-3 text-mynavy dark:text-mygreen ">To cancel your order, you can
                                     log in to your account and navigate to the your orders page. From there, you
                                     should be able to cancel your order.
                                 </p>

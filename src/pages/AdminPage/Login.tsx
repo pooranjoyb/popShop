@@ -114,7 +114,7 @@ function Login() {
 
     return (
         <>
-            <div className="text-mynavy flex md:flex-row-reverse flex-col my-12">
+            <div className="text-mynavy dark:text-mygreen  flex md:flex-row-reverse flex-col my-12">
                 <div className="flex items-center justify-center flex-1 bg-white text-black">
                     <div className="text-center flex justify-center">
                         <img

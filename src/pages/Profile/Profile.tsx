@@ -97,21 +97,21 @@ function Profile() {
           <div className="flex-1 md:p-8 text-justify">
             <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
               <div className="label">
-                <span className="label-text md:text-xl text-sm">
+                <span className="label-text md:text-xl text-sm dark:text-mywhite">
                   First Name : <b>{userData.firstname}</b>
                 </span>
               </div>
             </div>
             <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
               <div className="label">
-                <span className="label-text md:text-xl text-sm">
+                <span className="label-text md:text-xl text-sm dark:text-mywhite">
                   Last Name : <b> {userData.lastname}</b>
                 </span>
               </div>
             </div>
             <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
               <div className="label">
-                <span className="label-text md:text-xl text-sm">
+                <span className="label-text md:text-xl text-sm dark:text-mywhite">
                   Gender :{" "}
                   <b>
                     {userData.gender.charAt(0).toUpperCase() +
@@ -125,21 +125,21 @@ function Profile() {
           <div className="flex-1 md:p-8 text-justify">
             <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
               <div className="label">
-                <span className="label-text md:text-xl text-sm">
+                <span className="label-text md:text-xl text-sm dark:text-mywhite">
                   Email : <b>{userData.email}</b>{" "}
                 </span>
               </div>
             </div>
             <div className="flex sm:flex-row flex-col items-start sm:items-center text-sm md:text-xl justify-start">
               <div className="label">
-                <span className="label-text md:text-xl text-sm">
+                <span className="label-text md:text-xl text-sm dark:text-mywhite">
                   Phone Number : <b>{userData.phone}</b>
                 </span>
               </div>
             </div>
             <div className="flex sm:flex-row flex-col items-start sm:items-center  text-sm md:text-xl justify-start">
               <div className="label">
-                <span className="label-text md:text-xl text-sm">
+                <span className="label-text md:text-xl text-sm dark:text-mywhite">
                   Account Creation Date :{" "}
                   <b> {new Date(userData.createdAt!).toLocaleDateString()}</b>
                 </span>

@@ -3,36 +3,44 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Smooth scrolling */
 *,
 html,
 body {
     scroll-behavior: smooth;
 }
 
+/* Text Selection Highlight */
 ::-moz-selection {
     background: #FFD166;
 }
-
 ::selection {
     background: #FFD166;
 }
 
-.profile-background {
-    background: hsla(164, 95%, 43%, 1) 100%;
-
-    background: linear-gradient(180deg, hsla(346, 84%, 61%, 1) 0%, hsla(42, 100%, 70%, 1) 52%, hsla(164, 95%, 43%, 1) 100%, hsla(195, 83%, 38%, 1) 100%);
-
-    background: -moz-linear-gradient(180deg, hsla(346, 84%, 61%, 1) 0%, hsla(42, 100%, 70%, 1) 52%, hsla(164, 95%, 43%, 1) 100%, hsla(195, 83%, 38%, 1) 100%);
-
-    background: -webkit-linear-gradient(180deg, hsla(346, 84%, 61%, 1) 0%, hsla(42, 100%, 70%, 1) 52%, hsla(164, 95%, 43%, 1) 100%, hsla(195, 83%, 38%, 1) 100%);
-
-    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#06D6A0", endColorstr="#FFD166", GradientType=1);
+/* Dark Mode Styles */
+body {
+    background-color: white;
+    color: black;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.dark body {
+    background-color: #111827; /* gray-900 */
+    color: white;
 }
 
+/* Profile Background (Light & Dark Mode) */
+.profile-background {
+    background: linear-gradient(180deg, hsla(346, 84%, 61%, 1) 0%, hsla(42, 100%, 70%, 1) 52%, hsla(164, 95%, 43%, 1) 100%, hsla(195, 83%, 38%, 1) 100%);
+}
+.dark .profile-background {
+    background: linear-gradient(180deg, #1e293b 0%, #334155 52%, #0f172a 100%);
+}
+
+/* Image Styling */
 img {
     transition: transform 0.5s ease, opacity 0.5s ease;
 }
-
 img:hover {
     transform: scale(1.05);
     opacity: 0.9;

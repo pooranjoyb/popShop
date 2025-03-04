@@ -187,7 +187,7 @@ function Checkout() {
 
             {isModalOpen && (
                 <div className="modal modal-open">
-                    <div className="modal-box">
+                    <div className="modal-box dark:text-mywhite dark:bg-mynavy">
                         <h3 className="font-bold text-lg">Congratulations!</h3>
                         <p className="py-4">Your order has been placed successfully.</p>
                         <p>Order ID: {orderId}</p>

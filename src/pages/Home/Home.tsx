@@ -56,7 +56,7 @@ function Home() {
       className="mx-auto max-w-screen-xl px-4 pt-8 gap-6 sm:gap-0 sm:py-12 flex flex-col sm:flex-row justify-between items-center mt-8"
     >
       <div className="max-w-xl">
-        <div className="text-mynavy">
+        <div className="text-mynavy dark:text-mygreen ">
           <Head h1="Make Your Look more" h2="Perfect" />
           <p className="mt-4 max-w-lg">Look your best on your best day</p>
           <div className="mt-8 w-full flex flex-wrap gap-4 text-center">
@@ -83,7 +83,7 @@ function Home() {
         }}
         className="w-2/3 sm:w-1/3 py-4 sm:p-0"
       >
-        <img src="/images/hero.png" alt="" />
+        <div className="rounded-2xl overflow-hidden"><img src="/images/hero.png" alt="" /></div>
       </Tilt>
     </motion.div>
 
@@ -98,9 +98,9 @@ function Home() {
       >
         <div className="mx-4 flex justify-between items-center flex-row-reverse flex-wrap">
           <div className="w-full flex-col flex-wrap px-4 lg:w-6/12 justify-between">
-            <div className="w-full flex-col text-wrap px-2 pb-8 text-mynavy">
+            <div className="w-full flex-col text-wrap px-2 pb-8 text-mynavy dark:text-mygreen ">
               <Head h1="Eat, Sleep, Fashion," h2="Repeat" />
-              <h1 className="text-mynavy mb-4 text-2xl font-extrabold text-dark mt-6">
+              <h1 className="text-mynavy dark:text-mygreen  mb-4 text-2xl font-extrabold text-dark mt-6">
                 Grab the limited time offer!
               </h1>
               <p className="mb">
@@ -179,7 +179,7 @@ function Home() {
         transition={{ duration: 1 }}
       >
         <header className="text-center">
-          <div className="text-mynavy">
+          <div className="text-mynavy dark:text-mygreen ">
             <Head h1="New" h2="Collections" />
           </div>
           <p className="mx-auto mt-4 max-w-md text-gray-1000">
@@ -228,7 +228,7 @@ function Home() {
         }}
         transition={{ duration: 1 }}
       >
-        <div className="text-mynavy">
+        <div className="text-mynavy dark:text-mygreen ">
           <Head h1="Our" h2="Products" />
         </div>
         <div className="mt-12">

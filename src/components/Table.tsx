@@ -66,9 +66,9 @@ const Table: React.FC<DisplayOrdersProps> = ({ orders }) => {
   return (   <>
   <div className="fixed inset-0 flex items-center justify-center z-50">
         {/* Overlay */}
-        <div className="absolute inset-0 bg-mywhite bg-opacity-50"></div>
+        <div className="absolute inset-0 bg-mywhite dark:bg-mynavy bg-opacity-50"></div>
         {/* Popup */}
-        <div className="relative p-8 rounded-lg shadow-lg w-1/2 bg-mywhite text-black">
+        <div className="relative p-8 rounded-lg shadow-lg w-1/2 bg-mywhite dark:bg-mynavy dark:text-mywhite text-black">
           <button
             onClick={onClose}
             className="absolute top-0 right-0 mt-4 mr-4 text-xl"
@@ -101,7 +101,7 @@ const Table: React.FC<DisplayOrdersProps> = ({ orders }) => {
 
   return (
     <>
-      <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12">
+      <div className="mx-auto max-w-screen-xl px-4 pt-8 mt-8 sm:py-12 dark:text-mywhite">
         <Head  h2="Orders" />
         
       </div>
@@ -109,7 +109,7 @@ const Table: React.FC<DisplayOrdersProps> = ({ orders }) => {
         <div className="  overflow-x-auto rounded-lg border border-base-300">
           <table className=" table w-full max-w-full">
             <thead>
-              <tr className="text-neutral">
+              <tr className="">
                 <th >Date</th>
                 <th className="pl-10">Order ID</th>
                 <th className="pl-10">Phone</th>
@@ -144,7 +144,7 @@ const Table: React.FC<DisplayOrdersProps> = ({ orders }) => {
             </tbody>
           </table>
 
-          <div className="flex justify-center mt-6">
+          <div className="flex justify-center mt-6 ">
             {Array.from({ length: totalPages }, (_, i) => (
               <button
                 key={i + 1}

@@ -39,21 +39,21 @@ function Contact() {
   return (
     <>
       <FQA/>
-      <h1 className="text-sm md:text-sm md:text-center font-medium text-mynavy mx-auto max-w-screen-xl px-4 py-4">
+      <h1 className="text-sm md:text-sm md:text-center font-medium text-mynavy dark:text-mygreen  mx-auto max-w-screen-xl px-4 py-4">
         Still not answered, kindly contact us through the contact form below.
       </h1>
       <form onSubmit={onSubmit}>
         <div className="px-4 mt-5 mb-20 md:mb-40 sm:py-6 mx-auto max-w-screen-md lg:py-4 md:px-6 flex flex-col gap-4">
           <div className="my-5 flex-col flex gap-5">
             <Head h1="Contact" h2="Us" />
-            <h1 className="text-md md:text-sm md:text-center font-medium text-mynavy mx-auto max-w-screen-xl px-4 ">
+            <h1 className="text-md md:text-sm md:text-center font-medium text-mynavy dark:text-mygreen  mx-auto max-w-screen-xl px-4 ">
               Need to get in touch with us? Just fill out the form with your
               inquiry!
             </h1>
           </div>
           <label className="form-control w-full">
             <div className="label">
-              <span className="label-text text-sm md:text-md font-medium text-mynavy">
+              <span className="label-text text-sm md:text-md font-medium text-mynavy dark:text-mygreen ">
                 What is your Name?
               </span>
             </div>
@@ -62,12 +62,12 @@ function Contact() {
               name="name"
               onChange={onChangeInput}
               placeholder="Full Name"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full dark:text-mywhite dark:bg-mynavy"
             />
           </label>
           <label className="form-control w-full">
             <div className="label">
-              <span className="label-text text-sm md:text-md font-medium text-[#073b4c]">
+              <span className="label-text text-sm md:text-md font-medium dark:text-mygreen text-[#073b4c]">
                 What is your Email?
               </span>
             </div>
@@ -76,19 +76,19 @@ function Contact() {
               name="email"
               onChange={onChangeInput}
               placeholder="Email Address"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full dark:text-mywhite dark:bg-mynavy"
             />
           </label>
           <label className="form-control w-full1">
             <div className="label">
-              <span className="label-text text-sm md:text-md font-medium text-[#073b4c]">
+              <span className="label-text text-sm md:text-md font-medium dark:text-mygreen text-[#073b4c]">
                 Your Message
               </span>
             </div>
             <textarea
               name="message"
               onChange={onChangeTextArea}
-              className="textarea textarea-bordered h-24 w-full text-sm"
+              className="textarea textarea-bordered h-24 w-full text-sm dark:text-mywhite dark:bg-mynavy"
               placeholder="Message"
             ></textarea>
           </label>

@@ -8,6 +8,7 @@ import { RootState } from "../utils/features/store";
 import { logout } from "../utils/features/Auth/authSlice";
 import Glassnav from "./Floating_Nav";
 import Button from "./Button";
+import DarkModeToggle from "./DarkModeToggle";
 
 function Screensize() {
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth });
@@ -169,7 +170,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="navbar flex justify-between bg-base-100 p-4">
+      <div className="navbar flex justify-between bg-base-100 dark:bg-[#111827] p-4">
         <div className="flex md:ml-16 ml-2">
           <Link to="/home">
             <img
@@ -182,8 +183,13 @@ function Navbar() {
 
         <div className="hidden lg:flex justify-center z-[100]">{Floatingnav()}</div>
 
+
         <div className="flex-none gap-6 md:mr-16 mr-2">
+            <span className="">
+              <DarkModeToggle/>
+            </span>
           <div className="dropdown dropdown-end relative">
+            
             <div
               tabIndex={0}
               role="button"
@@ -198,10 +204,10 @@ function Navbar() {
             </div>
             <div
               tabIndex={0}
-              className="mt-3 z-[1] right-[2px] card card-compact dropdown-content w-[250px] sm:w-80 bg-base-100 shadow-2xl"
+              className="mt-3 z-[1] right-[2px] card card-compact dropdown-content w-[250px] dark:bg-mynavy sm:w-80 bg-base-100 shadow-2xl"
             >
               <div className="card-body">
-                <span className="font-bold text-lg text-mynavy">
+                <span className="font-bold text-lg text-mynavy dark:text-mygreen ">
                   {itemsInCart} Items.
                 </span>
                 {items &&
@@ -230,7 +236,7 @@ function Navbar() {
                       </div>
                     ))}
 
-                <span className="text-mynavy mt-3">
+                <span className="text-mynavy dark:text-mygreen  mt-3">
                   subtotal ₹{total}
                 </span>
 
@@ -257,7 +263,7 @@ function Navbar() {
             {showMenu && (
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 bg-base-100 rounded-box w-52 shadow-2xl"
+                className="menu dark:text-mywhite dark:bg-mynavy menu-sm dropdown-content mt-3 z-[1] p-2 bg-base-100 rounded-box w-52 shadow-2xl"
               >
                 <li onClick={handleCloseMenu}>
                   <Link to={"/home/profile"} className="justify-between">
