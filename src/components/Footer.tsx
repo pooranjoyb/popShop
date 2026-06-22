@@ -78,7 +78,7 @@ const ServicesList = () => {
           <Link to="#" className="text-gray-700 transition hover:opacity-75">Join Us</Link>
         </li>
         <li>
-          <Link to="/#about" className="text-gray-700 transition hover:opacity-75">About</Link>
+          <Link to="/home/about" className="text-gray-700 transition hover:opacity-75">About</Link>
         </li>
       </ul>
     </>

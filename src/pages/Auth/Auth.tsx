@@ -516,11 +516,15 @@ function Auth() {
                       value={userData.pass}
                       onChange={handleInputChange}
                     />
-                    <FontAwesomeIcon
-                      icon={isPasswordVisible ? faEyeSlash : faEye}
+                    <button
+                      type="button"
                       onClick={togglePasswordVisibility}
                       className="absolute right-3 top-10 cursor-pointer"
-                    />
+                    >
+                      <FontAwesomeIcon
+                        icon={isPasswordVisible ? faEyeSlash : faEye}
+                      />
+                    </button>
                     {errors.password && (
                       <ul
                         className="px-2 text-xs mt-1"

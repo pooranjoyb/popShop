@@ -16,6 +16,7 @@ import Profile from "../../pages/Profile/Profile";
 import TopButton from "../../components/TopButton/TopButton";
 import TermsandConditions from "../../pages/T&C/TermsCond";
 import MyOrders from "../../pages/Orders/MyOrders";
+import About from "../../pages/About/About";
 
 // Admin Routes
 import AdminLayout from "../../admin/AdminLayout/AdminLayout";
@@ -120,6 +121,10 @@ const Routes = () => {
         {
           path: "my-orders",
           element: <MyOrders />,
+        },
+        {
+          path: "about",
+          element: <About />,
         },
       ]
     },

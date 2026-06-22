@@ -305,6 +305,9 @@ function Navbar() {
               <Link to={"/home#Products"} onClick={() => setShowHamburgerMenu(false)}>Product</Link>
             </li>
             <li>
+              <Link to={"/home/about"} onClick={() => setShowHamburgerMenu(false)}>About Us</Link>
+            </li>
+            <li>
               <Link to={"/home/contact"} onClick={() => setShowHamburgerMenu(false)}>Contact Us</Link>
             </li>
             <li>

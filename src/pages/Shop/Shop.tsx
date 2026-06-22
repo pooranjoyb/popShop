@@ -85,7 +85,7 @@ function Shop() {
           if (f.split("-")[1] !== "above") {
             max = +f.split("-")[1].slice(1);
           }
-          let newFilteredData = filteredData.filter((elem) => {
+          let newFilteredData = data.filter((elem) => {
             return min <= elem.Price && max >= elem.Price;
           });
           if (priceFilteredData.length !== 0) {
@@ -128,9 +128,9 @@ function Shop() {
 
   return (
     <>
-      <div className="mx-auto max-w-screen-xl px-4 pt-12 pb-8 flex justify-center md:justify-between items-center flex-wrap">
+      <div className="mx-auto max-w-screen-xl px-4 pt-12 pb-8 flex flex-col md:flex-row justify-center md:justify-between items-center">
         <Head h1="Our" h2="Store" />
-        <div className="flex gap-6 mt-8 justify-center md:justify-end w-full">
+        <div className="flex gap-4 mt-8 justify-center md:justify-end w-full md:w-auto">
           {/* The button to open modal */}
           <label
             htmlFor="my_modal_6"
@@ -193,10 +193,10 @@ function Shop() {
             </div>
           </div>
 
-          <label className="input input-bordered input-success flex items-center gap-2">
+          <label className="input input-bordered input-success flex items-center gap-2 w-full sm:w-auto">
             <input
               type="text"
-              className="grow w-36"
+              className="grow w-full sm:w-36"
               placeholder="Search"
               onChange={handleSearch}
             />

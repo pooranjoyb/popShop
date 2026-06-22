@@ -62,13 +62,13 @@ function Home() {
           <div className="mt-8 w-full flex flex-wrap gap-4 text-center">
             <a
               href="#about"
-              className="btn w-1/2 bg-myred hover:bg-myyellow text-white"
+              className="btn w-full sm:w-1/2 bg-myred hover:bg-myyellow text-white"
             >
               Get Started
             </a>
             <Link
               to="/home/shop"
-              className="btn w-1/3 bg-mygreen hover:bg-myyellow text-white"
+              className="btn w-full sm:w-1/3 bg-mygreen hover:bg-myyellow text-white"
             >
               Explore
             </Link>
@@ -77,11 +77,11 @@ function Home() {
       </div>
       <Tilt
         options={{
-          max: 25, // Maximum tilt rotation
-          scale: 1.05, // Image scale on hover
-          speed: 400, // Speed of the enter/exit transition
+          max: 25,
+          scale: 1.05,
+          speed: 400,
         }}
-        className="w-2/3 sm:w-1/3 py-4 sm:p-0"
+        className="w-full sm:w-2/3 md:w-1/3 py-4 sm:p-0"
       >
         <img src="/images/hero.png" alt="" />
       </Tilt>
@@ -187,21 +187,21 @@ function Home() {
           </p>
         </header>
         <div className="mt-8 flex flex-col items-center justify-center sm:flex-row gap-5">
-          <div className="flex gap-5 w-2/3">
+          <div className="flex gap-5 w-full sm:w-1/2 md:w-2/3">
             <img
               src="/images/winter3.jpg"
               alt=""
               className="w-full transition duration-1000"
             />
           </div>
-          <div className="flex gap-5 w-2/3">
+          <div className="flex gap-5 w-full sm:w-1/2 md:w-2/3">
             <img
               src="/images/winter1.jpg"
               alt=""
               className="w-full transition duration-1000 group-hover:opacity-90"
             />
           </div>
-          <div className="flex flex-col w-2/3 gap-5">
+          <div className="flex flex-col w-full sm:w-1/2 md:w-2/3 gap-5">
             <img
               src="/images/winter2.jpg"
               alt=""
