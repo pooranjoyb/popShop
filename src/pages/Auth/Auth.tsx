@@ -531,17 +531,6 @@ function Auth() {
                         ))}
                       </ul>
                     )}
-
-                    {errors.password && (
-                      <ul
-                        className="px-2 text-xs mt-1"
-                        style={{ color: "red" }}
-                      >
-                        {errors.password.map((error, index) => (
-                          <li key={index}>{error}</li>
-                        ))}
-                      </ul>
-                    )}
                   </div>
                   <div className="mt-4 text-sm text-gray-600 text-right font-bold tracking-wider">
                     <Link to="#" onClick={handleForgotPasswordRequest}>
