@@ -285,12 +285,10 @@ function Navbar() {
           </div>
           <div className="lg:hidden">
             <button
-              className={`btn btn-ghost btn-circle fa ${showHamburgerMenu?'fa-times':'fa-bars'}`}
-              // <i onClick={handleToggleHamburgerMenu}
-              // className={}
+              className="btn btn-ghost btn-circle"
               onClick={handleToggleHamburgerMenu}
             >
-              
+              <i className={`fa ${showHamburgerMenu ? 'fa-times' : 'fa-bars'}`}></i>
             </button>
           </div>
         </div>

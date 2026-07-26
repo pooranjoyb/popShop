@@ -366,13 +366,14 @@ function Auth() {
                           Email
                         </label>
                         <input
-                          type="text"
-                          id="email"
-                          name="email"
-                          placeholder="Enter you email"
-                          className="mt-2 p-2 w-full placeholder:text-sm  border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                          onChange={handleInputChange}
-                        />
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter you email"
+                            className="mt-2 p-2 w-full placeholder:text-sm  border border-[#C4C4C4] rounded-xl shadow focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                            value={userData.email}
+                            onChange={handleInputChange}
+                          />
                         {errors.email && (
                           <ul
                             className="px-2 text-xs mt-1"
