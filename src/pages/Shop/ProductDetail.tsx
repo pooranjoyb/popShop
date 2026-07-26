@@ -10,6 +10,7 @@ import Button from "../../components/Button";
 import { addItem } from "../../utils/features/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../../utils/client";
+import { RootState } from "../../utils/features/store";
 
 export interface Data {
   name: string;
@@ -24,16 +25,6 @@ interface CartItem {
   name: string;
   size: string;
   quantity: number;
-}
-
-export interface UserState {
-  user: {
-    username: string;
-  };
-}
-
-export interface RootState {
-  auth: UserState;
 }
 
 
@@ -57,7 +48,7 @@ function ProductDetail() {
   }, []);
 
   const dispatch = useDispatch();
-  const userName = useSelector((state: RootState) => state.auth.user.username);
+  const userName = useSelector((state: RootState) => state.auth.user?.username);
   const product = {
     name: data.name,
     image: data.image,
