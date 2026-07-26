@@ -5,7 +5,7 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import cartSlice from "./cart/cartSlice";
 
-// const secretkey = import.meta.env.VITE_REDUX_PERSIST_SECRET_KEY;
+const secretkey = import.meta.env.VITE_REDUX_PERSIST_SECRET_KEY || "831476e3ea64e7868101b191c65eebddbe123408";
 
 const persistConfig ={
   key:"root",
@@ -13,7 +13,7 @@ const persistConfig ={
   storage:storage,
   transforms:[
     encryptTransform({
-      secretKey: "831476e3ea64e7868101b191c65eebddbe123408",
+      secretKey: secretkey,
       onError: function (error) {
         console.log("Problem Occured while encrypting data",error)
       },

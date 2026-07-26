@@ -31,7 +31,7 @@ const authSlice = createSlice({
     logout(state) {
       state.isAuthenticated = false;
       state.user = undefined;
-      localStorage.clear();
+      localStorage.removeItem('persist:root');
       sessionStorage.clear();
     },
     adminLoggedIn(state, action: ReturnType<typeof login>) {
