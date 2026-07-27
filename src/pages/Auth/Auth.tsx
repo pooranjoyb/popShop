@@ -137,7 +137,7 @@ function Auth() {
       await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.href}oauth`,
+          redirectTo: `${window.location.origin}/auth/oauth`,
         },
       });
     } catch (err) {
@@ -521,17 +521,6 @@ function Auth() {
                       onClick={togglePasswordVisibility}
                       className="absolute right-3 top-10 cursor-pointer"
                     />
-                    {errors.password && (
-                      <ul
-                        className="px-2 text-xs mt-1"
-                        style={{ color: "red" }}
-                      >
-                        {errors.password.map((error, index) => (
-                          <li key={index}>{error}</li>
-                        ))}
-                      </ul>
-                    )}
-
                     {errors.password && (
                       <ul
                         className="px-2 text-xs mt-1"
