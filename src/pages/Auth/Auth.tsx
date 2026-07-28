@@ -206,7 +206,7 @@ function Auth() {
         .select("*")
         .eq("username", validateData.username);
 
-      if (error || data.length === 0) {
+      if (error || !data || data.length === 0) {
         setErrors({
           username: ["User not found or credentials are incorrect"],
         });

@@ -45,21 +45,30 @@ function Oauth() {
         return
       }
 
-      const hashedPassword = await bcrypt.hash(credential.user_metadata.email.split('@')[0], 10);
+      const email = credential.user_metadata?.email;
+      if (!email) {
+        navigate("/")
+        toastNotification("Email not available from OAuth provider", "error")
+        return
+      }
+      const username = email.split('@')[0];
+      const hashedPassword = await bcrypt.hash(username, 10);
 
       const { data } = await supabase
         .from("users")
         .select("*")
-        .eq("username", credential.user_metadata.email.split('@')[0]);
+        .eq("username", username);
 
       if(data?.length === 0){
+        const fullName = credential.user_metadata?.full_name || "";
+        const nameParts = fullName.split(' ');
         const { error } = await supabase.from("users").insert([
           {
-            username: credential.user_metadata.email.split('@')[0],
-            email: credential.user_metadata.email,
+            username,
+            email,
             password: hashedPassword,
-            firstname: credential.user_metadata.full_name.split(' ')[0],
-            lastname: credential.user_metadata.full_name.split(' ')[1],
+            firstname: nameParts[0] || "",
+            lastname: nameParts.slice(1).join(' ') || "",
             gender: "Edit profile to set gender",
             phone: 0,
             createdAt: new Date().toISOString(),
@@ -74,7 +83,7 @@ function Oauth() {
       }
 
       
-      dispatch(login({ username: credential.user_metadata.email.split('@')[0] }))
+      dispatch(login({ username }))
       navigate('/home')
       toastNotification('Logged in successfully!', 'success')
     } catch (err) {

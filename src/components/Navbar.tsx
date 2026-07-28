@@ -63,9 +63,8 @@ function Navbar() {
 
       if (error) {
         console.error(error);
-      } else {
+      } else if (data && data.length > 0) {
         setUserInfo(data[0]);
-        console.log(data[0]);
       }
     };
 
