@@ -21,6 +21,7 @@ function Contact() {
     e.preventDefault()
     await emailjs.send(import.meta.env.VITE_EMAILJS_SERVICE_ID!, import.meta.env.VITE_EMAILJS_TEMPLATE_ID!, formDetails, import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
       .then(function (response) {
+.catch(err => console.error(err))
         if (response) {
           alert("Successfully sent the message.")
         }
